@@ -112,7 +112,7 @@ public:
 
 int main()
 {
-    GamingShop Shop1;
+    GamingShop Shop;
 	string Password;
 	int number ,Item_Type;
 	double Price;
@@ -165,10 +165,11 @@ int main()
 					cout << "3: Headset" << endl;
 					cout << "4: Game" << endl;
 					cin >> Item_Type;
+					ItemType num = static_cast<ItemType>(Item_Type);
 					cin >> Name;
 					cin >> Inventory;
 					cin >> Price;
-					Shop1.Add(Name,Inventory,Price,Item_Type);
+					Shop.Add(Name,Inventory,Price,num);
 					goto menu;
 					// افزودن بازی
 					break;
@@ -187,7 +188,7 @@ int main()
 					// حذف بازی
 					break;
 				case 3:
-					ShowInformations();
+					Shop.ShowDisplay();
 					goto menu;
 					break;
 				case 4:
@@ -238,7 +239,7 @@ int main()
 				goto Customer;
 				break;
 			case 2:
-				ShowInformations();
+				Shop.ShowDisplay();
 				goto Customer;
 				break;
 			case 3:
