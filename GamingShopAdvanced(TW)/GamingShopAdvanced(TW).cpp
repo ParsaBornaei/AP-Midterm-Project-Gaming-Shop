@@ -59,6 +59,8 @@ public:
 };
 class GamingShop
 {
+private:
+	double Value = 0;
 public:
 	vector<Console*>consoles;
 	vector<Monitor*>monitors;
@@ -134,6 +136,25 @@ public:
 			break;
 		default:
 			break;
+		}
+	}
+	void Financial_Value_Of_The_Store()
+	{
+		for (Console* ConS : consoles)
+		{
+			Value += ConS->price;
+		}
+		for (Monitor* MonT : monitors)
+		{
+			Value += MonT->price;
+		}
+		for (Headset* HeaD : headsets)
+		{
+			Value += HeaD->price;
+		}
+		for (Game* GamE : games)
+		{
+			Value += GamE->price;
 		}
 	}
 	void ShowDisplay()
@@ -244,7 +265,7 @@ int main()
 					goto menu;
 					break;
 				case 4:
-					CalculateTotalValue();
+					Shop.Financial_Value_Of_The_Store();
 					goto menu;
 					break;
 				case 5:
