@@ -5,84 +5,63 @@ using namespace std;
 
 enum ItemType
 {
-	 console,
-	 monitor,
-	 headset,
-	 game
+	console,
+	monitor,
+	headset,
+	game
 };
-class Item 
+class Item
 {
 public:
 	ItemType itemType;
 	string name;
 	int inventory;
 	double price;
-	Item(){}
-	Item(string name , int inventory , double price) : name(name), inventory(inventory) , price(price){}
-	//virtual void ShowDisplay();
+	Item(string name, int inventory, double price) : name(name), inventory(inventory), price(price) {}
+	// virtual void ShowDisplay();
 };
 class Console : public Item
 {
 public:
-	Console()
-	{
-		itemType = ItemType::console;
-	}
 	Console(string name, int inventory, double price) : Item(name, inventory, price) { itemType = ItemType::console; }
 };
 class Monitor : public Item
 {
 public:
-	Monitor()
-	{
-		itemType = ItemType::monitor;
-	}
 	Monitor(string name, int inventory, double price) : Item(name, inventory, price) { itemType = ItemType::monitor; }
 };
 class Headset : public Item
 {
 public:
-	Headset()
-	{
-		itemType = ItemType::headset;
-	}
 	Headset(string name, int inventory, double price) : Item(name, inventory, price) { itemType = ItemType::headset; }
 };
 class Game : public Item
 {
 public:
-	Game()
-	{
-		itemType = ItemType::game;
-	}
 	Game(string name, int inventory, double price) : Item(name, inventory, price) { itemType = ItemType::game; }
 };
 class GamingShop
 {
 public:
-	vector<Console*>consoles;
-	vector<Monitor*>monitors;
-	vector<Headset*>headsets;
-	vector<Game*>games;
-	void Add(string name, int inventory, double price , ItemType itemType)
+	vector<Console> consoles;
+	vector<Monitor> monitors;
+	vector<Headset> headsets;
+	vector<Game> games;
+	void Add(string name, int inventory, double price, ItemType itemType)
 	{
 		switch (itemType)
 		{
-		case ItemType::console : 
-			Console* console = new Console(name, inventory, price);
-			consoles.push_back(console);
+		case ItemType::console:
+			consoles.push_back(Console(name, inventory, price)); // Fix this
 			break;
-		case ItemType::monitor :
-			Monitor* monitor = new Monitor(name, inventory, price);
-			monitors.push_back(monitor);
+		case ItemType::monitor:
+			monitors.push_back(Monitor(name, inventory, price));
 			break;
-		case ItemType::headset :
-			Headset* headset = new Headset(name, inventory, price);
-			headsets.push_back(headset);
+		case ItemType::headset:
+			headsets.push_back(Headset(name, inventory, price));
 			break;
-		case ItemType::game :
-			Game* game = new Game(name, inventory, price);
-			games.push_back(game);
+		case ItemType::game:
+			games.push_back(Game(name, inventory, price));
 			break;
 		default:
 			break;
@@ -93,42 +72,42 @@ public:
 		switch (itemType)
 		{
 		case ItemType::console:
-			for (auto it = consoles.begin(); it != consoles.end(); ++it)
+			for (int i = 0; i < consoles.size(); i++)
 			{
-				if ((*it)->name == name)
+				if (consoles[i].name == name)
 				{
-					consoles.erase(it); // استفاده از ایتراتور برای حذف
-					break; // خروج از حلقه پس از حذف
+					consoles.erase(consoles.begin() + (i));
+					break;
 				}
 			}
 			break;
 		case ItemType::monitor:
-			for (auto it = monitors.begin(); it != monitors.end(); ++it)
+			for (int i = 0; i < monitors.size(); i++)
 			{
-				if ((*it)->name == name)
+				if (monitors[i].name == name)
 				{
-					monitors.erase(it); // استفاده از ایتراتور برای حذف
-					break; // خروج از حلقه پس از حذف
+					monitors.erase(monitors.begin() + (i));
+					break;
 				}
 			}
 			break;
 		case ItemType::headset:
-			for (auto it = headsets.begin(); it != headsets.end(); ++it)
+			for (int i = 0; i < headsets.size(); i++)
 			{
-				if ((*it)->name == name)
+				if (headsets[i].name == name)
 				{
-					headsets.erase(it); // استفاده از ایتراتور برای حذف
-					break; // خروج از حلقه پس از حذف
+					headsets.erase(headsets.begin() + (i));
+					break;
 				}
 			}
 			break;
 		case ItemType::game:
-			for (auto it = games.begin(); it != games.end(); ++it)
+			for (int i = 0; i < games.size(); i++)
 			{
-				if ((*it)->name == name)
+				if (games[i].name == name)
 				{
-					games.erase(it); // استفاده از ایتراتور برای حذف
-					break; // خروج از حلقه پس از حذف
+					games.erase(games.begin() + (i));
+					break;
 				}
 			}
 			break;
@@ -138,35 +117,43 @@ public:
 	}
 	void ShowDisplay()
 	{
-		for (Console* ConS : consoles)
+		for (Console ConS : consoles)
 		{
-			cout << "Console\nName: " << ConS->name << endl <<"Inventory: " << ConS->inventory << endl << "Price: " << ConS->price << "\n\n";
+			cout << "Console\nName: " << ConS.name << endl
+				 << "Inventory: " << ConS.inventory << endl
+				 << "Price: " << ConS.price << "\n\n";
 		}
-		for (Monitor* MonT : monitors)
+		for (Monitor MonT : monitors)
 		{
-			cout << "Monitor\nName: " << MonT->name << endl << "Inventory: " << MonT->inventory << endl << "Price: " << MonT->price << "\n\n";
+			cout << "Monitor\nName: " << MonT.name << endl
+				 << "Inventory: " << MonT.inventory << endl
+				 << "Price: " << MonT.price << "\n\n";
 		}
-		for (Headset* HeaD : headsets)
+		for (Headset HeaD : headsets)
 		{
-			cout << "Headset\nName: " << HeaD->name << endl << "Inventory: " << HeaD->inventory << endl << "Price: " << HeaD->price << "\n\n";
+			cout << "Headset\nName: " << HeaD.name << endl
+				 << "Inventory: " << HeaD.inventory << endl
+				 << "Price: " << HeaD.price << "\n\n";
 		}
-		for (Game* GamE : games)
+		for (Game GamE : games)
 		{
-			cout << "Game\nName: " << GamE->name << endl << "Inventory: " << GamE->inventory << endl << "Price: " << GamE->price << "\n\n";
+			cout << "Game\nName: " << GamE.name << endl
+				 << "Inventory: " << GamE.inventory << endl
+				 << "Price: " << GamE.price << "\n\n";
 		}
 	}
 };
 
-
 int main()
 {
-    GamingShop Shop;
+	GamingShop Shop;
 	string Password;
-	int number ,Item_Type;
+	int number, Item_Type;
 	double Price;
 	string Name;
-	int choice , Inventory;
-	do {
+	int choice, Inventory;
+	do
+	{
 	Roleـswitching:
 		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
 		cin >> number;
@@ -220,7 +207,7 @@ int main()
 					cin >> Inventory;
 					cout << "Please write the price: ";
 					cin >> Price;
-					Shop.Add(Name,Inventory,Price,num);
+					Shop.Add(Name, Inventory, Price, num);
 					goto menu;
 					// افزودن بازی
 					break;
@@ -244,12 +231,12 @@ int main()
 					goto menu;
 					break;
 				case 4:
-					CalculateTotalValue();
+					//CalculateTotalValue();
 					goto menu;
 					break;
 				case 5:
 					// کیف پول مدیر و حساب و دارایی های فروشگاه
-					GamingShop_Money_Management(&ValueGamingShop);
+					//GamingShop_Money_Management(&ValueGamingShop);
 					goto menu;
 					break;
 				case 6:
@@ -288,7 +275,7 @@ int main()
 			switch (choice)
 			{
 			case 1:
-				SearchGame(name);
+				//SearchGame(name);
 				goto Customer;
 				break;
 			case 2:
@@ -298,11 +285,11 @@ int main()
 				break;
 			case 3:
 				// کیف پول کاربر
-				Customers_Money_Management(&ValueCustomer);
+				//Customers_Money_Management(&ValueCustomer);
 				goto Customer;
 				break;
 			case 4:
-				Payment(name, ValueGamingShop, ValueCustomer);
+				//Payment(name, ValueGamingShop, ValueCustomer);
 				goto Customer;
 				break;
 			case 5:
