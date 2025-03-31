@@ -1,6 +1,7 @@
 ﻿#include <vector>
 #include <iostream>
 #include <conio.h>
+#include <string>
 using namespace std;
 
 enum ItemType
@@ -144,6 +145,62 @@ public:
 	}
 };
 
+string MakePassword(bool IsMade)
+{	
+	string pass;
+	if(IsMade == false)
+	{		
+		bool check=false;
+		while(check == false)
+		{
+			cout << "Enter the password you want: (It should ONLY contain one of the . @ ! & * ^ Symbols)\n";
+			cout << "Password: ";
+			pass = "";
+			bool ok = false;
+			cin >> pass;
+			for(char ch : pass)
+			{
+				if(ch == '.' || ch == '&' || ch == '*' || ch == '!' || ch == '@' || ch == '^' || ((ch >= 97 || ch <= 122) && (ch >= 65 || ch <= 90))) ok == true;
+			}
+			if(ok) cout << "Password is set\n";
+			else
+			{
+				cout << "Password was not correct,Try again!\n";
+			}
+		}
+	}
+	else
+	{
+		bool check=false;
+		while(check == false)
+		{
+			char choice;
+			cout << "Do you want to change your password?(y/n) ";
+			cin >> choice;
+			if(choice == 'y')
+			{
+				cout << "Enter the password you want: (It should ONLY contain one of the . @ ! & * ^ Symbols)\n";
+				cout << "Password: ";
+				pass = "";
+				bool ok = false;
+				cin >> pass;
+				for(char ch : pass)
+				{
+					if(ch == '.' || ch == '&' || ch == '*' || ch == '!' || ch == '@' || ch == '^' || ((ch >= 97 || ch <= 122) && (ch >= 65 || ch <= 90))) ok == true;
+				}
+				if(ok) cout << "Password is set\n";
+				else
+				{
+					cout << "Password was not correct,Try again!\n";
+				}
+			}
+			else break;
+		}
+	}
+
+	return pass;
+}
+
 int main()
 {
 	GamingShop Shop;
@@ -152,6 +209,7 @@ int main()
 	double Price;
 	string Name;
 	int choice, Inventory;
+	bool IsPassMade = false;
 	do
 	{
 	Roleـswitching:
