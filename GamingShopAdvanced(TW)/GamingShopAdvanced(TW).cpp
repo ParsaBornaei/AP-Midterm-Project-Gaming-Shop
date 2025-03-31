@@ -71,21 +71,29 @@ public:
 		switch (itemType)
 		{
 		case ItemType::console : 
+		{
 			Console* console = new Console(name, inventory, price);
 			consoles.push_back(console);
 			break;
+		}
 		case ItemType::monitor :
+		{
 			Monitor* monitor = new Monitor(name, inventory, price);
 			monitors.push_back(monitor);
 			break;
+		}
 		case ItemType::headset :
+		{
 			Headset* headset = new Headset(name, inventory, price);
 			headsets.push_back(headset);
 			break;
+		}
 		case ItemType::game :
+		{
 			Game* game = new Game(name, inventory, price);
 			games.push_back(game);
 			break;
+		}
 		default:
 			break;
 		}
