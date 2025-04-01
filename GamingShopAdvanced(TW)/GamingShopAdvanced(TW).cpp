@@ -118,7 +118,7 @@ public:
 			break;
 		}
 	}
-	void Financial_Value_Of_The_Store()                       //Required Fix: you have to multiple the price with quantity
+	void Financial_Value_Of_The_Store()                                          //Required Fix: you have to multiple the price with quantity
 	{
 		for (Console ConS : consoles)
 		{
@@ -354,7 +354,6 @@ void RoleSwitching(string& Password, GamingShop& Shop)
 		if (number == 1)
 		{
 			// Admin Role
-
 			EnterPassword(Password);
 			bool ok = false;
 			while (ok == false)
