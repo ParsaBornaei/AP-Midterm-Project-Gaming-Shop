@@ -6,10 +6,10 @@ using namespace std;
 
 enum ItemType
 {
-	console,
-	monitor,
-	headset,
-	game
+	 console=1,
+	 monitor,
+	 headset,
+	 game
 };
 class Item
 {
@@ -43,6 +43,8 @@ public:
 };
 class GamingShop
 {
+private:
+	double Value = 0;
 public:
 	vector<Console> consoles;
 	vector<Monitor> monitors;
@@ -64,10 +66,9 @@ public:
 		case ItemType::game:
 			games.push_back(Game(name, inventory, price));
 			break;
-		default:
-			break;
 		}
 	}
+
 	void Remove(string name, ItemType itemType)
 	{
 		switch (itemType)
@@ -114,6 +115,25 @@ public:
 			break;
 		default:
 			break;
+		}
+	}
+	void Financial_Value_Of_The_Store()
+	{
+		for (Console* ConS : consoles)
+		{
+			Value += ConS->price;
+		}
+		for (Monitor* MonT : monitors)
+		{
+			Value += MonT->price;
+		}
+		for (Headset* HeaD : headsets)
+		{
+			Value += HeaD->price;
+		}
+		for (Game* GamE : games)
+		{
+			Value += GamE->price;
 		}
 	}
 	void ShowDisplay()
@@ -201,163 +221,165 @@ string MakePassword(bool IsMade)
 	return pass;
 }
 
+void AdminMenu();
+void CustomerMenu();
+void RoleSwitching();
+void EnterPassword(string& Password);
 int main()
 {
-	GamingShop Shop;
+	RoleSwitching();
+	return 0;
+}
+void RoleSwitching() 
+{
+	int number, choice;
 	string Password;
-	int number, Item_Type;
-	double Price;
-	string Name;
-	int choice, Inventory;
-	bool IsPassMade = false;
-	do
-	{
-	Roleـswitching:
+
+	do {
 		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
 		cin >> number;
-		if (number == 1)
+
+		if (number == 1) 
 		{
-		TryAgain:
-			Password = "";
-			char ch;
-			const char ENTER = 13;
-			cout << "Please enter the password: ";
-			while ((ch = _getch()) != ENTER)
+			// Admin Role
+			EnterPassword(Password);
+
+			if (Password == "admin1admin") 
 			{
-				if (ch != 8)
-				{
-					Password += ch;
-					cout << '*';
-				}
-				else if (ch == 8 && Password.length() > 0)
-				{
-					Password.pop_back();
-					cout << "\b \b";
-				}
+				AdminMenu();
 			}
-			cout << "\n";
-			if (Password == "admin1admin")
+			else 
 			{
-			menu:
-				cout << "1) AddProduct" << endl;
-				cout << "2) RemoveGame_And_Product" << endl;
-				cout << "3) ShowInformations" << endl;
-				cout << "4) CalculateTotalValue" << endl;
-				cout << "5) GamingShop_Money_Management" << endl;
-				cout << "6) LogOut" << endl;
-				cin >> choice;
-				cout << endl;
-				// نمایش منو و گرفتن انتخاب مدیر
-				// ...
-				switch (choice)
-				{
-				case 1:
-					cout << "Please choose type of product (choice number) :" << endl;
-					cout << "1: Console" << endl;
-					cout << "2: Monitor" << endl;
-					cout << "3: Headset" << endl;
-					cout << "4: Game" << endl;
-					cin >> Item_Type;
-					ItemType num = static_cast<ItemType>(Item_Type);
-					cout << "Please write the name: ";
-					cin >> Name;
-					cout << "Please write the inventory: ";
-					cin >> Inventory;
-					cout << "Please write the price: ";
-					cin >> Price;
-					Shop.Add(Name, Inventory, Price, num);
-					goto menu;
-					// افزودن بازی
-					break;
-				case 2:
-					cout << "Please choose type of product or game (choice number) :" << endl;
-					cout << "1: Console" << endl;
-					cout << "2: Monitor" << endl;
-					cout << "3: Headset" << endl;
-					cout << "4: Game" << endl;
-					cin >> Item_Type;
-					ItemType num = static_cast<ItemType>(Item_Type);
-					cout << "Please write the name: ";
-					cin >> Name;
-					Shop.Remove(Name, num);
-					goto menu;
-					// حذف بازی
-					break;
-				case 3:
-					// نمایش کالاهای موجود در فروشگاه
-					Shop.ShowDisplay();
-					goto menu;
-					break;
-				case 4:
-					//CalculateTotalValue();
-					goto menu;
-					break;
-				case 5:
-					// کیف پول مدیر و حساب و دارایی های فروشگاه
-					//GamingShop_Money_Management(&ValueGamingShop);
-					goto menu;
-					break;
-				case 6:
-					goto Roleـswitching;
-					break;
-				}
-			}
-			else
-			{
-				cout << "your password is incorrect ! " << endl;
+				cout << "Your password is incorrect!" << endl;
 				cout << "(choose with number) \n 1: Back \n 2: Try Again ";
-				int Back_continue;
-				cin >> Back_continue;
-				if (Back_continue == 2)
+				cin >> choice;
+				if (choice == 1) 
 				{
-					goto TryAgain;
-				}
-				else if (Back_continue == 1)
-				{
-					goto Roleـswitching;
+					continue;
 				}
 			}
 		}
-		else if (number == 2)
+		else if (number == 2) 
 		{
-		Customer:
-			cout << "1) SearchGame ( buy game )" << endl;
-			cout << "2) ShowInformations" << endl;
-			cout << "3) Customers_Money_Management" << endl;
-			cout << "4) Payment" << endl;
-			cout << "5) LogOut" << endl;
-			cin >> choice;
-			cout << endl;
-			// نمایش منو و گرفتن انتخاب کاربر
-			// ...
-			switch (choice)
-			{
-			case 1:
-				//SearchGame(name);
-				goto Customer;
-				break;
-			case 2:
-				// نمایش کالاهای موجود در فروشگاه
-				Shop.ShowDisplay();
-				goto Customer;
-				break;
-			case 3:
-				// کیف پول کاربر
-				//Customers_Money_Management(&ValueCustomer);
-				goto Customer;
-				break;
-			case 4:
-				//Payment(name, ValueGamingShop, ValueCustomer);
-				goto Customer;
-				break;
-			case 5:
-				goto Roleـswitching;
-				break;
-			}
+			// Customer Role
+			CustomerMenu();
 		}
-		else if (number == 3)
+		else if (number == 3) 
 		{
-			return 0;
+			return;
 		}
-	} while (choice != 0);
+	} while (true);
+}
+
+void EnterPassword(string& Password) 
+{
+	Password = "";
+	char ch;
+	const char ENTER = 13;
+	cout << "Please enter the password: ";
+
+	while ((ch = _getch()) != ENTER) 
+	{
+		if (ch != 8) 
+		{
+			Password += ch;
+			cout << '*';
+		}
+		else if (ch == 8 && Password.length() > 0) 
+		{
+			Password.pop_back();
+			cout << "\b \b";
+		}
+	}
+	cout << "\n";
+}
+
+void AdminMenu() 
+{
+	GamingShop Shop;
+	int choice, Item_Type;
+	string Name;
+	int Inventory;
+	double Price;
+	ItemType num;
+
+	do {
+		cout << "1) AddProduct" << endl;
+		cout << "2) RemoveGame_And_Product" << endl;
+		cout << "3) ShowInformations" << endl;
+		cout << "4) CalculateTotalValue" << endl;
+		cout << "5) GamingShop_Money_Management" << endl;
+		cout << "6) LogOut" << endl;
+		cin >> choice;
+		cout << endl;
+
+		switch (choice) 
+		{
+		case 1:
+			cout << "Please choose type of product (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
+			cin >> Item_Type;
+			num = static_cast<ItemType>(Item_Type);
+			cout << "Please write the name: ";
+			cin >> Name;
+			cout << "Please write the inventory: ";
+			cin >> Inventory;
+			cout << "Please write the price: ";
+			cin >> Price;
+			Shop.Add(Name, Inventory, Price, num);
+			break;
+		case 2:
+			cout << "Please choose type of product or game (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
+			cin >> Item_Type;
+			num = static_cast<ItemType>(Item_Type);
+			cout << "Please write the name: ";
+			cin >> Name;
+			Shop.Remove(Name, num);
+			break;
+		case 3:
+			Shop.ShowDisplay();
+			break;
+		case 4:
+			Shop.Financial_Value_Of_The_Store();
+			break;
+		case 5:
+			//GamingShop_Money_Management(&ValueGamingShop);
+			break;
+		case 6:
+			return;
+		}
+	} while (true);
+}
+
+void CustomerMenu() 
+{
+	int choice;
+	string name;
+
+	do {
+		cout << "1) SearchGame (buy game)" << endl;
+		cout << "2) ShowInformations" << endl;
+		cout << "3) Customers_Money_Management" << endl;
+		cout << "4) Payment" << endl;
+		cout << "5) LogOut" << endl;
+		cin >> choice;
+		cout << endl;
+
+		switch (choice) 
+		{
+		case 1:
+			//SearchGame(name);
+			break;
+		case 2:
+			//Shop.ShowDisplay();
+			break;
+		case 3:
+			//Customers_Money_Management(&ValueCustomer);
+			break;
+		case 4:
+			//Payment(name, ValueGamingShop, ValueCustomer);
+			break;
+		case 5:
+			return;
+		}
+	} while (true);
 }
