@@ -6,10 +6,10 @@ using namespace std;
 
 enum ItemType
 {
-	 console=1,
-	 monitor,
-	 headset,
-	 game
+	console = 1,
+	monitor,
+	headset,
+	game
 };
 class Item
 {
@@ -45,6 +45,7 @@ class GamingShop
 {
 private:
 	double Value = 0;
+
 public:
 	vector<Console> consoles;
 	vector<Monitor> monitors;
@@ -165,129 +166,121 @@ public:
 	}
 };
 
-string MakePassword(bool IsMade)
-{	
+string ChangePassword()
+{
 	string pass;
-	if(IsMade == false)
-	{		
-		bool check=false;
-		while(check == false)
+	bool check = false;
+	while (check == false)
+	{
+		char choice;
+		cout << "Do you want to change your password?(y/n) ";
+		cin >> choice;
+		if (choice == 'y')
 		{
 			cout << "Enter the password you want: (It should ONLY contain one of the . @ ! & * ^ Symbols)\n";
 			cout << "Password: ";
 			pass = "";
 			bool ok = false;
 			cin >> pass;
-			for(char ch : pass)
+			for (char ch : pass)
 			{
-				if(ch == '.' || ch == '&' || ch == '*' || ch == '!' || ch == '@' || ch == '^' || ((ch >= 97 || ch <= 122) && (ch >= 65 || ch <= 90))) ok == true;
+				if (ch == '.' || ch == '&' || ch == '*' || ch == '!' || ch == '@' || ch == '^' || (ch >= 97 && ch <= 122) || (ch >= 65 && ch <= 90))
+				{
+					ok = true;
+				}
 			}
-			if(ok) cout << "Password is set\n";
+			if (ok)
+			{
+				cout << "Password is set\n";
+				check = true;
+			}
 			else
 			{
 				cout << "Password was not correct,Try again!\n";
 			}
 		}
-	}
-	else
-	{
-		bool check=false;
-		while(check == false)
-		{
-			char choice;
-			cout << "Do you want to change your password?(y/n) ";
-			cin >> choice;
-			if(choice == 'y')
-			{
-				cout << "Enter the password you want: (It should ONLY contain one of the . @ ! & * ^ Symbols)\n";
-				cout << "Password: ";
-				pass = "";
-				bool ok = false;
-				cin >> pass;
-				for(char ch : pass)
-				{
-					if(ch == '.' || ch == '&' || ch == '*' || ch == '!' || ch == '@' || ch == '^' || ((ch >= 97 || ch <= 122) && (ch >= 65 || ch <= 90))) ok == true;
-				}
-				if(ok) cout << "Password is set\n";
-				else
-				{
-					cout << "Password was not correct,Try again!\n";
-				}
-			}
-			else break;
-		}
+		else break;
 	}
 
 	return pass;
 }
-bool ismade = false;
-string Password;
 
-void AdminMenu();
+void AdminMenu(string& Password);
 void CustomerMenu();
-void RoleSwitching();
-void EnterPassword(string& Password);
+void RoleSwitching(string& Password);
+void EnterPassword(string &Password);
 int main()
 {
-	RoleSwitching();
+	string Password;
+
+	RoleSwitching(Password);
 	return 0;
 }
-void RoleSwitching() 
+void RoleSwitching(string &Password)
 {
 	int number, choice;
-	string pass;
-	do {
+	do
+	{
 		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
 		cin >> number;
 
-		if (number == 1) 
+		if (number == 1)
 		{
 			// Admin Role
-			if(ismade == false) {Password = MakePassword(ismade); ismade = true;}
+			
 			EnterPassword(Password);
 
-			if (Password == pass) 
+			bool ok = false;
+			while (ok == false)
 			{
-				AdminMenu();
-			}
-			else 
-			{
-				cout << "Your password is incorrect!" << endl;
-				cout << "(choose with number) \n 1: Back \n 2: Try Again ";
-				cin >> choice;
-				if (choice == 1) 
+				if (Password == "admin1admin")
 				{
-					continue;
+					AdminMenu(Password);
+					ok = true;
+				}
+				else
+				{
+					cout << "Your password is incorrect!" << endl;
+					cout << "(choose with number) \n 1: Back \n 2: Try Again ";
+					cin >> choice;
+					if (choice == 1)
+					{
+						break;
+					}
+					else if (choice == 2)
+					{
+						EnterPassword(Password);
+					}
 				}
 			}
 		}
-		else if (number == 2) 
+		else if (number == 2)
 		{
 			// Customer Role
 			CustomerMenu();
 		}
-		else if (number == 3) 
+		else if (number == 3)
 		{
 			return;
 		}
 	} while (true);
 }
 
-void EnterPassword(string& Password) 
+void EnterPassword(string &Password)
 {
 	Password = "";
 	char ch;
 	const char ENTER = 13;
 	cout << "Please enter the password: ";
 
-	while ((ch = _getch()) != ENTER) 
+	while ((ch = _getch()) != ENTER)
 	{
-		if (ch != 8) 
+		if (ch != 8)
 		{
 			Password += ch;
 			cout << '*';
 		}
-		else if (ch == 8 && Password.length() > 0) 
+		else if (ch == 8 && Password.length() > 0)
 		{
 			Password.pop_back();
 			cout << "\b \b";
@@ -296,7 +289,7 @@ void EnterPassword(string& Password)
 	cout << "\n";
 }
 
-void AdminMenu() 
+void AdminMenu(string& Password)
 {
 	GamingShop Shop;
 	int choice, Item_Type;
@@ -305,7 +298,8 @@ void AdminMenu()
 	double Price;
 	ItemType num;
 
-	do {
+	do
+	{
 		cout << "1) AddProduct" << endl;
 		cout << "2) RemoveGame_And_Product" << endl;
 		cout << "3) ShowInformations" << endl;
@@ -316,7 +310,7 @@ void AdminMenu()
 		cin >> choice;
 		cout << endl;
 
-		switch (choice) 
+		switch (choice)
 		{
 		case 1:
 			cout << "Please choose type of product (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
@@ -345,10 +339,10 @@ void AdminMenu()
 			Shop.Financial_Value_Of_The_Store();
 			break;
 		case 5:
-			//GamingShop_Money_Management(&ValueGamingShop);
+			// GamingShop_Money_Management(&ValueGamingShop);
 			break;
 		case 6:
-			Password = MakePassword(ismade);
+			Password = ChangePassword();
 			break;
 		case 7:
 			return;
@@ -356,12 +350,13 @@ void AdminMenu()
 	} while (true);
 }
 
-void CustomerMenu() 
+void CustomerMenu()
 {
 	int choice;
 	string name;
 
-	do {
+	do
+	{
 		cout << "1) SearchGame (buy game)" << endl;
 		cout << "2) ShowInformations" << endl;
 		cout << "3) Customers_Money_Management" << endl;
@@ -370,19 +365,19 @@ void CustomerMenu()
 		cin >> choice;
 		cout << endl;
 
-		switch (choice) 
+		switch (choice)
 		{
 		case 1:
-			//SearchGame(name);
+			// SearchGame(name);
 			break;
 		case 2:
-			//Shop.ShowDisplay();
+			// Shop.ShowDisplay();
 			break;
 		case 3:
-			//Customers_Money_Management(&ValueCustomer);
+			// Customers_Money_Management(&ValueCustomer);
 			break;
 		case 4:
-			//Payment(name, ValueGamingShop, ValueCustomer);
+			// Payment(name, ValueGamingShop, ValueCustomer);
 			break;
 		case 5:
 			return;
