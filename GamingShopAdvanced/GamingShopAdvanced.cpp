@@ -56,7 +56,7 @@ public:
 		switch (itemType)
 		{
 		case ItemType::console:
-			consoles.push_back(Console(name, inventory, price)); // Fix this
+			consoles.push_back(Console(name, inventory, price));
 			break;
 		case ItemType::monitor:
 			monitors.push_back(Monitor(name, inventory, price));
@@ -118,7 +118,7 @@ public:
 			break;
 		}
 	}
-	void Financial_Value_Of_The_Store()
+	void Financial_Value_Of_The_Store()                                          //Required Fix: you have to multiple the price with quantity
 	{
 		for (Console ConS : consoles)
 		{
@@ -199,32 +199,33 @@ string ChangePassword()
 				cout << "Password was not correct,Try again!\n";
 			}
 		}
-		else break;
+		else
+			break;
 	}
 
 	return pass;
 }
 
-void RoleSwitching(string &Password,GamingShop &Shop)
+void RoleSwitching(string &Password, GamingShop &Shop)
 {
 	int number, choice;
 	do
 	{
 		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
 		cin >> number;
-		
+
 		if (number == 1)
 		{
 			// Admin Role
-			
+
 			EnterPassword(Password);
-			
+
 			bool ok = false;
 			while (ok == false)
 			{
 				if (Password == "admin1admin")
 				{
-					AdminMenu(Password,Shop);
+					AdminMenu(Password, Shop);
 					ok = true;
 				}
 				else
@@ -261,7 +262,7 @@ void EnterPassword(string &Password)
 	char ch;
 	const char ENTER = 13;
 	cout << "Please enter the password: ";
-	
+
 	while ((ch = _getch()) != ENTER)
 	{
 		if (ch != 8)
@@ -278,14 +279,14 @@ void EnterPassword(string &Password)
 	cout << "\n";
 }
 
-void AdminMenu(string& Password,GamingShop &Shop)
+void AdminMenu(string &Password, GamingShop &Shop)
 {
 	int choice, Item_Type;
 	string Name;
 	int Inventory;
 	double Price;
 	ItemType num;
-	
+
 	do
 	{
 		cout << "1) AddProduct" << endl;
@@ -297,10 +298,10 @@ void AdminMenu(string& Password,GamingShop &Shop)
 		cout << "7) LogOut" << endl;
 		cin >> choice;
 		cout << endl;
-		
+
 		switch (choice)
 		{
-			case 1:
+		case 1:
 			cout << "Please choose type of product (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
 			cin >> Item_Type;
 			num = static_cast<ItemType>(Item_Type);
@@ -312,7 +313,7 @@ void AdminMenu(string& Password,GamingShop &Shop)
 			cin >> Price;
 			Shop.Add(Name, Inventory, Price, num);
 			break;
-			case 2:
+		case 2:
 			cout << "Please choose type of product or game (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
 			cin >> Item_Type;
 			num = static_cast<ItemType>(Item_Type);
@@ -320,19 +321,19 @@ void AdminMenu(string& Password,GamingShop &Shop)
 			cin >> Name;
 			Shop.Remove(Name, num);
 			break;
-			case 3:
+		case 3:
 			Shop.ShowDisplay();
 			break;
-			case 4:
+		case 4:
 			Shop.Financial_Value_Of_The_Store();
 			break;
-			case 5:
+		case 5:
 			// GamingShop_Money_Management(&ValueGamingShop);
 			break;
-			case 6:
+		case 6:
 			Password = ChangePassword();
 			break;
-			case 7:
+		case 7:
 			return;
 		}
 	} while (true);
@@ -342,7 +343,7 @@ void CustomerMenu(GamingShop &Shop)
 {
 	int choice;
 	string name;
-	
+
 	do
 	{
 		cout << "1) SearchGame (buy game)" << endl;
@@ -352,25 +353,46 @@ void CustomerMenu(GamingShop &Shop)
 		cout << "5) LogOut" << endl;
 		cin >> choice;
 		cout << endl;
-		
+
 		switch (choice)
 		{
-			case 1:
+		case 1:
 			// SearchGame(name);
 			break;
-			case 2:
+		case 2:
 			// Shop.ShowDisplay();
 			break;
-			case 3:
+		case 3:
 			// Customers_Money_Management(&ValueCustomer);
 			break;
-			case 4:
+		case 4:
 			// Payment(name, ValueGamingShop, ValueCustomer);
 			break;
-			case 5:
+		case 5:
 			return;
 		}
 	} while (true);
+}
+
+void SearchGame(GamingShop &Shop)
+{
+	int Item_Type;
+	string Name;
+	int Inventory;
+	int Price;
+	ItemType num;
+	Shop.ShowDisplay(); // We should make a function which finds most similar entry if the input one couldn't match
+	cout << "--------------------------------------------------------------";
+	cout << "Please choose type of product (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
+	cin >> Item_Type;
+	num = static_cast<ItemType>(Item_Type);
+	cout << "Please write the name: ";
+	cin >> Name;
+	cout << "Please write the inventory: ";
+	cin >> Inventory;
+	cout << "Please write the price: ";
+	cin >> Price;
+	Shop.Add(Name, Inventory, Price, num);
 }
 
 int main()
@@ -378,6 +400,6 @@ int main()
 	GamingShop Shop;
 	string Password;
 
-	RoleSwitching(Password,Shop);
+	RoleSwitching(Password, Shop);
 	return 0;
 }
