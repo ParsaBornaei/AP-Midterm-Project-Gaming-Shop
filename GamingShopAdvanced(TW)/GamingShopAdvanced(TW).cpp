@@ -118,7 +118,7 @@ public:
 			break;
 		}
 	}
-	void Financial_Value_Of_The_Store()                                          //Required Fix: you have to multiple the price with quantity
+	void Financial_Value_Of_The_Store()                       //Required Fix: you have to multiple the price with quantity
 	{
 		for (Console ConS : consoles)
 		{
@@ -206,57 +206,6 @@ string ChangePassword()
 
 	return pass;
 }
-
-void RoleSwitching(string &Password,GamingShop &Shop)
-{
-	int number, choice;
-	do
-	{
-		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
-		cin >> number;
-		
-		if (number == 1)
-		{
-			// Admin Role
-			
-			EnterPassword(Password);
-			
-			bool ok = false;
-			while (ok == false)
-			{
-				if (Password == "admin1admin")
-				{
-					AdminMenu(Password,Shop);
-					ok = true;
-				}
-				else
-				{
-					cout << "Your password is incorrect!" << endl;
-					cout << "(choose with number) \n 1: Back \n 2: Try Again ";
-					cin >> choice;
-					if (choice == 1)
-					{
-						break;
-					}
-					else if (choice == 2)
-					{
-						EnterPassword(Password);
-					}
-				}
-			}
-		}
-		else if (number == 2)
-		{
-			// Customer Role
-			CustomerMenu(Shop);
-		}
-		else if (number == 3)
-		{
-			return;
-		}
-	} while (true);
-}
-
 void EnterPassword(string &Password)
 {
 	Password = "";
@@ -374,6 +323,26 @@ void CustomerMenu(GamingShop &Shop)
 		}
 	} while (true);
 }
+void SearchGame(GamingShop &Shop)
+{
+	int Item_Type;
+	string Name;
+	int Inventory;
+	int Price;
+	ItemType num;
+	Shop.ShowDisplay(); // We should make a function which finds most similar entry if the input one couldn't match
+	cout << "--------------------------------------------------------------";
+	cout << "Please choose type of product (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
+	cin >> Item_Type;
+	num = static_cast<ItemType>(Item_Type);
+	cout << "Please write the name: ";
+	cin >> Name;
+	cout << "Please write the inventory: ";
+	cin >> Inventory;
+	cout << "Please write the price: ";
+	cin >> Price;
+	Shop.Add(Name, Inventory, Price, num);
+}
 void RoleSwitching(string& Password, GamingShop& Shop)
 {
 	int number, choice;
@@ -387,7 +356,6 @@ void RoleSwitching(string& Password, GamingShop& Shop)
 			// Admin Role
 
 			EnterPassword(Password);
-
 			bool ok = false;
 			while (ok == false)
 			{
@@ -423,27 +391,6 @@ void RoleSwitching(string& Password, GamingShop& Shop)
 		}
 	} while (true);
 }
-void SearchGame(GamingShop &Shop)
-{
-	int Item_Type;
-	string Name;
-	int Inventory;
-	int Price;
-	ItemType num;
-	Shop.ShowDisplay(); // We should make a function which finds most similar entry if the input one couldn't match
-	cout << "--------------------------------------------------------------";
-	cout << "Please choose type of product (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
-	cin >> Item_Type;
-	num = static_cast<ItemType>(Item_Type);
-	cout << "Please write the name: ";
-	cin >> Name;
-	cout << "Please write the inventory: ";
-	cin >> Inventory;
-	cout << "Please write the price: ";
-	cin >> Price;
-	Shop.Add(Name, Inventory, Price, num);
-}
-
 int main()
 {
 	GamingShop Shop;
