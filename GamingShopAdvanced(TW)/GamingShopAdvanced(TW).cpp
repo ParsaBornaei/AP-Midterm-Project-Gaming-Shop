@@ -122,20 +122,21 @@ public:
 	{
 		for (Console ConS : consoles)
 		{
-			Value += ConS.price;
+			Value += (ConS.price)*(ConS.inventory);
 		}
 		for (Monitor MonT : monitors)
 		{
-			Value += MonT.price;
+			Value += (MonT.price)*(MonT.inventory);
 		}
 		for (Headset HeaD : headsets)
 		{
-			Value += HeaD.price;
+			Value += (HeaD.price)*(HeaD.inventory);
 		}
 		for (Game GamE : games)
 		{
-			Value += GamE.price;
+			Value += (GamE.price)*(GamE.inventory);
 		}
+		cout << "Total value gaming shop: " << Value << "\n\n";
 	}
 	void ShowDisplay()
 	{
@@ -203,56 +204,6 @@ string ChangePassword()
 	}
 
 	return pass;
-}
-
-void RoleSwitching(string &Password,GamingShop &Shop)
-{
-	int number, choice;
-	do
-	{
-		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
-		cin >> number;
-		
-		if (number == 1)
-		{
-			// Admin Role
-			
-			EnterPassword(Password);
-			
-			bool ok = false;
-			while (ok == false)
-			{
-				if (Password == "admin1admin")
-				{
-					AdminMenu(Password,Shop);
-					ok = true;
-				}
-				else
-				{
-					cout << "Your password is incorrect!" << endl;
-					cout << "(choose with number) \n 1: Back \n 2: Try Again ";
-					cin >> choice;
-					if (choice == 1)
-					{
-						break;
-					}
-					else if (choice == 2)
-					{
-						EnterPassword(Password);
-					}
-				}
-			}
-		}
-		else if (number == 2)
-		{
-			// Customer Role
-			CustomerMenu(Shop);
-		}
-		else if (number == 3)
-		{
-			return;
-		}
-	} while (true);
 }
 
 void EnterPassword(string &Password)
@@ -372,7 +323,55 @@ void CustomerMenu(GamingShop &Shop)
 		}
 	} while (true);
 }
+void RoleSwitching(string& Password, GamingShop& Shop)
+{
+	int number, choice;
+	do
+	{
+		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
+		cin >> number;
 
+		if (number == 1)
+		{
+			// Admin Role
+
+			EnterPassword(Password);
+
+			bool ok = false;
+			while (ok == false)
+			{
+				if (Password == "admin1admin")
+				{
+					AdminMenu(Password, Shop);
+					ok = true;
+				}
+				else
+				{
+					cout << "Your password is incorrect!" << endl;
+					cout << "(choose with number) \n 1: Back \n 2: Try Again ";
+					cin >> choice;
+					if (choice == 1)
+					{
+						break;
+					}
+					else if (choice == 2)
+					{
+						EnterPassword(Password);
+					}
+				}
+			}
+		}
+		else if (number == 2)
+		{
+			// Customer Role
+			CustomerMenu(Shop);
+		}
+		else if (number == 3)
+		{
+			return;
+		}
+	} while (true);
+}
 int main()
 {
 	GamingShop Shop;
