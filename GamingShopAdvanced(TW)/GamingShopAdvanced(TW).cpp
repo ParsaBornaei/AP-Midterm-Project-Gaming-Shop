@@ -119,21 +119,21 @@ public:
 	}
 	void Financial_Value_Of_The_Store()
 	{
-		for (Console* ConS : consoles)
+		for (Console ConS : consoles)
 		{
-			Value += ConS->price;
+			Value += ConS.price;
 		}
-		for (Monitor* MonT : monitors)
+		for (Monitor MonT : monitors)
 		{
-			Value += MonT->price;
+			Value += MonT.price;
 		}
-		for (Headset* HeaD : headsets)
+		for (Headset HeaD : headsets)
 		{
-			Value += HeaD->price;
+			Value += HeaD.price;
 		}
-		for (Game* GamE : games)
+		for (Game GamE : games)
 		{
-			Value += GamE->price;
+			Value += GamE.price;
 		}
 	}
 	void ShowDisplay()
