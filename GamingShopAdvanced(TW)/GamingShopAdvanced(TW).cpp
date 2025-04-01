@@ -11,6 +11,24 @@ enum ItemType
 	headset,
 	game
 };
+class Wallet
+{
+private:
+	double Value = 0;
+public:
+	void ChargeWallet()
+	{
+
+	}
+	void CostWallet()
+	{
+
+	}
+	void RemainingWallet()
+	{
+
+	}
+};
 class Item
 {
 public:
@@ -393,8 +411,8 @@ void RoleSwitching(string& Password, GamingShop& Shop)
 int main()
 {
 	GamingShop Shop;
+	Wallet AdminWallet , CustomerWallet;
 	string Password;
-
 	RoleSwitching(Password, Shop);
 	return 0;
 }
