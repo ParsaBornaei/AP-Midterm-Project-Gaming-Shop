@@ -205,37 +205,26 @@ string ChangePassword()
 	return pass;
 }
 
-void AdminMenu(string& Password);
-void CustomerMenu();
-void RoleSwitching(string& Password);
-void EnterPassword(string &Password);
-int main()
-{
-	string Password;
-
-	RoleSwitching(Password);
-	return 0;
-}
-void RoleSwitching(string &Password)
+void RoleSwitching(string &Password,GamingShop &Shop)
 {
 	int number, choice;
 	do
 	{
 		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
 		cin >> number;
-
+		
 		if (number == 1)
 		{
 			// Admin Role
 			
 			EnterPassword(Password);
-
+			
 			bool ok = false;
 			while (ok == false)
 			{
 				if (Password == "admin1admin")
 				{
-					AdminMenu(Password);
+					AdminMenu(Password,Shop);
 					ok = true;
 				}
 				else
@@ -257,7 +246,7 @@ void RoleSwitching(string &Password)
 		else if (number == 2)
 		{
 			// Customer Role
-			CustomerMenu();
+			CustomerMenu(Shop);
 		}
 		else if (number == 3)
 		{
@@ -272,7 +261,7 @@ void EnterPassword(string &Password)
 	char ch;
 	const char ENTER = 13;
 	cout << "Please enter the password: ";
-
+	
 	while ((ch = _getch()) != ENTER)
 	{
 		if (ch != 8)
@@ -289,15 +278,14 @@ void EnterPassword(string &Password)
 	cout << "\n";
 }
 
-void AdminMenu(string& Password)
+void AdminMenu(string& Password,GamingShop &Shop)
 {
-	GamingShop Shop;
 	int choice, Item_Type;
 	string Name;
 	int Inventory;
 	double Price;
 	ItemType num;
-
+	
 	do
 	{
 		cout << "1) AddProduct" << endl;
@@ -309,10 +297,10 @@ void AdminMenu(string& Password)
 		cout << "7) LogOut" << endl;
 		cin >> choice;
 		cout << endl;
-
+		
 		switch (choice)
 		{
-		case 1:
+			case 1:
 			cout << "Please choose type of product (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
 			cin >> Item_Type;
 			num = static_cast<ItemType>(Item_Type);
@@ -324,7 +312,7 @@ void AdminMenu(string& Password)
 			cin >> Price;
 			Shop.Add(Name, Inventory, Price, num);
 			break;
-		case 2:
+			case 2:
 			cout << "Please choose type of product or game (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
 			cin >> Item_Type;
 			num = static_cast<ItemType>(Item_Type);
@@ -332,29 +320,29 @@ void AdminMenu(string& Password)
 			cin >> Name;
 			Shop.Remove(Name, num);
 			break;
-		case 3:
+			case 3:
 			Shop.ShowDisplay();
 			break;
-		case 4:
+			case 4:
 			Shop.Financial_Value_Of_The_Store();
 			break;
-		case 5:
+			case 5:
 			// GamingShop_Money_Management(&ValueGamingShop);
 			break;
-		case 6:
+			case 6:
 			Password = ChangePassword();
 			break;
-		case 7:
+			case 7:
 			return;
 		}
 	} while (true);
 }
 
-void CustomerMenu()
+void CustomerMenu(GamingShop &Shop)
 {
 	int choice;
 	string name;
-
+	
 	do
 	{
 		cout << "1) SearchGame (buy game)" << endl;
@@ -364,23 +352,32 @@ void CustomerMenu()
 		cout << "5) LogOut" << endl;
 		cin >> choice;
 		cout << endl;
-
+		
 		switch (choice)
 		{
-		case 1:
+			case 1:
 			// SearchGame(name);
 			break;
-		case 2:
+			case 2:
 			// Shop.ShowDisplay();
 			break;
-		case 3:
+			case 3:
 			// Customers_Money_Management(&ValueCustomer);
 			break;
-		case 4:
+			case 4:
 			// Payment(name, ValueGamingShop, ValueCustomer);
 			break;
-		case 5:
+			case 5:
 			return;
 		}
 	} while (true);
+}
+
+int main()
+{
+	GamingShop Shop;
+	string Password;
+
+	RoleSwitching(Password,Shop);
+	return 0;
 }
