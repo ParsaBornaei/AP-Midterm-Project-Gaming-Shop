@@ -220,6 +220,8 @@ string MakePassword(bool IsMade)
 
 	return pass;
 }
+bool ismade = false;
+string Password;
 
 void AdminMenu();
 void CustomerMenu();
@@ -233,8 +235,7 @@ int main()
 void RoleSwitching() 
 {
 	int number, choice;
-	string Password;
-
+	string pass;
 	do {
 		cout << "Please choose your identity with number ( 1: Administration /  2: Customers  /  3: Exit ) : ";
 		cin >> number;
@@ -242,9 +243,10 @@ void RoleSwitching()
 		if (number == 1) 
 		{
 			// Admin Role
+			if(ismade == false) {Password = MakePassword(ismade); ismade = true;}
 			EnterPassword(Password);
 
-			if (Password == "admin1admin") 
+			if (Password == pass) 
 			{
 				AdminMenu();
 			}
@@ -309,7 +311,8 @@ void AdminMenu()
 		cout << "3) ShowInformations" << endl;
 		cout << "4) CalculateTotalValue" << endl;
 		cout << "5) GamingShop_Money_Management" << endl;
-		cout << "6) LogOut" << endl;
+		cout << "6) Change the password" << endl;
+		cout << "7) LogOut" << endl;
 		cin >> choice;
 		cout << endl;
 
@@ -345,6 +348,9 @@ void AdminMenu()
 			//GamingShop_Money_Management(&ValueGamingShop);
 			break;
 		case 6:
+			Password = MakePassword(ismade);
+			break;
+		case 7:
 			return;
 		}
 	} while (true);
