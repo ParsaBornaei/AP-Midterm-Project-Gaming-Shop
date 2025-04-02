@@ -181,15 +181,13 @@ public:
 				 << "Price: " << GamE.price << "\n\n";
 		}
 	}
-
-	friend ShoppingCart;
 };
 
 class ShoppingCart
 {
 private:
 	int totalprice;
-	GamingShop &shop;
+	GamingShop &shop;                   //Wallet should be added later
 	vector<Console> console;
 	vector<Monitor> monitor;
 	vector<Headset> headset;
@@ -285,7 +283,80 @@ public:
 			break;
 		}
 	}
-
+	int SearchByName(string name)
+	{
+		string Cname="1";
+		string Mname="2";
+		string Hname="3";
+		string Gname="4";
+		bool check = false;
+		int bypass=0;
+		char ch;
+		for(Console C : shop.consoles)
+		{
+			if(C.name == name) {Cname = name;check = true;}
+		}
+		for(Monitor M : shop.monitors)
+		{
+			bool ok = false;
+			if(M.name == name) {Mname = name;ok = true;}
+			if(check == true && ok == true)
+			{
+				if(Mname == Cname)
+				{
+					cout << "did you mean the (C)onsole " << name << " or the (M)onitor " << name << " ?\n";
+					cout << "Enter the first letter of the word(n for none) :";
+					cin >> ch;
+					if(ch == 'C')
+					{
+						return 1;	
+					}
+					else if(ch == 'M')
+					{
+						return 2;
+					}
+					else if(ch == 'n')
+					{
+						bypass = 2;
+						break;
+					}
+				}
+			}
+			else if(ok == true) check = true;
+		}
+		for(Headset H : shop.headsets)
+		{
+			bool ok =false;
+			if(H.name == name) {Hname = name;ok = true;}
+			if(check == true && ok == true)
+			{
+				if(Mname == Hname && bypass != 2)
+				{
+					cout << "did you mean the (H)eadset " << name << " or the (M)onitor " << name << " ?\n";
+					cout << "Enter the first letter of the word(n for none) :";
+					cin >> ch;
+					if(ch == 'H')
+					{
+						return 3;	
+					}
+					else if(ch == 'M')
+					{
+						return 2;
+					}
+					else if(ch == 'n')
+					{
+						bypass = 3;
+						break;
+					}
+				}
+				else if(bypass == 2) break;
+			}
+		}
+		for(Game G : shop.games)
+		{
+			if(G.name == name) Gname = name;
+		}
+	}
 	void AddToCart(string name, int n)
 	{
 		int amount = 0;
@@ -810,17 +881,39 @@ void CustomerMenu(ShoppingCart &Cart)
 		switch (choice)
 		{
 		case 1:
-			// SearchGame(name);
+			while(true)
+			{
+				cout<<"1) Enter the product's name to buy\n2) Show a Categorized List\n";
+				int choice;
+				cin >> choice;
+				if(choice == 1)
+				{
+
+				}
+				else if(choice == 2)
+				{
+
+				}
+			}
 			break;
 		case 2:
 			while(true)
 			{
 				Cart.GetData();
-				cout << "Enter the number of the product type you want to see: ";
+				cout << "1) Search for a specific Product\n2)Quit\n";
 				int choice;
 				cin >> choice;
-				Cart.ShowData(choice);
-
+				if(choice == 1)
+				{
+					cout << "Enter the number of product type you want to see: ";
+					cin >> choice;
+					Cart.ShowData(choice);
+					cout << "Press Enter to go back ...";
+					cin.ignore();
+					cin.get();
+					cout <<"\033c";
+				}
+				else break;
 			}
 			break;
 		case 3:
