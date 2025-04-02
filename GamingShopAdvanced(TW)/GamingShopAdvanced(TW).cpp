@@ -15,13 +15,18 @@ class Wallet
 {
 private:
 	double Value = 0;
-
+	double Charge_Cast;
 public:
 	void ChargeWallet()
 	{
+		cout << "Please enter the desired recharge amount: ";
+		cin >> Charge_Cast;
+		Value += Charge_Cast;
+		cout << "Your wallet has been recharged with " << Charge_Cast << ".\n\n";
 	}
-	void CostWallet()
+	void CostWallet(double &Changes)
 	{
+		Charge_Cast = Changes;
 	}
 	void RemainingWallet()
 	{
@@ -187,7 +192,7 @@ class ShoppingCart
 {
 private:
 	int totalprice;
-	GamingShop &shop;                   //Wallet should be added later
+	GamingShop &shop;
 	vector<Console> console;
 	vector<Monitor> monitor;
 	vector<Headset> headset;
@@ -907,39 +912,17 @@ void CustomerMenu(ShoppingCart &Cart)
 		switch (choice)
 		{
 		case 1:
-			while(true)
-			{
-				cout<<"1) Enter the product's name to buy\n2) Show a Categorized List\n";
-				int choice;
-				cin >> choice;
-				if(choice == 1)
-				{
-
-				}
-				else if(choice == 2)
-				{
-
-				}
-			}
+			// SearchGame(name);
 			break;
 		case 2:
 			while(true)
 			{
 				Cart.GetData();
-				cout << "1) Search for a specific Product\n2)Quit\n";
+				cout << "Enter the number of the product type you want to see: ";
 				int choice;
 				cin >> choice;
-				if(choice == 1)
-				{
-					cout << "Enter the number of product type you want to see: ";
-					cin >> choice;
-					Cart.ShowData(choice);
-					cout << "Press Enter to go back ...";
-					cin.ignore();
-					cin.get();
-					cout <<"\033c";
-				}
-				else break;
+				Cart.ShowData(choice);
+
 			}
 			break;
 		case 3:
