@@ -15,18 +15,16 @@ class Wallet
 {
 private:
 	double Value = 0;
+
 public:
 	void ChargeWallet()
 	{
-
 	}
 	void CostWallet()
 	{
-
 	}
 	void RemainingWallet()
 	{
-
 	}
 };
 class Item
@@ -136,23 +134,23 @@ public:
 			break;
 		}
 	}
-	void Financial_Value_Of_The_Store()                                          //Required Fix: you have to multiple the price with quantity
+	void Financial_Value_Of_The_Store()
 	{
 		for (Console ConS : consoles)
 		{
-			Value += (ConS.price)*(ConS.inventory);
+			Value += (ConS.price) * (ConS.inventory);
 		}
 		for (Monitor MonT : monitors)
 		{
-			Value += (MonT.price)*(MonT.inventory);
+			Value += (MonT.price) * (MonT.inventory);
 		}
 		for (Headset HeaD : headsets)
 		{
-			Value += (HeaD.price)*(HeaD.inventory);
+			Value += (HeaD.price) * (HeaD.inventory);
 		}
 		for (Game GamE : games)
 		{
-			Value += (GamE.price)*(GamE.inventory);
+			Value += (GamE.price) * (GamE.inventory);
 		}
 		cout << "Total value gaming shop: " << Value << "\n\n";
 	}
@@ -183,6 +181,487 @@ public:
 				 << "Price: " << GamE.price << "\n\n";
 		}
 	}
+
+	friend ShoppingCart;
+};
+
+class ShoppingCart
+{
+private:
+	int totalprice;
+	GamingShop &shop;
+	vector<Console> console;
+	vector<Monitor> monitor;
+	vector<Headset> headset;
+	vector<Game> game;
+
+public:
+	ShoppingCart(GamingShop &Shop) : shop(Shop) {}
+	int calculatetotal(ItemType item)
+	{
+		int total = 0;
+		switch (item)
+		{
+		case ItemType::console:
+			for (Console C : shop.consoles)
+			{
+				total += C.inventory;
+			}
+			break;
+		case ItemType::monitor:
+			for (Monitor M : shop.monitors)
+			{
+				total += M.inventory;
+			}
+			break;
+		case ItemType::headset:
+			for (Headset H : shop.headsets)
+			{
+				total += H.inventory;
+			}
+			break;
+		case ItemType::game:
+			for (Game G : shop.games)
+			{
+				total += G.inventory;
+			}
+			break;
+		}
+
+		return total;
+	}
+	void GetData()
+	{
+		cout << "Products in stock\n-----------------------------------------------------\n";
+		cout << "1) Consoles(" << calculatetotal(ItemType::console) << endl;
+		cout << "2) Monitors(" << calculatetotal(ItemType::monitor) << endl;
+		cout << "3) Headsets(" << calculatetotal(ItemType::headset) << endl;
+		cout << "4) Games(" << calculatetotal(ItemType::game) << endl;
+		cout << "-----------------------------------------------------\n";
+	}
+	void ShowData(int n)
+	{
+		switch (n)
+		{
+		case 1:
+			cout << "Consoles-------\n";
+			for (Console ConS : shop.consoles)
+			{
+				cout << "Console\nName: " << ConS.name << endl
+					 << "Inventory: " << ConS.inventory << endl
+					 << "Price: " << ConS.price << "\n\n";
+			}
+			cout << "-------------------------------------------------------\n";
+			break;
+		case 2:
+			cout << "Monitors-------\n";
+			for (Monitor MonT : shop.monitors)
+			{
+				cout << "Monitor\nName: " << MonT.name << endl
+					 << "Inventory: " << MonT.inventory << endl
+					 << "Price: " << MonT.price << "\n\n";
+			}
+			cout << "-------------------------------------------------------\n";
+			break;
+		case 3:
+			cout << "Headsets-------\n";
+			for (Headset HeaD : shop.headsets)
+			{
+				cout << "Headset\nName: " << HeaD.name << endl
+					 << "Inventory: " << HeaD.inventory << endl
+					 << "Price: " << HeaD.price << "\n\n";
+			}
+			cout << "-------------------------------------------------------\n";
+			break;
+		case 4:
+			cout << "Games----------\n";
+			for (Game GamE : shop.games)
+			{
+				cout << "Game\nName: " << GamE.name << endl
+					 << "Inventory: " << GamE.inventory << endl
+					 << "Price: " << GamE.price << "\n\n";
+			}
+			cout << "-------------------------------------------------------\n";
+			break;
+		}
+	}
+
+	void AddToCart(string name, int n)
+	{
+		int amount = 0;
+
+		switch (n)
+		{
+		case 1:
+			for (int i = 0; i < shop.consoles.size(); i++)
+			{
+				if (name == shop.consoles[i].name)
+				{
+					while (true)
+					{
+						cout << "How many do you want? (" << shop.consoles[i].inventory << " Available)\n";
+						cin >> amount;
+						if (amount < shop.consoles[i].inventory)
+						{
+							console.push_back(Console(name, amount, shop.consoles[i].price));
+							// shop.consoles[i].inventory -= amount;
+							break;
+						}
+						else if (amount == shop.consoles[i].inventory)
+						{
+							console.push_back(Console(name, amount, shop.consoles[i].price));
+							// shop.consoles.erase(shop.consoles.begin() + i);
+							break;
+						}
+						else
+						{
+							char ch;
+							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+							cin >> ch;
+							if (ch == 'y')
+								continue;
+							else
+								break;
+						}
+					}
+				}
+			}
+			break;
+		case 2:
+			for (int i = 0; i < shop.monitors.size(); i++)
+			{
+				if (name == shop.monitors[i].name)
+				{
+					while (true)
+					{
+						cout << "How many do you want? (" << shop.monitors[i].inventory << " Available)";
+						cin >> amount;
+						if (amount < shop.monitors[i].inventory)
+						{
+							console.push_back(Console(name, amount, shop.monitors[i].price));
+							shop.monitors[i].inventory -= amount;
+							break;
+						}
+						else if (amount == shop.monitors[i].inventory)
+						{
+							console.push_back(Console(name, amount, shop.monitors[i].price));
+							shop.monitors.erase(shop.monitors.begin() + i);
+							break;
+						}
+						else
+						{
+							char ch;
+							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+							cin >> ch;
+							if (ch == 'y')
+								continue;
+							else
+								break;
+						}
+					}
+				}
+			}
+			break;
+		case 3:
+			for (int i = 0; i < shop.headsets.size(); i++)
+			{
+				if (name == shop.headsets[i].name)
+				{
+					while (true)
+					{
+						cout << "How many do you want? (" << shop.headsets[i].inventory << " Available)";
+						cin >> amount;
+						if (amount < shop.headsets[i].inventory)
+						{
+							console.push_back(Console(name, amount, shop.headsets[i].price));
+							shop.headsets[i].inventory -= amount;
+							break;
+						}
+						else if (amount == shop.headsets[i].inventory)
+						{
+							console.push_back(Console(name, amount, shop.headsets[i].price));
+							shop.headsets.erase(shop.headsets.begin() + i);
+							break;
+						}
+						else
+						{
+							char ch;
+							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+							cin >> ch;
+							if (ch == 'y')
+								continue;
+							else
+								break;
+						}
+					}
+				}
+			}
+			break;
+		case 4:
+			for (int i = 0; i < shop.games.size(); i++)
+			{
+				if (name == shop.games[i].name)
+				{
+					while (true)
+					{
+						cout << "How many do you want? (" << shop.games[i].inventory << " Available)";
+						cin >> amount;
+						if (amount < shop.games[i].inventory)
+						{
+							console.push_back(Console(name, amount, shop.games[i].price));
+							shop.games[i].inventory -= amount;
+							break;
+						}
+						else if (amount == shop.games[i].inventory)
+						{
+							console.push_back(Console(name, amount, shop.games[i].price));
+							shop.games.erase(shop.games.begin() + i);
+							break;
+						}
+						else
+						{
+							char ch;
+							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+							cin >> ch;
+							if (ch == 'y')
+								continue;
+							else
+								break;
+						}
+					}
+				}
+			}
+			break;
+		}
+	}
+	void RemoveFromCart(string name, int n)
+	{
+		int amount = 0;
+		switch (n)
+		{
+		case 1:
+			for (int i = 0; i < console.size(); i++)
+			{
+				if (name == console[i].name)
+				{
+					while (true)
+					{
+						cout << "How many do you want to remove? (" << console[i].inventory << " In your Cart)\n";
+						cin >> amount;
+						if (amount < console[i].inventory)
+						{
+							console[i].inventory -= amount;
+							break;
+						}
+						else if (amount == console[i].inventory)
+						{
+							console.erase(console.begin() + i);
+							break;
+						}
+						else
+						{
+							char ch;
+							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n)";
+							cin >> ch;
+							if (ch == 'y')
+								continue;
+							else
+								break;
+						}
+					}
+				}
+			}
+			break;
+		case 2:
+			for (int i = 0; i < monitor.size(); i++)
+			{
+				if (name == monitor[i].name)
+				{
+					while (true)
+					{
+						cout << "How many do you want to remove? (" << monitor[i].inventory << " In your Cart)\n";
+						cin >> amount;
+						if (amount < monitor[i].inventory)
+						{
+							monitor[i].inventory -= amount;
+							break;
+						}
+						else if (amount == monitor[i].inventory)
+						{
+							monitor.erase(monitor.begin() + i);
+							break;
+						}
+						else
+						{
+							char ch;
+							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n)";
+							cin >> ch;
+							if (ch == 'y')
+								continue;
+							else
+								break;
+						}
+					}
+				}
+			}
+			break;
+		case 3:
+			for (int i = 0; i < headset.size(); i++)
+			{
+				if (name == headset[i].name)
+				{
+					while (true)
+					{
+						cout << "How many do you want to remove? (" << headset[i].inventory << " In your Cart)\n";
+						cin >> amount;
+						if (amount < headset[i].inventory)
+						{
+							headset[i].inventory -= amount;
+							break;
+						}
+						else if (amount == headset[i].inventory)
+						{
+							headset.erase(headset.begin() + i);
+							break;
+						}
+						else
+						{
+							char ch;
+							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n)";
+							cin >> ch;
+							if (ch == 'y')
+								continue;
+							else
+								break;
+						}
+					}
+				}
+			}
+			break;
+		case 4:
+			for (int i = 0; i < game.size(); i++)
+			{
+				if (name == game[i].name)
+				{
+					while (true)
+					{
+						cout << "How many do you want to remove? (" << game[i].inventory << " In your Cart)\n";
+						cin >> amount;
+						if (amount < game[i].inventory)
+						{
+							game[i].inventory -= amount;
+							break;
+						}
+						else if (amount == game[i].inventory)
+						{
+							game.erase(game.begin() + i);
+							break;
+						}
+						else
+						{
+							char ch;
+							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n)";
+							cin >> ch;
+							if (ch == 'y')
+								continue;
+							else
+								break;
+						}
+					}
+				}
+			}
+			break;
+		}
+	}
+
+	void ClearCart()
+	{
+		console.clear();
+		console.shrink_to_fit();
+		monitor.clear();
+		monitor.shrink_to_fit();
+		headset.clear();
+		headset.shrink_to_fit();
+		game.clear();
+		game.shrink_to_fit();
+	}
+
+	void Finalize()
+	{
+		for(Console C : console)
+		{
+			for(int i=0;i<shop.consoles.size();i++)
+			{
+				if(C.name == shop.consoles[i].name)
+				{
+					if(C.inventory < shop.consoles[i].inventory)
+					{
+						shop.consoles[i].inventory -= C.inventory;
+					}
+					else if(C.inventory == shop.consoles[i].inventory)
+					{
+						shop.consoles.erase(shop.consoles.begin() + i);
+						shop.consoles.shrink_to_fit();
+					}
+				}
+			}
+		}
+		for(Monitor C : monitor)
+		{
+			for(int i=0;i<shop.monitors.size();i++)
+			{
+				if(C.name == shop.monitors[i].name)
+				{
+					if(C.inventory < shop.monitors[i].inventory)
+					{
+						shop.monitors[i].inventory -= C.inventory;
+					}
+					else if(C.inventory == shop.monitors[i].inventory)
+					{
+						shop.monitors.erase(shop.monitors.begin() + i);
+						shop.monitors.shrink_to_fit();
+					}
+				}
+			}
+		}
+		for(Headset C : headset)
+		{
+			for(int i=0;i<shop.headsets.size();i++)
+			{
+				if(C.name == shop.headsets[i].name)
+				{
+					if(C.inventory < shop.headsets[i].inventory)
+					{
+						shop.headsets[i].inventory -= C.inventory;
+					}
+					else if(C.inventory == shop.headsets[i].inventory)
+					{
+						shop.headsets.erase(shop.headsets.begin() + i);
+						shop.headsets.shrink_to_fit();
+					}
+				}
+			}
+		}
+		for(Game C : game)
+		{
+			for(int i=0;i<shop.games.size();i++)
+			{
+				if(C.name == shop.games[i].name)
+				{
+					if(C.inventory < shop.games[i].inventory)
+					{
+						shop.games[i].inventory -= C.inventory;
+					}
+					else if(C.inventory == shop.games[i].inventory)
+					{
+						shop.games.erase(shop.games.begin() + i);
+						shop.games.shrink_to_fit();
+					}
+				}
+			}
+		}
+		ClearCart();
+	}
 };
 
 string ChangePassword()
@@ -206,6 +685,11 @@ string ChangePassword()
 				if (ch == '.' || ch == '&' || ch == '*' || ch == '!' || ch == '@' || ch == '^' || (ch >= 97 && ch <= 122) || (ch >= 65 && ch <= 90))
 				{
 					ok = true;
+				}
+				else
+				{
+					ok = false;
+					break;
 				}
 			}
 			if (ok)
@@ -307,18 +791,19 @@ void AdminMenu(string &Password, GamingShop &Shop)
 	} while (true);
 }
 
-void CustomerMenu(GamingShop &Shop)
+void CustomerMenu(ShoppingCart &Cart)
 {
 	int choice;
 	string name;
 
 	do
 	{
-		cout << "1) SearchGame (buy game)" << endl;
-		cout << "2) ShowInformations" << endl;
-		cout << "3) Customers_Money_Management" << endl;
-		cout << "4) Payment" << endl;
-		cout << "5) LogOut" << endl;
+		cout << "1) Add to cart" << endl;
+		cout << "2) Categorized List of Products" << endl;
+		cout << "3) List of all products" << endl;
+		cout << "4) Customers_Money_Management" << endl;
+		cout << "5) Shopping Cart" << endl;
+		cout << "6) LogOut" << endl;
 		cin >> choice;
 		cout << endl;
 
@@ -328,7 +813,15 @@ void CustomerMenu(GamingShop &Shop)
 			// SearchGame(name);
 			break;
 		case 2:
-			// Shop.ShowDisplay();
+			while(true)
+			{
+				Cart.GetData();
+				cout << "Enter the number of the product type you want to see: ";
+				int choice;
+				cin >> choice;
+				Cart.ShowData(choice);
+
+			}
 			break;
 		case 3:
 			// Customers_Money_Management(&ValueCustomer);
@@ -341,27 +834,8 @@ void CustomerMenu(GamingShop &Shop)
 		}
 	} while (true);
 }
-void SearchGame(GamingShop &Shop)
-{
-	int Item_Type;
-	string Name;
-	int Inventory;
-	int Price;
-	ItemType num;
-	Shop.ShowDisplay(); // We should make a function which finds most similar entry if the input one couldn't match
-	cout << "--------------------------------------------------------------";
-	cout << "Please choose type of product (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
-	cin >> Item_Type;
-	num = static_cast<ItemType>(Item_Type);
-	cout << "Please write the name: ";
-	cin >> Name;
-	cout << "Please write the inventory: ";
-	cin >> Inventory;
-	cout << "Please write the price: ";
-	cin >> Price;
-	Shop.Add(Name, Inventory, Price, num);
-}
-void RoleSwitching(string& Password, GamingShop& Shop)
+
+void RoleSwitching(string &Password, GamingShop &Shop,ShoppingCart &Cart)
 {
 	int number, choice;
 	do
@@ -400,7 +874,7 @@ void RoleSwitching(string& Password, GamingShop& Shop)
 		else if (number == 2)
 		{
 			// Customer Role
-			CustomerMenu(Shop);
+			CustomerMenu(Cart);
 		}
 		else if (number == 3)
 		{
@@ -408,11 +882,13 @@ void RoleSwitching(string& Password, GamingShop& Shop)
 		}
 	} while (true);
 }
+
 int main()
 {
 	GamingShop Shop;
-	Wallet AdminWallet , CustomerWallet;
+	ShoppingCart Cart(Shop);
+	Wallet AdminWallet, CustomerWallet;
 	string Password;
-	RoleSwitching(Password, Shop);
+	RoleSwitching(Password, Shop,Cart);
 	return 0;
 }
