@@ -351,10 +351,36 @@ public:
 				}
 				else if(bypass == 2) break;
 			}
+			else if(ok == true) check = true;
 		}
 		for(Game G : shop.games)
 		{
-			if(G.name == name) Gname = name;
+			bool ok =false;
+			if(G.name == name) 
+			{
+				Gname = name;
+				ok = true;
+				if(bypass == 3) return 4;
+			}
+			if(check == true && ok == true)
+			{
+				if(Mname == Hname && bypass != 2)
+				{
+					cout << "did you mean the (H)eadset " << name << " or the (G)ame " << name << " ?\n";
+					cout << "Enter the first letter of the word :";
+					cin >> ch;
+					if(ch == 'H')
+					{
+						return 3;	
+					}
+					else if(ch == 'G')
+					{
+						return 4;
+					}
+				}
+				else if(bypass == 2) break;
+			}
+			else if(ok == true) check = true;
 		}
 	}
 	void AddToCart(string name, int n)
