@@ -15,21 +15,23 @@ class Wallet
 {
 private:
 	double Value = 0;
-	double Charge_Cast;
+	double Charge;
 public:
 	void ChargeWallet()
 	{
 		cout << "Please enter the desired recharge amount: ";
-		cin >> Charge_Cast;
-		Value += Charge_Cast;
-		cout << "Your wallet has been recharged with " << Charge_Cast << ".\n\n";
+		cin >> Charge;
+		Value += Charge;
+		cout << "Your wallet has been recharged with " << Charge << ".\n\n";
 	}
-	void CostWallet(double &Changes)
+	void CostWallet(double& Changes)
 	{
-		Charge_Cast = Changes;
+		Value -= Changes;
+		cout << "The amount of " << Changes << "was deducted from your wallet." << "Your account balance: " << Value << "\n\n";
 	}
 	void RemainingWallet()
 	{
+		cout << "Your wallet balance: " << Value << "\n\n";
 	}
 };
 class Item
