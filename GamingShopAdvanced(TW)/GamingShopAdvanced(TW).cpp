@@ -16,6 +16,7 @@ class Wallet
 private:
 	double Value = 0;
 	double Charge_Cast;
+
 public:
 	void ChargeWallet()
 	{
@@ -192,7 +193,7 @@ class ShoppingCart
 {
 private:
 	int totalprice;
-	GamingShop &shop;                   //Wallet should be added later
+	GamingShop &shop; // Wallet should be added later
 	vector<Console> console;
 	vector<Monitor> monitor;
 	vector<Headset> headset;
@@ -288,9 +289,191 @@ public:
 			break;
 		}
 	}
-	int SearchByName(string name)
+	int SearchByName(string &name)
 	{
+		struct item
+		{
+			string name;
+			int id;
+			item(string Name, int n) : id(n), name(Name) {}
+		};
+		vector<item> matchs;
+		for (const Console &C : shop.consoles)
+		{
+			if (C.name == name)
+			{
+				matchs.push_back(item(name, 1));
+				break;
+			}
+		}
+		for (const Monitor &C : shop.monitors)
+		{
+			if (C.name == name)
+			{
+				matchs.push_back(item(name, 2));
+				break;
+			}
+		}
+		for (const Headset &C : shop.headsets)
+		{
+			if (C.name == name)
+			{
+				matchs.push_back(item(name, 3));
+				break;
+			}
+		}
+		for (const Game &C : shop.games)
+		{
+			if (C.name == name)
+			{
+				matchs.push_back(item(name, 4));
+				break;
+			}
+		}
 
+		if (matchs.size() == 0)
+		{
+			int Cat;
+			int best = -1;
+			vector<string> Match;
+			cout << "We couldn't find any matchs,Enter the Category of the product your looing for:\n";
+			cout << "1) Consoles\n2) Monitors\n3) Headsets\n4) Games\n";
+			cin >> Cat;
+			switch (Cat)
+			{
+			case 1:
+				for (const Console &C : shop.consoles)
+				{
+					int min;
+					int max = 0;
+					if (C.name.size() < name.size())
+						min = C.name.size();
+					else
+						min = name.size();
+					for (int i = 0; i < min; i++)
+					{
+						if (C.name[i] == name[i])
+							max++;
+					}
+					if (max > best)
+					{
+						Match.clear();
+						Match.shrink_to_fit();
+						Match.push_back(C.name);
+						best = max;
+					}
+					else if (max == best)
+					{
+						Match.push_back(C.name);
+					}
+				}
+				break;
+			case 2:
+				for (const Monitor &C : shop.monitors)
+				{
+					int min;
+					int max = 0;
+					if (C.name.size() < name.size())
+						min = C.name.size();
+					else
+						min = name.size();
+					for (int i = 0; i < min; i++)
+					{
+						if (C.name[i] == name[i])
+							max++;
+					}
+					if (max > best)
+					{
+						Match.clear();
+						Match.shrink_to_fit();
+						Match.push_back(C.name);
+						best = max;
+					}
+					else if (max == best)
+					{
+						Match.push_back(C.name);
+					}
+				}
+				break;
+			case 3:
+				for (const Headset &C : shop.headsets)
+				{
+					int min;
+					int max = 0;
+					if (C.name.size() < name.size())
+						min = C.name.size();
+					else
+						min = name.size();
+					for (int i = 0; i < min; i++)
+					{
+						if (C.name[i] == name[i])
+							max++;
+					}
+					if (max > best)
+					{
+						Match.clear();
+						Match.shrink_to_fit();
+						Match.push_back(C.name);
+						best = max;
+					}
+					else if (max == best)
+					{
+						Match.push_back(C.name);
+					}
+				}
+				break;
+			case 4:
+				for (const Game &C : shop.games)
+				{
+					int min;
+					int max = 0;
+					if (C.name.size() < name.size())
+						min = C.name.size();
+					else
+						min = name.size();
+					for (int i = 0; i < min; i++)
+					{
+						if (C.name[i] == name[i])
+							max++;
+					}
+					if (max > best)
+					{
+						Match.clear();
+						Match.shrink_to_fit();
+						Match.push_back(C.name);
+						best = max;
+					}
+					else if (max == best)
+					{
+						Match.push_back(C.name);
+					}
+				}
+				break;
+			}
+			cout << "Did you mean : ";
+			for(const string& M :Match)
+			{
+				cout << M << " , ";
+			}
+			cout << endl << "if Yes, write the name correctly one last time: ";
+			string finally;
+			cin >> finally;
+			name = finally;
+			return Cat;
+		}
+		if (matchs.size() == 1)
+		{
+			return matchs[0].id;
+		}
+
+		if (matchs.size() > 1)
+		{
+			cout << "there are 2 or more products found with this name\nChoose your Category:\n";
+			cout << "1) Consoles\n2) Monitors\n3) Headsets\n4) Games\n";
+			int n;
+			cin >> n;
+			return n;
+		}
 	}
 	void AddToCart(string name, int n)
 	{
@@ -594,17 +777,17 @@ public:
 
 	void Finalize()
 	{
-		for(Console C : console)
+		for (Console C : console)
 		{
-			for(int i=0;i<shop.consoles.size();i++)
+			for (int i = 0; i < shop.consoles.size(); i++)
 			{
-				if(C.name == shop.consoles[i].name)
+				if (C.name == shop.consoles[i].name)
 				{
-					if(C.inventory < shop.consoles[i].inventory)
+					if (C.inventory < shop.consoles[i].inventory)
 					{
 						shop.consoles[i].inventory -= C.inventory;
 					}
-					else if(C.inventory == shop.consoles[i].inventory)
+					else if (C.inventory == shop.consoles[i].inventory)
 					{
 						shop.consoles.erase(shop.consoles.begin() + i);
 						shop.consoles.shrink_to_fit();
@@ -612,17 +795,17 @@ public:
 				}
 			}
 		}
-		for(Monitor C : monitor)
+		for (Monitor C : monitor)
 		{
-			for(int i=0;i<shop.monitors.size();i++)
+			for (int i = 0; i < shop.monitors.size(); i++)
 			{
-				if(C.name == shop.monitors[i].name)
+				if (C.name == shop.monitors[i].name)
 				{
-					if(C.inventory < shop.monitors[i].inventory)
+					if (C.inventory < shop.monitors[i].inventory)
 					{
 						shop.monitors[i].inventory -= C.inventory;
 					}
-					else if(C.inventory == shop.monitors[i].inventory)
+					else if (C.inventory == shop.monitors[i].inventory)
 					{
 						shop.monitors.erase(shop.monitors.begin() + i);
 						shop.monitors.shrink_to_fit();
@@ -630,17 +813,17 @@ public:
 				}
 			}
 		}
-		for(Headset C : headset)
+		for (Headset C : headset)
 		{
-			for(int i=0;i<shop.headsets.size();i++)
+			for (int i = 0; i < shop.headsets.size(); i++)
 			{
-				if(C.name == shop.headsets[i].name)
+				if (C.name == shop.headsets[i].name)
 				{
-					if(C.inventory < shop.headsets[i].inventory)
+					if (C.inventory < shop.headsets[i].inventory)
 					{
 						shop.headsets[i].inventory -= C.inventory;
 					}
-					else if(C.inventory == shop.headsets[i].inventory)
+					else if (C.inventory == shop.headsets[i].inventory)
 					{
 						shop.headsets.erase(shop.headsets.begin() + i);
 						shop.headsets.shrink_to_fit();
@@ -648,17 +831,17 @@ public:
 				}
 			}
 		}
-		for(Game C : game)
+		for (Game C : game)
 		{
-			for(int i=0;i<shop.games.size();i++)
+			for (int i = 0; i < shop.games.size(); i++)
 			{
-				if(C.name == shop.games[i].name)
+				if (C.name == shop.games[i].name)
 				{
-					if(C.inventory < shop.games[i].inventory)
+					if (C.inventory < shop.games[i].inventory)
 					{
 						shop.games[i].inventory -= C.inventory;
 					}
-					else if(C.inventory == shop.games[i].inventory)
+					else if (C.inventory == shop.games[i].inventory)
 					{
 						shop.games.erase(shop.games.begin() + i);
 						shop.games.shrink_to_fit();
@@ -816,29 +999,67 @@ void CustomerMenu(ShoppingCart &Cart)
 		switch (choice)
 		{
 		case 1:
-			while(true)
+			while (true)
 			{
-				cout<<"1) Enter the product's name to buy\n2) Show a Categorized List\n";
+				cout << "1) Enter the product's name to Add\n2) Show a Categorized List(if you don't remember your desired item)\n3) Quit\n";
 				int choice;
 				cin >> choice;
-				if(choice == 1)
+				if (choice == 1)
 				{
-
+					string Name;
+					cin >> Name;
+					choice = Cart.SearchByName(Name);
+					Cart.AddToCart(Name, choice);
+					cout << "Done!\n";
+					cout << "Do you want to add more?(y/n):";
+					char Ch;
+					cin >> Ch;
+					if (Ch == 'y')
+						continue;
+					else
+						break;
 				}
-				else if(choice == 2)
+				else if (choice == 2)
 				{
-
+					while (true)
+					{
+						Cart.GetData();
+						cout << "1) Search for a specific Product\n2)Quit\n";
+						int Choice;
+						int Cat;
+						cin >> Choice;
+						cout << "Enter the number of product type you want to see: ";
+						cin >> Cat;
+						Cart.ShowData(Cat);
+						cout << "1) Enter the product name to add it to Cart\n2) Back\n";
+						cin >> Choice;
+						if (Choice == 1)
+						{
+							string name;
+							cout << "Enter the name: ";
+							cin >> name;
+							Cart.AddToCart(name, Cat);
+							break;
+						}
+						else if (choice == 2)
+						{
+							cout << "\033c";
+							continue;
+						}
+					}
 				}
+				else if (choice == 3)
+					break;
 			}
 			break;
 		case 2:
-			while(true)
+			while (true)
 			{
 				Cart.GetData();
 				cout << "1) Search for a specific Product\n2)Quit\n";
 				int choice;
 				cin >> choice;
-				if(choice == 1)
+				if (choice == 1)
 				{
 					cout << "Enter the number of product type you want to see: ";
 					cin >> choice;
@@ -846,9 +1067,10 @@ void CustomerMenu(ShoppingCart &Cart)
 					cout << "Press Enter to go back ...";
 					cin.ignore();
 					cin.get();
-					cout <<"\033c";
+					cout << "\033c";
 				}
-				else break;
+				else
+					break;
 			}
 			break;
 		case 3:
@@ -863,7 +1085,7 @@ void CustomerMenu(ShoppingCart &Cart)
 	} while (true);
 }
 
-void RoleSwitching(string &Password, GamingShop &Shop,ShoppingCart &Cart)
+void RoleSwitching(string &Password, GamingShop &Shop, ShoppingCart &Cart)
 {
 	int number, choice;
 	do
@@ -917,6 +1139,6 @@ int main()
 	ShoppingCart Cart(Shop);
 	Wallet AdminWallet, CustomerWallet;
 	string Password;
-	RoleSwitching(Password, Shop,Cart);
+	RoleSwitching(Password, Shop, Cart);
 	return 0;
 }
