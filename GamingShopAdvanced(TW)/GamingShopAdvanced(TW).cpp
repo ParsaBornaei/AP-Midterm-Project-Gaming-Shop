@@ -799,7 +799,7 @@ void AdminMenu(string &Password, GamingShop &Shop)
 	} while (true);
 }
 
-void CustomerMenu(ShoppingCart &Cart)
+void CustomerMenu(ShoppingCart &Cart, GamingShop& Shop)
 {
 	int choice;
 	string name;
@@ -854,7 +854,7 @@ void CustomerMenu(ShoppingCart &Cart)
 			}
 			break;
 		case 3:
-			// Customers_Money_Management(&ValueCustomer);
+			Shop.ShowDisplay();
 			break;
 		case 4:
 			// Payment(name, ValueGamingShop, ValueCustomer);
@@ -904,7 +904,7 @@ void RoleSwitching(string &Password, GamingShop &Shop,ShoppingCart &Cart)
 		else if (number == 2)
 		{
 			// Customer Role
-			CustomerMenu(Cart);
+			CustomerMenu(Cart,Shop);
 		}
 		else if (number == 3)
 		{
