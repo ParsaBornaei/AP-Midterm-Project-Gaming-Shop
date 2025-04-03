@@ -16,6 +16,7 @@ class Wallet
 private:
 	double Value = 0;
 	double Charge;
+
 public:
 	void ChargeWallet()
 	{
@@ -24,7 +25,7 @@ public:
 		Value += Charge;
 		cout << "Your wallet has been recharged with " << Charge << ".\n\n";
 	}
-	void CostWallet(double& Changes)
+	void CostWallet(double &Changes)
 	{
 		Value -= Changes;
 		cout << "The amount of " << Changes << "was deducted from your wallet." << "Your account balance: " << Value << "\n\n";
@@ -193,15 +194,16 @@ public:
 class ShoppingCart
 {
 private:
+	double totalprice;
 	Wallet &wallet;
-	GamingShop &shop; // Wallet should be added later
+	GamingShop &shop;
 	vector<Console> console;
 	vector<Monitor> monitor;
 	vector<Headset> headset;
 	vector<Game> game;
 
 public:
-	ShoppingCart(GamingShop &Shop,Wallet &Cwallet) : shop(Shop) , wallet(Cwallet) {}
+	ShoppingCart(GamingShop &Shop, Wallet &Cwallet) : shop(Shop), wallet(Cwallet) {}
 	int calculatetotal(ItemType item)
 	{
 		int total = 0;
@@ -452,11 +454,12 @@ public:
 				break;
 			}
 			cout << "Did you mean : ";
-			for(const string& M :Match)
+			for (const string &M : Match)
 			{
 				cout << M << " , ";
 			}
-			cout << endl << "if Yes, write the name correctly one last time: ";
+			cout << endl
+				 << "if Yes, write the name correctly one last time: ";
 			string finally;
 			cin >> finally;
 			name = finally;
@@ -475,6 +478,8 @@ public:
 			cin >> n;
 			return n;
 		}
+
+		return 0;
 	}
 
 	int SearchByNameinCart(string &name)
@@ -639,11 +644,12 @@ public:
 				break;
 			}
 			cout << "Did you mean : ";
-			for(const string& M :Match)
+			for (const string &M : Match)
 			{
 				cout << M << " , ";
 			}
-			cout << endl << "if Yes, write the name correctly one last time: ";
+			cout << endl
+				 << "if Yes, write the name correctly one last time: ";
 			string finally;
 			cin >> finally;
 			name = finally;
@@ -662,6 +668,8 @@ public:
 			cin >> n;
 			return n;
 		}
+
+		return 0;
 	}
 
 	void AddToCart(string name, int n)
@@ -716,13 +724,13 @@ public:
 						cin >> amount;
 						if (amount < shop.monitors[i].inventory)
 						{
-							console.push_back(Console(name, amount, shop.monitors[i].price));
+							monitor.push_back(Monitor(name, amount, shop.monitors[i].price));
 							shop.monitors[i].inventory -= amount;
 							break;
 						}
 						else if (amount == shop.monitors[i].inventory)
 						{
-							console.push_back(Console(name, amount, shop.monitors[i].price));
+							monitor.push_back(Monitor(name, amount, shop.monitors[i].price));
 							shop.monitors.erase(shop.monitors.begin() + i);
 							break;
 						}
@@ -751,13 +759,13 @@ public:
 						cin >> amount;
 						if (amount < shop.headsets[i].inventory)
 						{
-							console.push_back(Console(name, amount, shop.headsets[i].price));
+							headset.push_back(Headset(name, amount, shop.headsets[i].price));
 							shop.headsets[i].inventory -= amount;
 							break;
 						}
 						else if (amount == shop.headsets[i].inventory)
 						{
-							console.push_back(Console(name, amount, shop.headsets[i].price));
+							headset.push_back(Headset(name, amount, shop.headsets[i].price));
 							shop.headsets.erase(shop.headsets.begin() + i);
 							break;
 						}
@@ -786,13 +794,13 @@ public:
 						cin >> amount;
 						if (amount < shop.games[i].inventory)
 						{
-							console.push_back(Console(name, amount, shop.games[i].price));
+							game.push_back(Game(name, amount, shop.games[i].price));
 							shop.games[i].inventory -= amount;
 							break;
 						}
 						else if (amount == shop.games[i].inventory)
 						{
-							console.push_back(Console(name, amount, shop.games[i].price));
+							game.push_back(Game(name, amount, shop.games[i].price));
 							shop.games.erase(shop.games.begin() + i);
 							break;
 						}
@@ -963,9 +971,30 @@ public:
 		game.clear();
 		game.shrink_to_fit();
 	}
-
+	void Totalprice()
+	{
+		int TotalPrice = 0;
+		for (const Console &C : console)
+		{
+			TotalPrice += C.price * C.inventory;
+		}
+		for (const Monitor &C : monitor)
+		{
+			TotalPrice += C.price * C.inventory;
+		}
+		for (const Headset &C : headset)
+		{
+			TotalPrice += C.price * C.inventory;
+		}
+		for (const Game &C : game)
+		{
+			TotalPrice += C.price * C.inventory;
+		}
+		totalprice = TotalPrice;
+	}
 	void Finalize()
 	{
+		Totalprice();
 		for (Console C : console)
 		{
 			for (int i = 0; i < shop.consoles.size(); i++)
@@ -1039,6 +1068,7 @@ public:
 			}
 		}
 		ClearCart();
+		wallet.CostWallet(totalprice);
 	}
 
 	void ShowCart()
@@ -1046,34 +1076,34 @@ public:
 		int TotalPrice = 0;
 		cout << "Shopping Cart---------------------------\n";
 		cout << "\n---Consoles---\n";
-		for(const Console& C : console)
+		for (const Console &C : console)
 		{
-			TotalPrice += C.price*C.inventory;
+			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Monitors---\n";
-		for(const Monitor& C : monitor)
+		for (const Monitor &C : monitor)
 		{
-			TotalPrice += C.price*C.inventory;
+			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Headsets---\n";
-		for(const Headset& C : headset)
+		for (const Headset &C : headset)
 		{
-			TotalPrice += C.price*C.inventory;
+			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Game---\n";
-		for(const Game& C : game)
+		for (const Game &C : game)
 		{
-			TotalPrice += C.price*C.inventory;
+			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
 			cout << "  --------------------------------------------  \n";
 		}
-		cout <<"Fianl Price: $" << TotalPrice << endl;
+		cout << "Fianl Price: $" << TotalPrice << endl;
 	}
 };
 
@@ -1204,7 +1234,7 @@ void AdminMenu(string &Password, GamingShop &Shop)
 	} while (true);
 }
 
-void CustomerMenu(ShoppingCart &Cart, GamingShop& Shop)
+void CustomerMenu(ShoppingCart &Cart, GamingShop &Shop)
 {
 	char cho;
 
@@ -1232,6 +1262,11 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop& Shop)
 					string Name;
 					cin >> Name;
 					choice = Cart.SearchByName(Name);
+					if (choice == 0)
+					{
+						cout << "We couldn't find any";
+						break;
+					}
 					Cart.AddToCart(Name, choice);
 					cout << "Done!\n";
 					cout << "Do you want to add more?(y/n):";
@@ -1247,42 +1282,49 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop& Shop)
 					while (true)
 					{
 						Cart.GetData();
-						cout << "1) Search for a specific Product\n2)Quit\n";
+						cout << "1) Search for a specific Product\n2) Quit\n";
 						int Choice;
 						int Cat;
 						cin >> Choice;
-						cout << "Enter the number of product type you want to see: ";
-						cin >> Cat;
-						Cart.ShowData(Cat);
-						cout << "1) Enter the product name to add it to Cart\n2) Back\n";
-						cin >> Choice;
 						if (Choice == 1)
 						{
-							string name;
-							cout << "Enter the name: ";
-							cin >> name;
-							Cart.AddToCart(name, Cat);
-							cout << "Do you want to add more?(y/n):";
-							char Ch;
-							cin >> Ch;
-							if (Ch == 'y') continue;
-							else break;
+							cout << "Enter the number of product type you want to see: ";
+							cin >> Cat;
+							Cart.ShowData(Cat);
+							cout << "1) Enter the product name to add it to Cart\n2) Back\n";
+							cin >> Choice;
+							if (Choice == 1)
+							{
+								string name;
+								cout << "Enter the name: ";
+								cin >> name;
+								Cart.AddToCart(name, Cat);
+								cout << "Do you want to add more?(y/n):";
+								char Ch;
+								cin >> Ch;
+								if (Ch == 'y')
+									continue;
+								else
+									break;
+							}
+							else if (choice == 2)
+							{
+								cout << "\033c";
+								continue;
+							}
 						}
-						else if (choice == 2)
-						{
-							cout << "\033c";
-							continue;
-						}
+						else break;
 					}
 				}
-				else if (choice == 3) break;
+				else if (choice == 3)
+					break;
 			}
 			break;
 		case '2':
 			while (true)
 			{
 				Cart.GetData();
-				cout << "1) Search for a specific Product\n2)Quit\n";
+				cout << "1) Search for a specific Product\n2) Quit\n";
 				int choice;
 				cin >> choice;
 				if (choice == 1)
@@ -1306,54 +1348,67 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop& Shop)
 			// Payment(name, ValueGamingShop, ValueCustomer);
 			break;
 		case '5':
+		{
 			bool loop = true;
-			while(loop)
-			{	
+			while (loop)
+			{
 				char Choice;
 				Cart.ShowCart();
-				cout<<"1) Finalize Purchase\n2) Remove some products\n3) Clear Shopping Cart\n4) Quit\n";
+				cout << "1) Finalize Purchase\n2) Remove some products\n3) Clear Shopping Cart\n4) Quit\n";
 				cin >> Choice;
-				switch(Choice)
+				switch (Choice)
 				{
-					case '1':
-						char ch;
-						cout << "Are you sure ?(y/n)";
-						cin >> ch;
-						if(ch == 'y') 
-						{
-							Cart.Finalize();
-							loop = false;
-						}
-						break;
-					case '2':
-						while(true)
-						{
-							string name;
-							cout << "Enter the product's name: ";
-							cin >> name;
-							int n = Cart.SearchByNameinCart(name);
-							Cart.RemoveFromCart(name,n);
-							cout << "Do you want to Remove more?(y/n)";
-							char ch;
-							cin >> ch;
-							if(ch == 'y') continue;
-							else break;
-						}
-						break;
-					case '3':
-						cout <<"Are you sure?(y/n)";
-						char ch;
-						cin >> ch;
-						if(ch == 'y') Cart.ClearCart();
-						break;
-					case '4':
+				case '1':
+					char ch;
+					cout << "Are you sure ?(y/n)";
+					cin >> ch;
+					if (ch == 'y')
+					{
+						Cart.Finalize();
 						loop = false;
-						break;
+					}
+					break;
+				case '2':
+					while (true)
+					{
+						string name;
+						cout << "Enter the product's name: ";
+						cin >> name;
+						int n = Cart.SearchByNameinCart(name);
+						if (n == 0)
+						{
+							cout << "We couldn't find any matchs";
+							break;
+						}
+						Cart.RemoveFromCart(name, n);
+						cout << "Do you want to Remove more?(y/n)";
+						char ch;
+						cin >> ch;
+						if (ch == 'y')
+							continue;
+						else
+							break;
+					}
+					break;
+				case '3':
+				{
+					cout << "Are you sure?(y/n)";
+					char ch;
+					cin >> ch;
+					if (ch == 'y')
+						Cart.ClearCart();
+					break;
+				}
+				case '4':
+					loop = false;
+					break;
 				}
 			}
 			break;
+		}
 		case '6':
 			return;
+			break;
 		}
 	} while (true);
 }
@@ -1397,7 +1452,7 @@ void RoleSwitching(string &Password, GamingShop &Shop, ShoppingCart &Cart)
 		else if (number == 2)
 		{
 			// Customer Role
-			CustomerMenu(Cart,Shop);
+			CustomerMenu(Cart, Shop);
 		}
 		else if (number == 3)
 		{
@@ -1410,7 +1465,7 @@ int main()
 {
 	Wallet AdminWallet, CustomerWallet;
 	GamingShop Shop;
-	ShoppingCart Cart(Shop,CustomerWallet);
+	ShoppingCart Cart(Shop, CustomerWallet);
 	string Password;
 	RoleSwitching(Password, Shop, Cart);
 	return 0;
