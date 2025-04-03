@@ -2,6 +2,7 @@
 #include <iostream>
 #include <conio.h>
 #include <string>
+#include <cmath>
 using namespace std;
 
 enum ItemType
@@ -25,7 +26,7 @@ public:
 		Value += Charge;
 		cout << "Your wallet has been recharged with " << Charge << ".\n\n";
 	}
-	void CostWallet(double &Changes)
+	void CostWallet(double& Changes)
 	{
 		Value -= Changes;
 		cout << "The amount of " << Changes << "was deducted from your wallet." << "Your account balance: " << Value << "\n\n";
@@ -45,26 +46,31 @@ public:
 	Item(string name, int inventory, double price) : name(name), inventory(inventory), price(price) {}
 	// virtual void ShowDisplay();
 };
+
 class Console : public Item
 {
 public:
 	Console(string name, int inventory, double price) : Item(name, inventory, price) { itemType = ItemType::console; }
 };
+
 class Monitor : public Item
 {
 public:
 	Monitor(string name, int inventory, double price) : Item(name, inventory, price) { itemType = ItemType::monitor; }
 };
+
 class Headset : public Item
 {
 public:
 	Headset(string name, int inventory, double price) : Item(name, inventory, price) { itemType = ItemType::headset; }
 };
+
 class Game : public Item
 {
 public:
 	Game(string name, int inventory, double price) : Item(name, inventory, price) { itemType = ItemType::game; }
 };
+
 class GamingShop
 {
 private:
@@ -77,6 +83,7 @@ public:
 	vector<Game> games;
 	void Add(string name, int inventory, double price, ItemType itemType)
 	{
+		int choice, increase;
 		switch (itemType)
 		{
 		case ItemType::console:
@@ -93,7 +100,6 @@ public:
 			break;
 		}
 	}
-
 	void Remove(string name, ItemType itemType)
 	{
 		switch (itemType)
@@ -142,6 +148,217 @@ public:
 			break;
 		}
 	}
+
+	void Change(string name, ItemType itemType, Wallet& AWallet)
+	{
+		int choice, increase;
+		double NewPrice, Result;
+		switch (itemType)
+		{
+		case ItemType::console:
+		{
+			for (int i = 0; i < consoles.size(); i++)
+			{
+				if (consoles[i].name == name)
+				{
+					cout << "The desired product is available in the store. \nWould you like to make a change to the product?(1:increase inventory/2:Change price/3:No Change(Back)): ";
+					cin >> choice;
+					switch (choice)
+					{
+					case 1:
+						cout << "Write the desired number: ";
+						cin >> increase;
+						Result = abs(consoles[i].inventory - increase) * (7 / 10);
+						AWallet.CostWallet(Result);
+						consoles[i].inventory += increase;
+						cout << "The number of the desired product was successfully increased." << "\n\n";
+						return;
+						break;
+					case 2:
+						cout << "Enter the new price: ";
+						cin >> NewPrice;
+						consoles[i].price = NewPrice;
+						cout << "New product price: " << consoles[i].price << "\n\n";
+						return;
+						break;
+					case 3:
+						return;
+						break;
+					default:
+					{
+						cout << "Your choice incorrect!" << "\n\n";
+						return;
+						break;
+					}
+					}
+				}
+			}
+		}
+		case ItemType::monitor:
+		{
+			for (int i = 0; i < monitors.size(); i++)
+			{
+				if (monitors[i].name == name)
+				{
+					cout << "The desired product is available in the store. \nWould you like to make a change to the product?(1:increase inventory/2:Change price/3:No Change(Back)): ";
+					cin >> choice;
+					switch (choice)
+					{
+					case 1:
+						cout << "Write the desired number: ";
+						cin >> increase;
+						Result = abs(monitors[i].inventory - increase) * (7 / 10);
+						AWallet.CostWallet(Result);
+						monitors[i].inventory += increase;
+						cout << "The number of the desired product was successfully increased." << "\n\n";
+						return;
+						break;
+					case 2:
+						cout << "Enter the new price: ";
+						cin >> NewPrice;
+						monitors[i].price = NewPrice;
+						cout << "New product price: " << monitors[i].price << "\n\n";
+						return;
+						break;
+					case 3:
+						return;
+						break;
+					default:
+					{
+						cout << "Your choice incorrect!" << "\n\n";
+						return;
+						break;
+					}
+					}
+				}
+			}
+		}
+		case ItemType::headset:
+		{
+			for (int i = 0; i < headsets.size(); i++)
+			{
+				if (headsets[i].name == name)
+				{
+					cout << "The desired product is available in the store. \nWould you like to make a change to the product?(1:increase inventory/2:Change price/3:No Change(Back)): ";
+					cin >> choice;
+					switch (choice)
+					{
+					case 1:
+						cout << "Write the desired number: ";
+						cin >> increase;
+						Result = abs(headsets[i].inventory - increase) * (7 / 10);
+						AWallet.CostWallet(Result);
+						headsets[i].inventory += increase;
+						cout << "The number of the desired product was successfully increased." << "\n\n";
+						return;
+						break;
+					case 2:
+						cout << "Enter the new price: ";
+						cin >> NewPrice;
+						headsets[i].price = NewPrice;
+						cout << "New product price: " << headsets[i].price << "\n\n";
+						return;
+						break;
+					case 3:
+						return;
+						break;
+					default:
+					{
+						cout << "Your choice incorrect!" << "\n\n";
+						return;
+						break;
+					}
+					}
+				}
+			}}
+		case ItemType::game:
+		{
+			for (int i = 0; i < games.size(); i++)
+			{
+				if (games[i].name == name)
+				{
+					cout << "The desired product is available in the store. \nWould you like to make a change to the product?(1:increase inventory/2:Change price/3:No Change(Back)): ";
+					cin >> choice;
+					switch (choice)
+					{
+					case 1:
+						cout << "Write the desired number: ";
+						cin >> increase;
+						Result = abs(games[i].inventory - increase) * (7 / 10);
+						AWallet.CostWallet(Result);
+						games[i].inventory += increase;
+						cout << "The number of the desired product was successfully increased." << "\n\n";
+						return;
+						break;
+					case 2:
+						cout << "Enter the new price: ";
+						cin >> NewPrice;
+						games[i].price = NewPrice;
+						cout << "New product price: " << games[i].price << "\n\n";
+						return;
+						break;
+					case 3:
+						return;
+						break;
+					default:
+						cout << "Your choice incorrect!" << "\n\n";
+						return;
+						break;
+					}
+				}
+			}
+		}
+		}
+	}
+
+	bool CheckName(string name, ItemType itemType)
+	{
+		switch (itemType)
+		{
+		case ItemType::console:
+			for (int i = 0; i < consoles.size(); i++)
+			{
+				if (consoles[i].name == name)
+				{
+					return true;
+				}
+			}
+			break;
+		case ItemType::monitor:
+			for (int i = 0; i < monitors.size(); i++)
+			{
+				if (monitors[i].name == name)
+				{
+					return true;
+				}
+			}
+			break;
+		case ItemType::headset:
+			for (int i = 0; i < headsets.size(); i++)
+			{
+				if (headsets[i].name == name)
+				{
+					return true;
+				}
+			}
+			break;
+		case ItemType::game:
+		{
+			for (int i = 0; i < games.size(); i++)
+			{
+				if (games[i].name == name)
+				{
+					return true;
+				}
+			}
+			break;
+		}
+		default:
+		{
+			return false;
+		}
+		}
+	}
 	void Financial_Value_Of_The_Store()
 	{
 		for (Console ConS : consoles)
@@ -167,26 +384,26 @@ public:
 		for (Console ConS : consoles)
 		{
 			cout << "Console\nName: " << ConS.name << endl
-				 << "Inventory: " << ConS.inventory << endl
-				 << "Price: " << ConS.price << "\n\n";
+				<< "Inventory: " << ConS.inventory << endl
+				<< "Price: " << ConS.price << "\n\n";
 		}
 		for (Monitor MonT : monitors)
 		{
 			cout << "Monitor\nName: " << MonT.name << endl
-				 << "Inventory: " << MonT.inventory << endl
-				 << "Price: " << MonT.price << "\n\n";
+				<< "Inventory: " << MonT.inventory << endl
+				<< "Price: " << MonT.price << "\n\n";
 		}
 		for (Headset HeaD : headsets)
 		{
 			cout << "Headset\nName: " << HeaD.name << endl
-				 << "Inventory: " << HeaD.inventory << endl
-				 << "Price: " << HeaD.price << "\n\n";
+				<< "Inventory: " << HeaD.inventory << endl
+				<< "Price: " << HeaD.price << "\n\n";
 		}
 		for (Game GamE : games)
 		{
 			cout << "Game\nName: " << GamE.name << endl
-				 << "Inventory: " << GamE.inventory << endl
-				 << "Price: " << GamE.price << "\n\n";
+				<< "Inventory: " << GamE.inventory << endl
+				<< "Price: " << GamE.price << "\n\n";
 		}
 	}
 };
@@ -195,15 +412,15 @@ class ShoppingCart
 {
 private:
 	double totalprice;
-	Wallet &wallet;
-	GamingShop &shop;
+	Wallet& wallet;
+	GamingShop& shop;
 	vector<Console> console;
 	vector<Monitor> monitor;
 	vector<Headset> headset;
 	vector<Game> game;
 
 public:
-	ShoppingCart(GamingShop &Shop, Wallet &Cwallet) : shop(Shop), wallet(Cwallet) {}
+	ShoppingCart(GamingShop& Shop, Wallet& Cwallet) : shop(Shop), wallet(Cwallet) {}
 	int calculatetotal(ItemType item)
 	{
 		int total = 0;
@@ -255,8 +472,8 @@ public:
 			for (Console ConS : shop.consoles)
 			{
 				cout << "Console\nName: " << ConS.name << endl
-					 << "Inventory: " << ConS.inventory << endl
-					 << "Price: " << ConS.price << "\n\n";
+					<< "Inventory: " << ConS.inventory << endl
+					<< "Price: " << ConS.price << "\n\n";
 			}
 			cout << "-------------------------------------------------------\n";
 			break;
@@ -265,8 +482,8 @@ public:
 			for (Monitor MonT : shop.monitors)
 			{
 				cout << "Monitor\nName: " << MonT.name << endl
-					 << "Inventory: " << MonT.inventory << endl
-					 << "Price: " << MonT.price << "\n\n";
+					<< "Inventory: " << MonT.inventory << endl
+					<< "Price: " << MonT.price << "\n\n";
 			}
 			cout << "-------------------------------------------------------\n";
 			break;
@@ -275,8 +492,8 @@ public:
 			for (Headset HeaD : shop.headsets)
 			{
 				cout << "Headset\nName: " << HeaD.name << endl
-					 << "Inventory: " << HeaD.inventory << endl
-					 << "Price: " << HeaD.price << "\n\n";
+					<< "Inventory: " << HeaD.inventory << endl
+					<< "Price: " << HeaD.price << "\n\n";
 			}
 			cout << "-------------------------------------------------------\n";
 			break;
@@ -285,14 +502,14 @@ public:
 			for (Game GamE : shop.games)
 			{
 				cout << "Game\nName: " << GamE.name << endl
-					 << "Inventory: " << GamE.inventory << endl
-					 << "Price: " << GamE.price << "\n\n";
+					<< "Inventory: " << GamE.inventory << endl
+					<< "Price: " << GamE.price << "\n\n";
 			}
 			cout << "-------------------------------------------------------\n";
 			break;
 		}
 	}
-	int SearchByName(string &name)
+	int SearchByName(string& name)
 	{
 		struct item
 		{
@@ -301,7 +518,7 @@ public:
 			item(string Name, int n) : id(n), name(Name) {}
 		};
 		vector<item> matchs;
-		for (const Console &C : shop.consoles)
+		for (const Console& C : shop.consoles)
 		{
 			if (C.name == name)
 			{
@@ -309,7 +526,7 @@ public:
 				break;
 			}
 		}
-		for (const Monitor &C : shop.monitors)
+		for (const Monitor& C : shop.monitors)
 		{
 			if (C.name == name)
 			{
@@ -317,7 +534,7 @@ public:
 				break;
 			}
 		}
-		for (const Headset &C : shop.headsets)
+		for (const Headset& C : shop.headsets)
 		{
 			if (C.name == name)
 			{
@@ -325,7 +542,7 @@ public:
 				break;
 			}
 		}
-		for (const Game &C : shop.games)
+		for (const Game& C : shop.games)
 		{
 			if (C.name == name)
 			{
@@ -345,7 +562,7 @@ public:
 			switch (Cat)
 			{
 			case 1:
-				for (const Console &C : shop.consoles)
+				for (const Console& C : shop.consoles)
 				{
 					int min;
 					int max = 0;
@@ -372,7 +589,7 @@ public:
 				}
 				break;
 			case 2:
-				for (const Monitor &C : shop.monitors)
+				for (const Monitor& C : shop.monitors)
 				{
 					int min;
 					int max = 0;
@@ -399,7 +616,7 @@ public:
 				}
 				break;
 			case 3:
-				for (const Headset &C : shop.headsets)
+				for (const Headset& C : shop.headsets)
 				{
 					int min;
 					int max = 0;
@@ -426,7 +643,7 @@ public:
 				}
 				break;
 			case 4:
-				for (const Game &C : shop.games)
+				for (const Game& C : shop.games)
 				{
 					int min;
 					int max = 0;
@@ -454,12 +671,12 @@ public:
 				break;
 			}
 			cout << "Did you mean : ";
-			for (const string &M : Match)
+			for (const string& M : Match)
 			{
 				cout << M << " , ";
 			}
 			cout << endl
-				 << "if Yes, write the name correctly one last time: ";
+				<< "if Yes, write the name correctly one last time: ";
 			string finally;
 			cin >> finally;
 			name = finally;
@@ -482,7 +699,7 @@ public:
 		return 0;
 	}
 
-	int SearchByNameinCart(string &name)
+	int SearchByNameinCart(string& name)
 	{
 		struct item
 		{
@@ -491,7 +708,7 @@ public:
 			item(string Name, int n) : id(n), name(Name) {}
 		};
 		vector<item> matchs;
-		for (const Console &C : console)
+		for (const Console& C : console)
 		{
 			if (C.name == name)
 			{
@@ -499,7 +716,7 @@ public:
 				break;
 			}
 		}
-		for (const Monitor &C : monitor)
+		for (const Monitor& C : monitor)
 		{
 			if (C.name == name)
 			{
@@ -507,7 +724,7 @@ public:
 				break;
 			}
 		}
-		for (const Headset &C : headset)
+		for (const Headset& C : headset)
 		{
 			if (C.name == name)
 			{
@@ -515,7 +732,7 @@ public:
 				break;
 			}
 		}
-		for (const Game &C : game)
+		for (const Game& C : game)
 		{
 			if (C.name == name)
 			{
@@ -535,7 +752,7 @@ public:
 			switch (Cat)
 			{
 			case 1:
-				for (const Console &C : console)
+				for (const Console& C : console)
 				{
 					int min;
 					int max = 0;
@@ -562,7 +779,7 @@ public:
 				}
 				break;
 			case 2:
-				for (const Monitor &C : monitor)
+				for (const Monitor& C : monitor)
 				{
 					int min;
 					int max = 0;
@@ -589,7 +806,7 @@ public:
 				}
 				break;
 			case 3:
-				for (const Headset &C : headset)
+				for (const Headset& C : headset)
 				{
 					int min;
 					int max = 0;
@@ -616,7 +833,7 @@ public:
 				}
 				break;
 			case 4:
-				for (const Game &C : game)
+				for (const Game& C : game)
 				{
 					int min;
 					int max = 0;
@@ -644,12 +861,12 @@ public:
 				break;
 			}
 			cout << "Did you mean : ";
-			for (const string &M : Match)
+			for (const string& M : Match)
 			{
 				cout << M << " , ";
 			}
 			cout << endl
-				 << "if Yes, write the name correctly one last time: ";
+				<< "if Yes, write the name correctly one last time: ";
 			string finally;
 			cin >> finally;
 			name = finally;
@@ -974,19 +1191,19 @@ public:
 	void Totalprice()
 	{
 		int TotalPrice = 0;
-		for (const Console &C : console)
+		for (const Console& C : console)
 		{
 			TotalPrice += C.price * C.inventory;
 		}
-		for (const Monitor &C : monitor)
+		for (const Monitor& C : monitor)
 		{
 			TotalPrice += C.price * C.inventory;
 		}
-		for (const Headset &C : headset)
+		for (const Headset& C : headset)
 		{
 			TotalPrice += C.price * C.inventory;
 		}
-		for (const Game &C : game)
+		for (const Game& C : game)
 		{
 			TotalPrice += C.price * C.inventory;
 		}
@@ -1076,28 +1293,28 @@ public:
 		int TotalPrice = 0;
 		cout << "Shopping Cart---------------------------\n";
 		cout << "\n---Consoles---\n";
-		for (const Console &C : console)
+		for (const Console& C : console)
 		{
 			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Monitors---\n";
-		for (const Monitor &C : monitor)
+		for (const Monitor& C : monitor)
 		{
 			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Headsets---\n";
-		for (const Headset &C : headset)
+		for (const Headset& C : headset)
 		{
 			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Game---\n";
-		for (const Game &C : game)
+		for (const Game& C : game)
 		{
 			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
@@ -1151,7 +1368,7 @@ string ChangePassword()
 
 	return pass;
 }
-void EnterPassword(string &Password)
+void EnterPassword(string& Password)
 {
 	Password = "";
 	char ch;
@@ -1174,7 +1391,7 @@ void EnterPassword(string &Password)
 	cout << "\n";
 }
 
-void AdminMenu(string &Password, GamingShop &Shop)
+void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 {
 	int choice, Item_Type;
 	string Name;
@@ -1202,11 +1419,18 @@ void AdminMenu(string &Password, GamingShop &Shop)
 			num = static_cast<ItemType>(Item_Type);
 			cout << "Please write the name: ";
 			cin >> Name;
-			cout << "Please write the inventory: ";
-			cin >> Inventory;
-			cout << "Please write the price: ";
-			cin >> Price;
-			Shop.Add(Name, Inventory, Price, num);
+			if (Shop.CheckName(Name, num)==true)
+			{
+				Shop.Change(Name, num, AdminWallet);
+			}
+			else
+			{
+				cout << "Please write the inventory: ";
+				cin >> Inventory;
+				cout << "Please write the price: ";
+				cin >> Price;
+				Shop.Add(Name, Inventory, Price, num);
+			}
 			break;
 		case 2:
 			cout << "Please choose type of product or game (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
@@ -1234,7 +1458,7 @@ void AdminMenu(string &Password, GamingShop &Shop)
 	} while (true);
 }
 
-void CustomerMenu(ShoppingCart &Cart, GamingShop &Shop)
+void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop)
 {
 	char cho;
 
@@ -1413,7 +1637,7 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop &Shop)
 	} while (true);
 }
 
-void RoleSwitching(string &Password, GamingShop &Shop, ShoppingCart &Cart)
+void RoleSwitching(string& Password, GamingShop& Shop, ShoppingCart& Cart, Wallet& AdminWallet)
 {
 	int number, choice;
 	do
@@ -1430,7 +1654,7 @@ void RoleSwitching(string &Password, GamingShop &Shop, ShoppingCart &Cart)
 			{
 				if (Password == "admin1admin")
 				{
-					AdminMenu(Password, Shop);
+					AdminMenu(Password, Shop, AdminWallet);
 					ok = true;
 				}
 				else
@@ -1467,6 +1691,6 @@ int main()
 	GamingShop Shop;
 	ShoppingCart Cart(Shop, CustomerWallet);
 	string Password;
-	RoleSwitching(Password, Shop, Cart);
+	RoleSwitching(Password, Shop, Cart, AdminWallet);
 	return 0;
 }
