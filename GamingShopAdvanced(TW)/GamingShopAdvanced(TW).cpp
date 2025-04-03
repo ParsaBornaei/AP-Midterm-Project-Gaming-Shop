@@ -15,22 +15,23 @@ class Wallet
 {
 private:
 	double Value = 0;
-	double Charge_Cast;
-
+	double Charge;
 public:
 	void ChargeWallet()
 	{
 		cout << "Please enter the desired recharge amount: ";
-		cin >> Charge_Cast;
-		Value += Charge_Cast;
-		cout << "Your wallet has been recharged with " << Charge_Cast << ".\n\n";
+		cin >> Charge;
+		Value += Charge;
+		cout << "Your wallet has been recharged with " << Charge << ".\n\n";
 	}
-	void CostWallet(double &Changes)
+	void CostWallet(double& Changes)
 	{
-		Charge_Cast = Changes;
+		Value -= Changes;
+		cout << "The amount of " << Changes << "was deducted from your wallet." << "Your account balance: " << Value << "\n\n";
 	}
 	void RemainingWallet()
 	{
+		cout << "Your wallet balance: " << Value << "\n\n";
 	}
 };
 class Item
@@ -200,7 +201,7 @@ private:
 	vector<Game> game;
 
 public:
-	ShoppingCart(GamingShop &Shop) : shop(Shop) {}
+	ShoppingCart(GamingShop &Shop,Wallet &Cwallet) : shop(Shop) , wallet(Cwallet) {}
 	int calculatetotal(ItemType item)
 	{
 		int total = 0;
@@ -1203,7 +1204,7 @@ void AdminMenu(string &Password, GamingShop &Shop)
 	} while (true);
 }
 
-void CustomerMenu(ShoppingCart &Cart)
+void CustomerMenu(ShoppingCart &Cart, GamingShop& Shop)
 {
 	char cho;
 
@@ -1299,7 +1300,7 @@ void CustomerMenu(ShoppingCart &Cart)
 			}
 			break;
 		case '3':
-			// Customers_Money_Management(&ValueCustomer);
+			Shop.ShowDisplay();
 			break;
 		case '4':
 			// Payment(name, ValueGamingShop, ValueCustomer);
@@ -1396,7 +1397,7 @@ void RoleSwitching(string &Password, GamingShop &Shop, ShoppingCart &Cart)
 		else if (number == 2)
 		{
 			// Customer Role
-			CustomerMenu(Cart);
+			CustomerMenu(Cart,Shop);
 		}
 		else if (number == 3)
 		{
@@ -1407,9 +1408,9 @@ void RoleSwitching(string &Password, GamingShop &Shop, ShoppingCart &Cart)
 
 int main()
 {
-	GamingShop Shop;
-	ShoppingCart Cart(Shop);
 	Wallet AdminWallet, CustomerWallet;
+	GamingShop Shop;
+	ShoppingCart Cart(Shop,CustomerWallet);
 	string Password;
 	RoleSwitching(Password, Shop, Cart);
 	return 0;
