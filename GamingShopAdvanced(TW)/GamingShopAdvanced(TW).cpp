@@ -194,6 +194,7 @@ public:
 class ShoppingCart
 {
 private:
+	bool IsSync = true;
 	double totalprice;
 	Wallet &wallet;
 	GamingShop &shop;
@@ -1095,6 +1096,82 @@ public:
 		wallet.CostWallet(totalprice);
 	}
 
+	void Sync(string name,int n,int inventory)
+	{
+		bool ThereIs = false;
+		switch(n)
+		{
+			case 1:
+				for (const Console &C : shop.consoles)
+				{
+					if(C.name == name)
+					{
+						ThereIs = true;
+						if(C.inventory < inventory)
+						{
+							cout << "\033[31mThere is not enough product in the stock ( " << C.inventory << " ) Available.\033[0m\n";
+						}
+					}
+				}
+				if(!ThereIs)
+				{
+					cout << "\033[31mThis product is out of stock\033[0m\n";
+				}
+				break;
+			case 2:
+				for (const Monitor &C : shop.monitors)
+					{
+						if(C.name == name)
+						{
+							ThereIs = true;
+							if(C.inventory < inventory)
+							{
+								cout << "\033[31mThere is not enough product in the stock ( " << C.inventory << " ) Available.\033[0m\n";
+							}
+						}
+					}
+					if(!ThereIs)
+					{
+						cout << "\033[31mThis product is out of stock\033[0m\n";
+					}
+				break;
+			case 3:
+				for (const Headset &C : shop.headsets)
+					{
+						if(C.name == name)
+						{
+							ThereIs = true;
+							if(C.inventory < inventory)
+							{
+								cout << "\033[31mThere is not enough product in the stock ( " << C.inventory << " ) Available.\033[0m\n";
+							}
+						}
+					}
+					if(!ThereIs)
+					{
+						cout << "\033[31mThis product is out of stock\033[0m\n";
+					}
+				break;
+			case 4:
+				for (const Game &C : shop.games)
+					{
+						if(C.name == name)
+						{
+							ThereIs = true;
+							if(C.inventory < inventory)
+							{
+								cout << "\033[31mThere is not enough product in the stock ( " << C.inventory << " ) Available.\033[0m\n";
+							}
+						}
+					}
+					if(!ThereIs)
+					{
+						cout << "\033[31mThis product is out of stock\033[0m\n";
+					}
+				break;
+		}
+	}
+
 	void ShowCart()
 	{
 		int TotalPrice = 0;
@@ -1104,6 +1181,7 @@ public:
 		{
 			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
+			Sync(C.name,1,C.inventory);
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Monitors---\n";
@@ -1111,6 +1189,7 @@ public:
 		{
 			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
+			Sync(C.name,2,C.inventory);
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Headsets---\n";
@@ -1118,6 +1197,7 @@ public:
 		{
 			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
+			Sync(C.name,3,C.inventory);
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "\n---Game---\n";
@@ -1125,9 +1205,57 @@ public:
 		{
 			TotalPrice += C.price * C.inventory;
 			cout << " " << C.name << " (x" << C.inventory << ") - $" << C.price << endl;
+			Sync(C.name,4,C.inventory);
 			cout << "  --------------------------------------------  \n";
 		}
 		cout << "Fianl Price: $" << TotalPrice << endl;
+	}
+
+	bool isSync()
+	{
+		IsSync = true;
+		for(const Console& C : console)
+		{
+			for(const Console& I : shop.consoles)
+			{
+				if(C.name == I.name)
+				{
+					if(I.inventory < C.inventory) IsSync = false;
+				}
+			}
+		}
+		for(const Monitor& C : monitor)
+		{
+			for(const Monitor& I : shop.monitors)
+			{
+				if(C.name == I.name)
+				{
+					if(I.inventory < C.inventory) IsSync = false;
+				}
+			}
+		}
+		for(const Headset& C : headset)
+		{
+			for(const Headset& I : shop.headsets)
+			{
+				if(C.name == I.name)
+				{
+					if(I.inventory < C.inventory) IsSync = false;
+				}
+			}
+		}
+		for(const Game& C : game)
+		{
+			for(const Game& I : shop.games)
+			{
+				if(C.name == I.name)
+				{
+					if(I.inventory < C.inventory) IsSync = false;
+				}
+			}
+		}
+
+		return IsSync;
 	}
 };
 
@@ -1385,13 +1513,21 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop &Shop)
 				switch (Choice)
 				{
 				case '1':
-					char ch;
-					cout << "Are you sure ?(y/n)";
-					cin >> ch;
-					if (ch == 'y')
+					if(Cart.isSync())
 					{
-						Cart.Finalize();
-						loop = false;
+						char ch;
+						cout << "Are you sure ?(y/n)";
+						cin >> ch;
+						if (ch == 'y')
+						{
+							Cart.Finalize();
+							loop = false;
+						}
+					}
+					else 
+					{
+						cout << "This Action can't be done , some items are unavailable.\n";
+						cout << "Remove then or Wait for the shop to restock\n";
 					}
 					break;
 				case '2':
