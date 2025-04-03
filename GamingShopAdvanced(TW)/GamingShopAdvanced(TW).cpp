@@ -337,7 +337,7 @@ public:
 		if (matchs.size() == 0)
 		{
 			int Cat;
-			int best = -1;
+			int best = 0;
 			vector<string> Match;
 			cout << "We couldn't find any matchs,Enter the Category of the product your looing for:\n";
 			cout << "1) Consoles\n2) Monitors\n3) Headsets\n4) Games\n";
@@ -365,7 +365,7 @@ public:
 						Match.push_back(C.name);
 						best = max;
 					}
-					else if (max == best)
+					else if (max == best && max != 0)
 					{
 						Match.push_back(C.name);
 					}
@@ -392,7 +392,7 @@ public:
 						Match.push_back(C.name);
 						best = max;
 					}
-					else if (max == best)
+					else if (max == best && max != 0)
 					{
 						Match.push_back(C.name);
 					}
@@ -419,7 +419,7 @@ public:
 						Match.push_back(C.name);
 						best = max;
 					}
-					else if (max == best)
+					else if (max == best  && max != 0)
 					{
 						Match.push_back(C.name);
 					}
@@ -446,24 +446,36 @@ public:
 						Match.push_back(C.name);
 						best = max;
 					}
-					else if (max == best)
+					else if (max == best && max != 0)
 					{
 						Match.push_back(C.name);
 					}
 				}
 				break;
 			}
-			cout << "Did you mean : ";
-			for (const string &M : Match)
+			if(best != 0)
 			{
-				cout << M << " , ";
+				cout << "Did you mean : ";
+				for (const string &M : Match)
+				{
+					cout << M << "  ";
+				}
+				cout << "?(y/n)";
+				char yn;
+				cin >> yn;
+				if(yn == 'y')
+				{cout << endl
+					<< "if Yes, write the name correctly one last time: ";
+				string finally;
+				cin >> finally;
+				name = finally;
+				return Cat;}
+				else return 5;
 			}
-			cout << endl
-				 << "if Yes, write the name correctly one last time: ";
-			string finally;
-			cin >> finally;
-			name = finally;
-			return Cat;
+			else if(best == 0)
+			{
+				return 0;
+			}
 		}
 		if (matchs.size() == 1)
 		{
@@ -527,7 +539,7 @@ public:
 		if (matchs.size() == 0)
 		{
 			int Cat;
-			int best = -1;
+			int best = 0;
 			vector<string> Match;
 			cout << "We couldn't find any matchs,Enter the Category of the product your looing for:\n";
 			cout << "1) Consoles\n2) Monitors\n3) Headsets\n4) Games\n";
@@ -555,7 +567,7 @@ public:
 						Match.push_back(C.name);
 						best = max;
 					}
-					else if (max == best)
+					else if (max == best && max != 0)
 					{
 						Match.push_back(C.name);
 					}
@@ -582,7 +594,7 @@ public:
 						Match.push_back(C.name);
 						best = max;
 					}
-					else if (max == best)
+					else if (max == best && max != 0)
 					{
 						Match.push_back(C.name);
 					}
@@ -609,7 +621,7 @@ public:
 						Match.push_back(C.name);
 						best = max;
 					}
-					else if (max == best)
+					else if (max == best && max != 0)
 					{
 						Match.push_back(C.name);
 					}
@@ -636,24 +648,36 @@ public:
 						Match.push_back(C.name);
 						best = max;
 					}
-					else if (max == best)
+					else if (max == best && max != 0)
 					{
 						Match.push_back(C.name);
 					}
 				}
 				break;
 			}
-			cout << "Did you mean : ";
-			for (const string &M : Match)
+			if(best != 0)
 			{
-				cout << M << " , ";
+				cout << "Did you mean : ";
+				for (const string &M : Match)
+				{
+					cout << M << "  ";
+				}
+				cout << "?(y/n)";
+				char yn;
+				cin >> yn;
+				if(yn == 'y')
+				{cout << endl
+					<< "if Yes, write the name correctly one last time: ";
+				string finally;
+				cin >> finally;
+				name = finally;
+				return Cat;}
+				else return 5;
 			}
-			cout << endl
-				 << "if Yes, write the name correctly one last time: ";
-			string finally;
-			cin >> finally;
-			name = finally;
-			return Cat;
+			else if(best == 0)
+			{
+				return 0;
+			}
 		}
 		if (matchs.size() == 1)
 		{
@@ -1260,6 +1284,7 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop &Shop)
 				if (choice == 1)
 				{
 					string Name;
+					cout << "Enter the name: ";
 					cin >> Name;
 					choice = Cart.SearchByName(Name);
 					if (choice == 0)
@@ -1267,6 +1292,7 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop &Shop)
 						cout << "We couldn't find any";
 						break;
 					}
+					else if(choice == 5) break;
 					Cart.AddToCart(Name, choice);
 					cout << "Done!\n";
 					cout << "Do you want to add more?(y/n):";
@@ -1380,6 +1406,7 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop &Shop)
 							cout << "We couldn't find any matchs";
 							break;
 						}
+						else if(n == 5) break;
 						Cart.RemoveFromCart(name, n);
 						cout << "Do you want to Remove more?(y/n)";
 						char ch;
