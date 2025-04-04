@@ -1718,6 +1718,6 @@ int main()
 	GamingShop Shop;
 	ShoppingCart Cart(Shop, CustomerWallet);
 	string Password;
-	RoleSwitching(Password, Shop, Cart, AdminWallet);
+	RoleSwitching(Password, Shop, Cart, AdminWallet, CustomerWallet);
 	return 0;
 }
