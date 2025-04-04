@@ -943,7 +943,7 @@ public:
 						else
 						{
 							char ch;
-							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n): ";
 							cin >> ch;
 							if (ch == 'y')
 								continue;
@@ -978,7 +978,7 @@ public:
 						else
 						{
 							char ch;
-							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n): ";
 							cin >> ch;
 							if (ch == 'y')
 								continue;
@@ -1013,7 +1013,7 @@ public:
 						else
 						{
 							char ch;
-							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n): ";
 							cin >> ch;
 							if (ch == 'y')
 								continue;
@@ -1048,7 +1048,7 @@ public:
 						else
 						{
 							char ch;
-							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+							cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n): ";
 							cin >> ch;
 							if (ch == 'y')
 								continue;
@@ -1088,7 +1088,7 @@ public:
 						else
 						{
 							char ch;
-							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n)";
+							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
 							cin >> ch;
 							if (ch == 'y')
 								continue;
@@ -1121,7 +1121,7 @@ public:
 						else
 						{
 							char ch;
-							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n)";
+							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
 							cin >> ch;
 							if (ch == 'y')
 								continue;
@@ -1154,7 +1154,7 @@ public:
 						else
 						{
 							char ch;
-							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n)";
+							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
 							cin >> ch;
 							if (ch == 'y')
 								continue;
@@ -1187,7 +1187,7 @@ public:
 						else
 						{
 							char ch;
-							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n)";
+							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
 							cin >> ch;
 							if (ch == 'y')
 								continue;
@@ -1355,7 +1355,7 @@ string ChangePassword()
 	while (check == false)
 	{
 		char choice;
-		cout << "Do you want to change your password?(y/n) ";
+		cout << "Do you want to change your password?(y/n): ";
 		cin >> choice;
 		if (choice == 'y')
 		{
@@ -1471,7 +1471,7 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 			Shop.Financial_Value_Of_The_Store();
 			break;
 		case 5:
-			// GamingShop_Money_Management(&ValueGamingShop);
+			AdminWallet.RemainingWallet();
 			break;
 		case 6:
 			Password = ChangePassword();
@@ -1482,7 +1482,7 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 	} while (true);
 }
 
-void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop)
+void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 {
 	char cho;
 
@@ -1595,7 +1595,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop)
 			Shop.ShowDisplay();
 			break;
 		case '4':
-			// Payment(name, ValueGamingShop, ValueCustomer);
+			CustomerWallet.RemainingWallet();
 			break;
 		case '5':
 		{
