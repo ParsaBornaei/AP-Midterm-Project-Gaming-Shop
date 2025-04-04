@@ -241,10 +241,10 @@ public:
 	void GetData()
 	{
 		cout << "Products in stock\n-----------------------------------------------------\n";
-		cout << "1) Consoles(" << calculatetotal(ItemType::console) << endl;
-		cout << "2) Monitors(" << calculatetotal(ItemType::monitor) << endl;
-		cout << "3) Headsets(" << calculatetotal(ItemType::headset) << endl;
-		cout << "4) Games(" << calculatetotal(ItemType::game) << endl;
+		cout << "1) Consoles(" << calculatetotal(ItemType::console) <<")"<< endl;
+		cout << "2) Monitors(" << calculatetotal(ItemType::monitor) <<")"<< endl;
+		cout << "3) Headsets(" << calculatetotal(ItemType::headset) <<")"<< endl;
+		cout << "4) Games(" << calculatetotal(ItemType::game) <<")"<< endl;
 		cout << "-----------------------------------------------------\n";
 	}
 	void ShowData(int n)
@@ -1384,7 +1384,7 @@ public:
 	{
 		int unavailable = 0;
 		int TotalPrice = 0;
-		cout << "Shopping Cart---------------------------\n";
+
 		if(!console.empty())
 		{
 			cout << "\n---Consoles---\n";
@@ -1656,7 +1656,6 @@ void CustomerMenu(ShoppingCart &Cart, GamingShop &Shop)
 					}
 					else if(choice == 5) break;
 					Cart.AddToCart(Name, choice);
-					cout << "Done!\n";
 					cout << "Do you want to add more?(y/n):";
 					char Ch;
 					cin >> Ch;
