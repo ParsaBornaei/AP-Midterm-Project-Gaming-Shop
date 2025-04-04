@@ -1664,7 +1664,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 	} while (true);
 }
 
-void RoleSwitching(string& Password, GamingShop& Shop, ShoppingCart& Cart, Wallet& AdminWallet)
+void RoleSwitching(string& Password, GamingShop& Shop, ShoppingCart& Cart, Wallet& AdminWallet, Wallet& CustomerWallet)
 {
 	int number, choice;
 	do
@@ -1703,7 +1703,7 @@ void RoleSwitching(string& Password, GamingShop& Shop, ShoppingCart& Cart, Walle
 		else if (number == 2)
 		{
 			// Customer Role
-			CustomerMenu(Cart, Shop);
+			CustomerMenu(Cart, Shop, CustomerWallet);
 		}
 		else if (number == 3)
 		{
