@@ -1775,13 +1775,15 @@ void EnterPassword(string& Password)
 void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 {
 	int choice, Item_Type;
-	string Name;
+	string Name , select;
 	int Inventory;
 	double Price;
 	ItemType num;
 
 	do
 	{
+		cout << "\033c";
+		cout << "---Admin Menu---\n";
 		cout << "1) AddProduct" << endl;
 		cout << "2) RemoveGame_And_Product" << endl;
 		cout << "3) ShowInformations" << endl;
@@ -1828,7 +1830,38 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 			Shop.Financial_Value_Of_The_Store();
 			break;
 		case 5:
-			AdminWallet.RemainingWallet();
+			cout << "Welcome to your shop wallet account.\n";
+			while (true)
+			{
+				cout << "--------------------------------------------" << endl;
+				AdminWallet.RemainingWallet();
+				cout << "Do you want to top up your shop wallet?(y/n): ";
+				cin >> select;
+				if (select == "y")
+				{
+					select = "";
+					AdminWallet.ChargeWallet();
+				}
+				else if (select == "n")
+				{
+					select = "";
+					cout << "Do you want to return to the admin menu?(y/n): ";
+					cin >> select;
+					if (select == "y")
+					{
+						break;
+					}
+					else if (select == "n")
+					{
+						continue;
+					}
+					else
+					{
+						cout << "Your selection is not defined. Please try again! " << endl;
+					}
+				}
+			}
+			cout << "--------------------------------------------" << endl;
 			break;
 		case 6:
 			Password = ChangePassword();
@@ -1842,6 +1875,7 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 {
 	char cho;
+	string select;
 
 	do
 	{
@@ -1957,7 +1991,38 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 			cin.get();
 			break;
 		case '4':
-			CustomerWallet.RemainingWallet();
+			cout << "Welcome to your wallet account.\n";
+			while (true)
+			{
+				cout << "--------------------------------------------" << endl;
+				CustomerWallet.RemainingWallet();
+				cout << "Do you want to top up your wallet?(y/n): ";
+				cin >> select;
+				if (select == "y")
+				{
+					select = "";
+					CustomerWallet.ChargeWallet();
+				}
+				else if (select == "n")
+				{
+					select = "";
+					cout << "Do you want to return to the customer menu?(y/n): ";
+					cin >> select;
+					if (select == "y")
+					{
+						break;
+					}
+					else if (select == "n")
+					{
+						continue;
+					}
+					else 
+					{
+						cout << "Your selection is not defined. Please try again! " << endl;
+					}
+				}
+			}
+			cout << "--------------------------------------------" << endl;
 			break;
 		case '5':
 		{
@@ -1976,7 +2041,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 					if(Cart.isSync())
 					{
 						char ch;
-						cout << "Are you sure ?(y/n)";
+						cout << "Are you sure ?(y/n): ";
 						cin >> ch;
 						if (ch == 'y')
 						{
@@ -2005,7 +2070,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 						}
 						else if(n == 5) break;
 						Cart.RemoveFromCart(name, n);
-						cout << "Do you want to Remove more?(y/n)";
+						cout << "Do you want to Remove more?(y/n): ";
 						char ch;
 						cin >> ch;
 						if (ch == 'y') continue;
@@ -2014,7 +2079,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 					break;
 				case '3':
 				{
-					cout << "Are you sure?(y/n)";
+					cout << "Are you sure?(y/n): ";
 					char ch;
 					cin >> ch;
 					if (ch == 'y') Cart.ClearCart();
