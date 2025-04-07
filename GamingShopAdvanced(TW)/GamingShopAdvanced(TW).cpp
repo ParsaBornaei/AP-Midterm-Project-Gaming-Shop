@@ -29,11 +29,15 @@ public:
 	void CostWallet(double& Changes)
 	{
 		Value -= Changes;
-		cout << "The amount of " << Changes << "was deducted from your wallet." << "Your account balance: " << Value << "\n\n";
+		cout << "The amount of " << Changes << " was deducted from your wallet." << "Your account balance: " << Value << "\n\n";
 	}
 	void RemainingWallet()
 	{
 		cout << "Your wallet balance: " << Value << "\n\n";
+	}
+	void AddMoney(double Money)
+	{
+		Value += Money;
 	}
 };
 class Item
@@ -152,6 +156,7 @@ public:
 	{
 		int choice, increase;
 		double NewPrice, Result;
+		bool Validation ;
 		switch (itemType)
 		{
 		case ItemType::console:
@@ -167,10 +172,32 @@ public:
 					case 1:
 						cout << "Write the desired number: ";
 						cin >> increase;
-						Result = abs(consoles[i].inventory - increase) * (7 / 10);
+						if (increase <= 0)
+						{
+							Validation = true;
+							while (Validation)
+							{
+
+
+								cout << "Please enter a positive number: ";
+								cin >> increase;
+								if (increase > 0)
+								{
+									Validation = false;
+								}
+								else
+								{
+									continue;
+								}
+							}
+						}
+						Result = double(increase)*0.7*double(consoles[i].price);
 						AWallet.CostWallet(Result);
 						consoles[i].inventory += increase;
 						cout << "The number of the desired product was successfully increased." << "\n\n";
+						cout << "Press enter to go back \n";
+						cin.ignore();
+						cin.get();
 						return;
 						break;
 					case 2:
@@ -178,6 +205,9 @@ public:
 						cin >> NewPrice;
 						consoles[i].price = NewPrice;
 						cout << "New product price: " << consoles[i].price << "\n\n";
+						cout << "Press enter to go back \n";
+						cin.ignore();
+						cin.get();
 						return;
 						break;
 					case 3:
@@ -206,10 +236,32 @@ public:
 					case 1:
 						cout << "Write the desired number: ";
 						cin >> increase;
-						Result = abs(monitors[i].inventory - increase) * (7 / 10);
+						if (increase <= 0)
+						{
+							Validation = true;
+							while (Validation)
+							{
+
+
+								cout << "Please enter a positive number: ";
+								cin >> increase;
+								if (increase > 0)
+								{
+									Validation = false;
+								}
+								else
+								{
+									continue;
+								}
+							}
+						}
+						Result = double(increase) * 0.7 * double(monitors[i].price);
 						AWallet.CostWallet(Result);
 						monitors[i].inventory += increase;
 						cout << "The number of the desired product was successfully increased." << "\n\n";
+						cout << "Press enter to go back \n";
+						cin.ignore();
+						cin.get();
 						return;
 						break;
 					case 2:
@@ -217,6 +269,9 @@ public:
 						cin >> NewPrice;
 						monitors[i].price = NewPrice;
 						cout << "New product price: " << monitors[i].price << "\n\n";
+						cout << "Press enter to go back \n";
+						cin.ignore();
+						cin.get();
 						return;
 						break;
 					case 3:
@@ -245,10 +300,32 @@ public:
 					case 1:
 						cout << "Write the desired number: ";
 						cin >> increase;
-						Result = abs(headsets[i].inventory - increase) * (7 / 10);
+						if (increase <= 0)
+						{
+							Validation = true;
+							while (Validation)
+							{
+
+
+								cout << "Please enter a positive number: ";
+								cin >> increase;
+								if (increase > 0)
+								{
+									Validation = false;
+								}
+								else
+								{
+									continue;
+								}
+							}
+						}
+						Result = double(increase) * 0.7 * double(headsets[i].price);
 						AWallet.CostWallet(Result);
 						headsets[i].inventory += increase;
 						cout << "The number of the desired product was successfully increased." << "\n\n";
+						cout << "Press enter to go back \n";
+						cin.ignore();
+						cin.get();
 						return;
 						break;
 					case 2:
@@ -256,6 +333,9 @@ public:
 						cin >> NewPrice;
 						headsets[i].price = NewPrice;
 						cout << "New product price: " << headsets[i].price << "\n\n";
+						cout << "Press enter to go back \n";
+						cin.ignore();
+						cin.get();
 						return;
 						break;
 					case 3:
@@ -283,10 +363,32 @@ public:
 					case 1:
 						cout << "Write the desired number: ";
 						cin >> increase;
-						Result = abs(games[i].inventory - increase) * (7 / 10);
+						if (increase <= 0)
+						{
+							Validation = true;
+							while (Validation)
+							{
+
+
+								cout << "Please enter a positive number: ";
+								cin >> increase;
+								if (increase > 0)
+								{
+									Validation = false;
+								}
+								else
+								{
+									continue;
+								}
+							}
+						}
+						Result = double(increase) * 0.7 * double(games[i].price);
 						AWallet.CostWallet(Result);
 						games[i].inventory += increase;
 						cout << "The number of the desired product was successfully increased." << "\n\n";
+						cout << "Press enter to go back \n";
+						cin.ignore();
+						cin.get();
 						return;
 						break;
 					case 2:
@@ -294,6 +396,9 @@ public:
 						cin >> NewPrice;
 						games[i].price = NewPrice;
 						cout << "New product price: " << games[i].price << "\n\n";
+						cout << "Press enter to go back \n";
+						cin.ignore();
+						cin.get();
 						return;
 						break;
 					case 3:
@@ -702,7 +807,27 @@ public:
 		if (matchs.size() > 1)
 		{
 			cout << "there are 2 or more products found with this name\nChoose your Category:\n";
-			cout << "1) Consoles\n2) Monitors\n3) Headsets\n4) Games\n";
+			for (item I : matchs)
+			{
+				switch (I.id)
+				{
+				case 1:
+					cout << "1) Console\n";
+					break;
+				case 2:
+					cout << "2) Monitor\n";
+					break;
+				case 3:
+					cout << "3) Headset\n";
+					break;
+				case 4:
+					cout << "4) Game\n";
+					break;
+				default:
+					cout << ":/";
+					break;
+				}
+			}
 			int n;
 			cin >> n;
 			return n;
@@ -904,7 +1029,27 @@ public:
 		if (matchs.size() > 1)
 		{
 			cout << "there are 2 or more products found with this name\nChoose your Category:\n";
-			cout << "1) Consoles\n2) Monitors\n3) Headsets\n4) Games\n";
+			for (item I : matchs)
+			{
+				switch (I.id)
+				{
+				case 1:
+					cout << "1) Console\n";
+					break;
+				case 2:
+					cout << "2) Monitor\n";
+					break;
+				case 3:
+					cout << "3) Headset\n";
+					break;
+				case 4:
+					cout << "4) Game\n";
+					break;
+				default:
+					cout << ":/";
+					break;
+				}
+			}
 			int n;
 			cin >> n;
 			return n;
@@ -938,19 +1083,27 @@ public:
 								cout << "You have " << C.inventory << " of this product in your Cart\n";
 								cout << "How many do you want to add? (You can buy " << limit << " more)\n";
 								cin >> amount ;
-								if(amount<= limit)
+								if (amount > 0)
 								{
-									C.inventory += amount;
-									cout << "done!\n";
-									break;
+									if (amount <= limit)
+									{
+										C.inventory += amount;
+										cout << "done!\n";
+										break;
+									}
+									else
+									{
+										char ch;
+										cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+										cin >> ch;
+										if (ch == 'y') continue;
+										else break;
+									}
 								}
 								else
 								{
-									char ch;
-									cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
-									cin >> ch;
-									if (ch == 'y') continue;
-									else break;		
+									cout << "You Can't have a negative number of a product!\n";
+									break;
 								}
 							}
 						}
@@ -961,7 +1114,7 @@ public:
 						{
 							cout << "How many do you want? (" << shop.consoles[i].inventory << " Available)\n";
 							cin >> amount;
-							if(amount != 0)
+							if(amount > 0)
 							{
 								if (amount < shop.consoles[i].inventory)
 								{
@@ -1006,19 +1159,27 @@ public:
 								cout << "You have " << C.inventory << " of this product in your Cart\n";
 								cout << "How many do you want to add? (You can buy " << limit << " more)\n";
 								cin >> amount ;
-								if(amount<= limit)
+								if (amount > 0)
 								{
-									C.inventory += amount;
-									cout << "done!\n";
-									break;
+									if (amount <= limit)
+									{
+										C.inventory += amount;
+										cout << "done!\n";
+										break;
+									}
+									else
+									{
+										char ch;
+										cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+										cin >> ch;
+										if (ch == 'y') continue;
+										else break;
+									}
 								}
 								else
 								{
-									char ch;
-									cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
-									cin >> ch;
-									if (ch == 'y') continue;
-									else break;		
+									cout << "You Can't have a negative number of a product!\n";
+									break;
 								}
 							}
 						}
@@ -1029,7 +1190,7 @@ public:
 						{
 							cout << "How many do you want? (" << shop.monitors[i].inventory << " Available)\n";
 							cin >> amount;
-							if(amount != 0)
+							if(amount > 0)
 							{
 								if (amount < shop.monitors[i].inventory)
 								{
@@ -1073,19 +1234,27 @@ public:
 								cout << "You have " << C.inventory << " of this product in your Cart\n";
 								cout << "How many do you want to add? (You can buy " << limit << " more)\n";
 								cin >> amount ;
-								if(amount<= limit)
+								if (amount > 0)
 								{
-									C.inventory += amount;
-									cout << "done!\n";
-									break;
+									if (amount <= limit)
+									{
+										C.inventory += amount;
+										cout << "done!\n";
+										break;
+									}
+									else
+									{
+										char ch;
+										cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+										cin >> ch;
+										if (ch == 'y') continue;
+										else break;
+									}
 								}
 								else
 								{
-									char ch;
-									cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
-									cin >> ch;
-									if (ch == 'y') continue;
-									else break;		
+									cout << "You Can't have a negative number of a product!\n";
+									break;
 								}
 							}
 						}
@@ -1096,7 +1265,7 @@ public:
 						{
 							cout << "How many do you want? (" << shop.headsets[i].inventory << " Available)\n";
 							cin >> amount;
-							if(amount != 0)
+							if(amount > 0)
 							{
 								if (amount < shop.headsets[i].inventory)
 								{
@@ -1140,19 +1309,27 @@ public:
 								cout << "You have " << C.inventory << " of this product in your Cart\n";
 								cout << "How many do you want to add? (You can buy " << limit << " more)\n";
 								cin >> amount ;
-								if(amount<= limit)
+								if (amount > 0)
 								{
-									C.inventory += amount;
-									cout << "done!\n";
-									break;
+									if (amount <= limit)
+									{
+										C.inventory += amount;
+										cout << "done!\n";
+										break;
+									}
+									else
+									{
+										char ch;
+										cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
+										cin >> ch;
+										if (ch == 'y') continue;
+										else break;
+									}
 								}
 								else
 								{
-									char ch;
-									cout << "Your desire exceeded our availability!!\nDo you want to try again?(y/n)";
-									cin >> ch;
-									if (ch == 'y') continue;
-									else break;		
+									cout << "You Can't have a negative number of a product!\n";
+									break;
 								}
 							}
 						}
@@ -1163,7 +1340,7 @@ public:
 						{
 							cout << "How many do you want? (" << shop.games[i].inventory << " Available)\n";
 							cin >> amount;
-							if(amount != 0)
+							if(amount > 0)
 							{
 								if (amount < shop.games[i].inventory)
 								{
@@ -1207,23 +1384,31 @@ public:
 					{
 						cout << "How many do you want to remove? (" << console[i].inventory << " In your Cart)\n";
 						cin >> amount;
-						if (amount < console[i].inventory)
+						if (amount > 0)
 						{
-							console[i].inventory -= amount;
-							break;
-						}
-						else if (amount == console[i].inventory)
-						{
-							console.erase(console.begin() + i);
-							break;
+							if (amount < console[i].inventory)
+							{
+								console[i].inventory -= amount;
+								break;
+							}
+							else if (amount == console[i].inventory)
+							{
+								console.erase(console.begin() + i);
+								break;
+							}
+							else
+							{
+								char ch;
+								cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
+								cin >> ch;
+								if (ch == 'y') continue;
+								else break;
+							}
 						}
 						else
 						{
-							char ch;
-							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
-							cin >> ch;
-							if (ch == 'y') continue;
-							else break;
+							cout << "this action can't be done!\n";
+							break;
 						}
 					}
 				}
@@ -1238,23 +1423,31 @@ public:
 					{
 						cout << "How many do you want to remove? (" << monitor[i].inventory << " In your Cart)\n";
 						cin >> amount;
-						if (amount < monitor[i].inventory)
+						if (amount > 0)
 						{
-							monitor[i].inventory -= amount;
-							break;
-						}
-						else if (amount == monitor[i].inventory)
-						{
-							monitor.erase(monitor.begin() + i);
-							break;
+							if (amount < monitor[i].inventory)
+							{
+								monitor[i].inventory -= amount;
+								break;
+							}
+							else if (amount == monitor[i].inventory)
+							{
+								monitor.erase(monitor.begin() + i);
+								break;
+							}
+							else
+							{
+								char ch;
+								cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
+								cin >> ch;
+								if (ch == 'y') continue;
+								else break;
+							}
 						}
 						else
 						{
-							char ch;
-							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
-							cin >> ch;
-							if (ch == 'y') continue;
-							else break;
+							cout << "this action can't be done!\n";
+							break;
 						}
 					}
 				}
@@ -1269,23 +1462,31 @@ public:
 					{
 						cout << "How many do you want to remove? (" << headset[i].inventory << " In your Cart)\n";
 						cin >> amount;
-						if (amount < headset[i].inventory)
+						if (amount > 0)
 						{
-							headset[i].inventory -= amount;
-							break;
-						}
-						else if (amount == headset[i].inventory)
-						{
-							headset.erase(headset.begin() + i);
-							break;
+							if (amount < headset[i].inventory)
+							{
+								headset[i].inventory -= amount;
+								break;
+							}
+							else if (amount == headset[i].inventory)
+							{
+								headset.erase(headset.begin() + i);
+								break;
+							}
+							else
+							{
+								char ch;
+								cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
+								cin >> ch;
+								if (ch == 'y') continue;
+								else break;
+							}
 						}
 						else
 						{
-							char ch;
-							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
-							cin >> ch;
-							if (ch == 'y') continue;
-							else break;
+							cout << "this action can't be done!\n";
+							break;
 						}
 					}
 				}
@@ -1300,23 +1501,31 @@ public:
 					{
 						cout << "How many do you want to remove? (" << game[i].inventory << " In your Cart)\n";
 						cin >> amount;
-						if (amount < game[i].inventory)
+						if (amount > 0)
 						{
-							game[i].inventory -= amount;
-							break;
-						}
-						else if (amount == game[i].inventory)
-						{
-							game.erase(game.begin() + i);
-							break;
+							if (amount < game[i].inventory)
+							{
+								game[i].inventory -= amount;
+								break;
+							}
+							else if (amount == game[i].inventory)
+							{
+								game.erase(game.begin() + i);
+								break;
+							}
+							else
+							{
+								char ch;
+								cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
+								cin >> ch;
+								if (ch == 'y') continue;
+								else break;
+							}
 						}
 						else
 						{
-							char ch;
-							cout << "you don't have this much in your cart!, Do you want to try agin?(y/n): ";
-							cin >> ch;
-							if (ch == 'y') continue;
-							else break;
+							cout << "this action can't be done!\n";
+							break;
 						}
 					}
 				}
@@ -1357,7 +1566,7 @@ public:
 		}
 		totalprice = TotalPrice;
 	}
-	void Finalize()
+	void Finalize(Wallet& AWallet)
 	{
 		Totalprice();
 		for (Console C : console)
@@ -1434,6 +1643,7 @@ public:
 		}
 		ClearCart();
 		wallet.CostWallet(totalprice);
+		AWallet.AddMoney(totalprice);
 	}
 
 	void Sync(string name,int n,int inventory)
@@ -1660,14 +1870,14 @@ public:
 
 	bool isSync()
 	{
-		IsSync = true;
+		IsSync = false;
 		for(const Console& C : console)
 		{
 			for(const Console& I : shop.consoles)
 			{
 				if(C.name == I.name)
 				{
-					if(I.inventory < C.inventory) IsSync = false;
+					if(I.inventory >= C.inventory) IsSync = true;
 				}
 			}
 		}
@@ -1677,7 +1887,7 @@ public:
 			{
 				if(C.name == I.name)
 				{
-					if(I.inventory < C.inventory) IsSync = false;
+					if(I.inventory >= C.inventory) IsSync = true;
 				}
 			}
 		}
@@ -1687,7 +1897,7 @@ public:
 			{
 				if(C.name == I.name)
 				{
-					if(I.inventory < C.inventory) IsSync = false;
+					if(I.inventory >= C.inventory) IsSync = true;
 				}
 			}
 		}
@@ -1697,7 +1907,7 @@ public:
 			{
 				if(C.name == I.name)
 				{
-					if(I.inventory < C.inventory) IsSync = false;
+					if(I.inventory >= C.inventory) IsSync = true;
 				}
 			}
 		}
@@ -1825,9 +2035,15 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 			break;
 		case 3:
 			Shop.ShowDisplay();
+			cout << "Press enter to go back \n";
+			cin.ignore();
+			cin.get();
 			break;
 		case 4:
 			Shop.Financial_Value_Of_The_Store();
+			cout << "Press enter to go back \n";
+			cin.ignore();
+			cin.get();
 			break;
 		case 5:
 			cout << "Welcome to your shop wallet account.\n";
@@ -1862,9 +2078,15 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 				}
 			}
 			cout << "--------------------------------------------" << endl;
+			cout << "Press enter to go back \n";
+			cin.ignore();
+			cin.get();
 			break;
 		case 6:
 			Password = ChangePassword();
+			cout << "Press enter to go back \n";
+			cin.ignore();
+			cin.get();
 			break;
 		case 7:
 			return;
@@ -1872,7 +2094,7 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 	} while (true);
 }
 
-void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
+void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,Wallet& AdminWallet)
 {
 	char cho;
 	string select;
@@ -2045,7 +2267,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 						cin >> ch;
 						if (ch == 'y')
 						{
-							Cart.Finalize();
+							Cart.Finalize(AdminWallet);
 							loop = false;
 						}
 					}
@@ -2053,6 +2275,9 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet)
 					{
 						cout << "This Action can't be done , some items are unavailable.\n";
 						cout << "Remove them or Wait for the shop to restock\n";
+						cout << "Press Enter to go back\n";
+						cin.ignore();
+						cin.get();
 					}
 					break;
 				case '2':
@@ -2138,7 +2363,7 @@ void RoleSwitching(string& Password, GamingShop& Shop, ShoppingCart& Cart, Walle
 		else if (number == 2)
 		{
 			// Customer Role
-			CustomerMenu(Cart, Shop, CustomerWallet);
+			CustomerMenu(Cart, Shop, CustomerWallet,AdminWallet);
 		}
 		else if (number == 3)
 		{
