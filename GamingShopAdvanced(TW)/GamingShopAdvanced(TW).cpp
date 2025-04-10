@@ -33,11 +33,15 @@ public:
 	}
 	void RemainingWallet()
 	{
-		cout << "\x1b[34mYour wallet balance: \x1b[0m" << Value << "\n\n";
+		cout << "\x1b[34mYour wallet balance: \x1b[0m" << Value << "$\n\n";
 	}
 	void AddMoney(double Money)
 	{
 		Value += Money;
+	}
+	double Balance()
+	{
+		return Value;
 	}
 };
 class Item
@@ -461,6 +465,8 @@ public:
 			return false;
 		}
 		}
+
+		return false;
 	}
 	void Financial_Value_Of_The_Store()
 	{
@@ -480,32 +486,32 @@ public:
 		{
 			Value += (GamE.price) * (GamE.inventory);
 		}
-		cout << "Total value gaming shop: " << Value << "\n\n";
+		cout << "Total value of the gaming shop: " << Value << "\n\n";
 	}
 	void ShowDisplay()
 	{
 		for (Console ConS : consoles)
 		{
 			cout << "Console\nName: " << ConS.name << endl
-				<< "Inventory: " << ConS.inventory << endl
+				<< "Available Stock: " << ConS.inventory << endl
 				<< "Price: " << ConS.price << "\n\n";
 		}
 		for (Monitor MonT : monitors)
 		{
 			cout << "Monitor\nName: " << MonT.name << endl
-				<< "Inventory: " << MonT.inventory << endl
+				<< "Available Stock: " << MonT.inventory << endl
 				<< "Price: " << MonT.price << "\n\n";
 		}
 		for (Headset HeaD : headsets)
 		{
 			cout << "Headset\nName: " << HeaD.name << endl
-				<< "Inventory: " << HeaD.inventory << endl
+				<< "Available Stock: " << HeaD.inventory << endl
 				<< "Price: " << HeaD.price << "\n\n";
 		}
 		for (Game GamE : games)
 		{
 			cout << "Game\nName: " << GamE.name << endl
-				<< "Inventory: " << GamE.inventory << endl
+				<< "Available Stock: " << GamE.inventory << endl
 				<< "Price: " << GamE.price << "\n\n";
 		}
 	}
@@ -575,7 +581,7 @@ public:
 			cout << "Consoles-------\n";
 			for (Console ConS : shop.consoles)
 			{
-				cout << "Console\nName: " << ConS.name << endl
+				cout << "Name: " << ConS.name << endl
 					<< "Inventory: " << ConS.inventory << endl
 					<< "Price: " << ConS.price << "\n\n";
 			}
@@ -585,7 +591,7 @@ public:
 			cout << "Monitors-------\n";
 			for (Monitor MonT : shop.monitors)
 			{
-				cout << "Monitor\nName: " << MonT.name << endl
+				cout << "Name: " << MonT.name << endl
 					<< "Inventory: " << MonT.inventory << endl
 					<< "Price: " << MonT.price << "\n\n";
 			}
@@ -595,7 +601,7 @@ public:
 			cout << "Headsets-------\n";
 			for (Headset HeaD : shop.headsets)
 			{
-				cout << "Headset\nName: " << HeaD.name << endl
+				cout << "Name: " << HeaD.name << endl
 					<< "Inventory: " << HeaD.inventory << endl
 					<< "Price: " << HeaD.price << "\n\n";
 			}
@@ -605,7 +611,7 @@ public:
 			cout << "Games----------\n";
 			for (Game GamE : shop.games)
 			{
-				cout << "Game\nName: " << GamE.name << endl
+				cout << "Name: " << GamE.name << endl
 					<< "Inventory: " << GamE.inventory << endl
 					<< "Price: " << GamE.price << "\n\n";
 			}
@@ -660,7 +666,7 @@ public:
 			int Cat;
 			int best = 0;
 			vector<string> Match;
-			cout << "We couldn't find any matchs,Enter the Category of the product your looing for:\n";
+			cout << "We couldn't find any matchs,Enter the Category of the product your looking for:\n";
 			cout << "1) Consoles\n2) Monitors\n3) Headsets\n4) Games\n";
 			cin >> Cat;
 			switch (Cat)
@@ -882,7 +888,7 @@ public:
 			int Cat;
 			int best = 0;
 			vector<string> Match;
-			cout << "We couldn't find any matchs,Enter the Category of the product your looing for:\n";
+			cout << "We couldn't find any matchs,Enter the Category of the product your looking for:\n";
 			cout << "1) Consoles\n2) Monitors\n3) Headsets\n4) Games\n";
 			cin >> Cat;
 			switch (Cat)
@@ -1017,6 +1023,9 @@ public:
 			}
 			else if(best == 0)
 			{
+				cout << "No similar item found...\n";
+				cin.ignore();
+				cin.get();
 				return 0;
 			}
 		}
@@ -1101,7 +1110,6 @@ public:
 								}
 								else
 								{
-									cout << "You Can't have a negative number of a product!\n";
 									break;
 								}
 							}
@@ -1177,7 +1185,6 @@ public:
 								}
 								else
 								{
-									cout << "You Can't have a negative number of a product!\n";
 									break;
 								}
 							}
@@ -1252,7 +1259,6 @@ public:
 								}
 								else
 								{
-									cout << "You Can't have a negative number of a product!\n";
 									break;
 								}
 							}
@@ -1327,7 +1333,6 @@ public:
 								}
 								else
 								{
-									cout << "You Can't have a negative number of a product!\n";
 									break;
 								}
 							}
@@ -1568,81 +1573,88 @@ public:
 	void Finalize(Wallet& AWallet)
 	{
 		Totalprice();
-		for (Console C : console)
+		if(totalprice <= wallet.Balance())
 		{
-			for (int i = 0; i < shop.consoles.size(); i++)
+			for (Console C : console)
 			{
-				if (C.name == shop.consoles[i].name)
+				for (int i = 0; i < shop.consoles.size(); i++)
 				{
-					if (C.inventory < shop.consoles[i].inventory)
+					if (C.name == shop.consoles[i].name)
 					{
-						shop.consoles[i].inventory -= C.inventory;
-					}
-					else if (C.inventory == shop.consoles[i].inventory)
-					{
-						shop.consoles.erase(shop.consoles.begin() + i);
-						shop.consoles.shrink_to_fit();
+						if (C.inventory < shop.consoles[i].inventory)
+						{
+							shop.consoles[i].inventory -= C.inventory;
+						}
+						else if (C.inventory == shop.consoles[i].inventory)
+						{
+							shop.consoles.erase(shop.consoles.begin() + i);
+							shop.consoles.shrink_to_fit();
+						}
 					}
 				}
 			}
-		}
-		for (Monitor C : monitor)
-		{
-			for (int i = 0; i < shop.monitors.size(); i++)
+			for (Monitor C : monitor)
 			{
-				if (C.name == shop.monitors[i].name)
+				for (int i = 0; i < shop.monitors.size(); i++)
 				{
-					if (C.inventory < shop.monitors[i].inventory)
+					if (C.name == shop.monitors[i].name)
 					{
-						shop.monitors[i].inventory -= C.inventory;
-					}
-					else if (C.inventory == shop.monitors[i].inventory)
-					{
-						shop.monitors.erase(shop.monitors.begin() + i);
-						shop.monitors.shrink_to_fit();
+						if (C.inventory < shop.monitors[i].inventory)
+						{
+							shop.monitors[i].inventory -= C.inventory;
+						}
+						else if (C.inventory == shop.monitors[i].inventory)
+						{
+							shop.monitors.erase(shop.monitors.begin() + i);
+							shop.monitors.shrink_to_fit();
+						}
 					}
 				}
 			}
-		}
-		for (Headset C : headset)
-		{
-			for (int i = 0; i < shop.headsets.size(); i++)
+			for (Headset C : headset)
 			{
-				if (C.name == shop.headsets[i].name)
+				for (int i = 0; i < shop.headsets.size(); i++)
 				{
-					if (C.inventory < shop.headsets[i].inventory)
+					if (C.name == shop.headsets[i].name)
 					{
-						shop.headsets[i].inventory -= C.inventory;
-					}
-					else if (C.inventory == shop.headsets[i].inventory)
-					{
-						shop.headsets.erase(shop.headsets.begin() + i);
-						shop.headsets.shrink_to_fit();
+						if (C.inventory < shop.headsets[i].inventory)
+						{
+							shop.headsets[i].inventory -= C.inventory;
+						}
+						else if (C.inventory == shop.headsets[i].inventory)
+						{
+							shop.headsets.erase(shop.headsets.begin() + i);
+							shop.headsets.shrink_to_fit();
+						}
 					}
 				}
 			}
-		}
-		for (Game C : game)
-		{
-			for (int i = 0; i < shop.games.size(); i++)
+			for (Game C : game)
 			{
-				if (C.name == shop.games[i].name)
+				for (int i = 0; i < shop.games.size(); i++)
 				{
-					if (C.inventory < shop.games[i].inventory)
+					if (C.name == shop.games[i].name)
 					{
-						shop.games[i].inventory -= C.inventory;
-					}
-					else if (C.inventory == shop.games[i].inventory)
-					{
-						shop.games.erase(shop.games.begin() + i);
-						shop.games.shrink_to_fit();
+						if (C.inventory < shop.games[i].inventory)
+						{
+							shop.games[i].inventory -= C.inventory;
+						}
+						else if (C.inventory == shop.games[i].inventory)
+						{
+							shop.games.erase(shop.games.begin() + i);
+							shop.games.shrink_to_fit();
+						}
 					}
 				}
 			}
+			ClearCart();
+			wallet.CostWallet(totalprice);
+			AWallet.AddMoney(totalprice);
 		}
-		ClearCart();
-		wallet.CostWallet(totalprice);
-		AWallet.AddMoney(totalprice);
+		else
+		{
+			cout << "you don't have enough money\n";
+		}
 	}
 
 	void Sync(string name,int n,int inventory)
@@ -1981,7 +1993,7 @@ void EnterPassword(string& Password)
 	cout << "\n";
 }
 
-void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
+void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWallet)
 {
 	int choice, Item_Type;
 	string Name , select;
@@ -1993,11 +2005,11 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 	{
 		cout << "\033c";
 		cout << "---Admin Menu---\n";
-		cout << "1) AddProduct" << endl;
-		cout << "2) RemoveGame_And_Product" << endl;
-		cout << "3) ShowInformations" << endl;
-		cout << "4) CalculateTotalValue" << endl;
-		cout << "5) GamingShop_Money_Management" << endl;
+		cout << "1) Add Product" << endl;
+		cout << "2) Remove Product" << endl;
+		cout << "3) Show Informations" << endl;
+		cout << "4) Calculate Total Value" << endl;
+		cout << "5) GamingShop Money Management" << endl;
 		cout << "6) Change the password" << endl;
 		cout << "7) LogOut" << endl;
 		cin >> choice;
@@ -2017,7 +2029,7 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 			}
 			else
 			{
-				cout << "Please write the inventory: ";
+				cout << "How many do you want to Add: ";
 				cin >> Inventory;
 				cout << "Please write the price: ";
 				cin >> Price;
@@ -2059,21 +2071,11 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 				}
 				else if (select == "n")
 				{
-					select = "";
-					cout << "Do you want to return to the admin menu?(y/n): ";
-					cin >> select;
-					if (select == "y")
-					{
-						break;
-					}
-					else if (select == "n")
-					{
-						continue;
-					}
-					else
-					{
-						cout << "Your selection is not defined. Please try again! " << endl;
-					}
+					break;
+				}
+				else
+				{
+					cout << "Your selection is not defined. Please try again! " << endl;
 				}
 			}
 			cout << "--------------------------------------------" << endl;
@@ -2082,7 +2084,7 @@ void AdminMenu(string& Password, GamingShop& Shop, Wallet& AdminWallet)
 			cin.get();
 			break;
 		case 6:
-			Password = ChangePassword();
+			Pass = ChangePassword();
 			cout << "Press enter to go back \n";
 			cin.ignore();
 			cin.get();
@@ -2226,21 +2228,11 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 				}
 				else if (select == "n")
 				{
-					select = "";
-					cout << "Do you want to return to the customer menu?(y/n): ";
-					cin >> select;
-					if (select == "y")
-					{
-						break;
-					}
-					else if (select == "n")
-					{
-						continue;
-					}
-					else 
-					{
-						cout << "Your selection is not defined. Please try again! " << endl;
-					}
+					break;
+				}
+				else
+				{
+					cout << "Your selection is not defined. Please try again! " << endl;
 				}
 			}
 			cout << "--------------------------------------------" << endl;
@@ -2252,6 +2244,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 			{
 				cout << "\033c";
 				cout <<"---ShoppingCart---\n";
+				CustomerWallet.RemainingWallet();
 				char Choice;
 				Cart.ShowCart();
 				cout << "1) Finalize Purchase\n2) Remove some products\n3) Clear Shopping Cart\n4) Quit\n";
@@ -2268,6 +2261,9 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 						{
 							Cart.Finalize(AdminWallet);
 							loop = false;
+							cout << "Press Enter to go back\n";
+							cin.ignore();
+							cin.get();
 						}
 					}
 					else 
@@ -2323,7 +2319,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 	} while (true);
 }
 
-void RoleSwitching(string& Password, GamingShop& Shop, ShoppingCart& Cart, Wallet& AdminWallet, Wallet& CustomerWallet)
+void RoleSwitching(string& Password,string& Pass, GamingShop& Shop, ShoppingCart& Cart, Wallet& AdminWallet, Wallet& CustomerWallet)
 {
 	int number, choice;
 	do
@@ -2338,9 +2334,9 @@ void RoleSwitching(string& Password, GamingShop& Shop, ShoppingCart& Cart, Walle
 			bool ok = false;
 			while (ok == false)
 			{
-				if (Password == "admin1admin")
+				if (Password == Pass)
 				{
-					AdminMenu(Password, Shop, AdminWallet);
+					AdminMenu(Password,Pass, Shop, AdminWallet);
 					ok = true;
 				}
 				else
@@ -2377,6 +2373,7 @@ int main()
 	GamingShop Shop;
 	ShoppingCart Cart(Shop, CustomerWallet);
 	string Password;
-	RoleSwitching(Password, Shop, Cart, AdminWallet, CustomerWallet);
+	string Pass = "admin1admin";
+	RoleSwitching(Password,Pass, Shop, Cart, AdminWallet, CustomerWallet);
 	return 0;
 }
