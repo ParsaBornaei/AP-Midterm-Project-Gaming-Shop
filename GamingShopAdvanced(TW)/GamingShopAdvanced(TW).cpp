@@ -21,19 +21,19 @@ private:
 public:
 	void ChargeWallet()
 	{
-		cout << "Please enter the desired recharge amount: ";
+		cout << "\x1b[36mPlease enter the desired recharge amount: \x1b[0m";
 		cin >> Charge;
 		Value += Charge;
-		cout << "Your wallet has been recharged with " << Charge << ".\n\n";
+		cout << "\x1b[36mYour wallet has been recharged with \x1b[0m" << Charge << ".\n\n";
 	}
 	void CostWallet(double& Changes)
 	{
 		Value -= Changes;
-		cout << "The amount of " << Changes << " was deducted from your wallet." << "Your account balance: " << Value << "\n\n";
+		cout << "\x1b[35mThe amount of \x1b[0m" << Changes << "\x1b[35m was deducted from your wallet.\x1b[0m" << "\x1b[35mYour account balance: \x1b[0m" << Value << "\n\n";
 	}
 	void RemainingWallet()
 	{
-		cout << "Your wallet balance: " << Value << "\n\n";
+		cout << "\x1b[34mYour wallet balance: \x1b[0m" << Value << "\n\n";
 	}
 	void AddMoney(double Money)
 	{
@@ -48,7 +48,6 @@ public:
 	int inventory;
 	double price;
 	Item(string name, int inventory, double price) : name(name), inventory(inventory), price(price) {}
-	// virtual void ShowDisplay();
 };
 class Console : public Item
 {
@@ -165,12 +164,12 @@ public:
 			{
 				if (consoles[i].name == name)
 				{
-					cout << "The desired product is available in the store. \nWould you like to make a change to the product?(1:increase inventory/2:Change price/3:No Change(Back)): ";
+					cout << "\x1b[33mThe desired product is available in the store. \nWould you like to make a change to the product?\x1b[0m\x1b[34m(\x1b[0m 1:\x1b[33m increase inventory\x1b[0m\x1b[34m/\x1b[0m 2:\x1b[33m Change price\x1b[0m\x1b[34m/\x1b[0m 3:\x1b[33m No Change(Back)\x1b[0m\x1b[34m)\x1b[0m: ";
 					cin >> choice;
 					switch (choice)
 					{
 					case 1:
-						cout << "Write the desired number: ";
+						cout << "\x1b[31mWrite the desired number: \x1b[0m";
 						cin >> increase;
 						if (increase <= 0)
 						{
@@ -179,7 +178,7 @@ public:
 							{
 
 
-								cout << "Please enter a positive number: ";
+								cout << "\x1b[32mPlease enter a positive number: \x1b[0m";
 								cin >> increase;
 								if (increase > 0)
 								{
@@ -194,18 +193,18 @@ public:
 						Result = double(increase)*0.7*double(consoles[i].price);
 						AWallet.CostWallet(Result);
 						consoles[i].inventory += increase;
-						cout << "The number of the desired product was successfully increased." << "\n\n";
-						cout << "Press enter to go back \n";
+						cout << "\x1b[37mThe number of the desired product was successfully increased.\x1b[0m" << "\n\n";
+						cout << "\x1b[37mPress enter to go back \x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
 						break;
 					case 2:
-						cout << "Enter the new price: ";
+						cout << "\x1b[36mEnter the new price: \x1b[0m";
 						cin >> NewPrice;
 						consoles[i].price = NewPrice;
-						cout << "New product price: " << consoles[i].price << "\n\n";
-						cout << "Press enter to go back \n";
+						cout << "\x1b[35mNew product price: \x1b[0m" << consoles[i].price << "\n\n";
+						cout << "\x1b[32mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -215,7 +214,7 @@ public:
 						break;
 					default:
 					{
-						cout << "Your choice incorrect!" << "\n\n";
+						cout << "\x1b[35mYour choice incorrect!\x1b[0m" << "\n\n";
 						return;
 						break;
 					}
@@ -229,12 +228,12 @@ public:
 			{
 				if (monitors[i].name == name)
 				{
-					cout << "The desired product is available in the store. \nWould you like to make a change to the product?(1:increase inventory/2:Change price/3:No Change(Back)): ";
+					cout << "\x1b[33mThe desired product is available in the store. \nWould you like to make a change to the product?\x1b[0m\x1b[34m(\x1b[0m 1:\x1b[33m increase inventory\x1b[0m\x1b[34m/\x1b[0m 2:\x1b[33m Change price\x1b[0m\x1b[34m/\x1b[0m 3:\x1b[33m No Change(Back)\x1b[0m\x1b[34m)\x1b[0m: ";
 					cin >> choice;
 					switch (choice)
 					{
 					case 1:
-						cout << "Write the desired number: ";
+						cout << "\x1b[31mWrite the desired number: \x1b[0m";
 						cin >> increase;
 						if (increase <= 0)
 						{
@@ -243,7 +242,7 @@ public:
 							{
 
 
-								cout << "Please enter a positive number: ";
+								cout << "\x1b[32mPlease enter a positive number: \x1b[0m";
 								cin >> increase;
 								if (increase > 0)
 								{
@@ -258,18 +257,18 @@ public:
 						Result = double(increase) * 0.7 * double(monitors[i].price);
 						AWallet.CostWallet(Result);
 						monitors[i].inventory += increase;
-						cout << "The number of the desired product was successfully increased." << "\n\n";
-						cout << "Press enter to go back \n";
+						cout << "\x1b[37mThe number of the desired product was successfully increased.\x1b[0m" << "\n\n";
+						cout << "\x1b[37mPress enter to go back \x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
 						break;
 					case 2:
-						cout << "Enter the new price: ";
+						cout << "\x1b[36mEnter the new price: \x1b[0m";
 						cin >> NewPrice;
 						monitors[i].price = NewPrice;
-						cout << "New product price: " << monitors[i].price << "\n\n";
-						cout << "Press enter to go back \n";
+						cout << "\x1b[35mNew product price: \x1b[0m" << monitors[i].price << "\n\n";
+						cout << "\x1b[32mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -279,7 +278,7 @@ public:
 						break;
 					default:
 					{
-						cout << "Your choice incorrect!" << "\n\n";
+						cout << "\x1b[35mYour choice incorrect!\x1b[0m" << "\n\n";
 						return;
 						break;
 					}
@@ -293,12 +292,12 @@ public:
 			{
 				if (headsets[i].name == name)
 				{
-					cout << "The desired product is available in the store. \nWould you like to make a change to the product?(1:increase inventory/2:Change price/3:No Change(Back)): ";
+					cout << "\x1b[33mThe desired product is available in the store. \nWould you like to make a change to the product?\x1b[0m\x1b[34m(\x1b[0m 1:\x1b[33m increase inventory\x1b[0m\x1b[34m/\x1b[0m 2:\x1b[33m Change price\x1b[0m\x1b[34m/\x1b[0m 3:\x1b[33m No Change(Back)\x1b[0m\x1b[34m)\x1b[0m: ";
 					cin >> choice;
 					switch (choice)
 					{
 					case 1:
-						cout << "Write the desired number: ";
+						cout << "\x1b[31mWrite the desired number: \x1b[0m";
 						cin >> increase;
 						if (increase <= 0)
 						{
@@ -307,7 +306,7 @@ public:
 							{
 
 
-								cout << "Please enter a positive number: ";
+								cout << "\x1b[32mPlease enter a positive number: \x1b[0m";
 								cin >> increase;
 								if (increase > 0)
 								{
@@ -322,18 +321,18 @@ public:
 						Result = double(increase) * 0.7 * double(headsets[i].price);
 						AWallet.CostWallet(Result);
 						headsets[i].inventory += increase;
-						cout << "The number of the desired product was successfully increased." << "\n\n";
-						cout << "Press enter to go back \n";
+						cout << "\x1b[37mThe number of the desired product was successfully increased.\x1b[0m" << "\n\n";
+						cout << "\x1b[37mPress enter to go back \x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
 						break;
 					case 2:
-						cout << "Enter the new price: ";
+						cout << "\x1b[36mEnter the new price: \x1b[0m";
 						cin >> NewPrice;
 						headsets[i].price = NewPrice;
-						cout << "New product price: " << headsets[i].price << "\n\n";
-						cout << "Press enter to go back \n";
+						cout << "\x1b[35mNew product price: \x1b[0m" << headsets[i].price << "\n\n";
+						cout << "\x1b[32mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -343,7 +342,7 @@ public:
 						break;
 					default:
 					{
-						cout << "Your choice incorrect!" << "\n\n";
+						cout << "\x1b[35mYour choice incorrect!\x1b[0m" << "\n\n";
 						return;
 						break;
 					}
@@ -356,12 +355,12 @@ public:
 			{
 				if (games[i].name == name)
 				{
-					cout << "The desired product is available in the store. \nWould you like to make a change to the product?(1:increase inventory/2:Change price/3:No Change(Back)): ";
+					cout << "\x1b[33mThe desired product is available in the store. \nWould you like to make a change to the product?\x1b[0m\x1b[34m(\x1b[0m 1:\x1b[33m increase inventory\x1b[0m\x1b[34m/\x1b[0m 2:\x1b[33m Change price\x1b[0m\x1b[34m/\x1b[0m 3:\x1b[33m No Change(Back)\x1b[0m\x1b[34m)\x1b[0m: ";
 					cin >> choice;
 					switch (choice)
 					{
 					case 1:
-						cout << "Write the desired number: ";
+						cout << "\x1b[31mWrite the desired number: \x1b[0m";
 						cin >> increase;
 						if (increase <= 0)
 						{
@@ -370,7 +369,7 @@ public:
 							{
 
 
-								cout << "Please enter a positive number: ";
+								cout << "\x1b[32mPlease enter a positive number: \x1b[0m";
 								cin >> increase;
 								if (increase > 0)
 								{
@@ -385,18 +384,18 @@ public:
 						Result = double(increase) * 0.7 * double(games[i].price);
 						AWallet.CostWallet(Result);
 						games[i].inventory += increase;
-						cout << "The number of the desired product was successfully increased." << "\n\n";
-						cout << "Press enter to go back \n";
+						cout << "\x1b[37mThe number of the desired product was successfully increased.\x1b[0m" << "\n\n";
+						cout << "\x1b[37mPress enter to go back \x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
 						break;
 					case 2:
-						cout << "Enter the new price: ";
+						cout << "\x1b[36mEnter the new price: \x1b[0m";
 						cin >> NewPrice;
 						games[i].price = NewPrice;
-						cout << "New product price: " << games[i].price << "\n\n";
-						cout << "Press enter to go back \n";
+						cout << "\x1b[35mNew product price: \x1b[0m" << games[i].price << "\n\n";
+						cout << "\x1b[32mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -405,7 +404,7 @@ public:
 						return;
 						break;
 					default:
-						cout << "Your choice incorrect!" << "\n\n";
+						cout << "\x1b[35mYour choice incorrect!\x1b[0m" << "\n\n";
 						return;
 						break;
 					}
