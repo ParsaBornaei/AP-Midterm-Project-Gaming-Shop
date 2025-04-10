@@ -461,6 +461,7 @@ public:
 			return false;
 		}
 		}
+		return false;
 	}
 	void Financial_Value_Of_The_Store()
 	{
