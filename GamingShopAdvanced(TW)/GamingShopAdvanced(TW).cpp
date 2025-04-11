@@ -2330,7 +2330,7 @@ void RoleSwitching(string& Password,string& Pass, GamingShop& Shop, ShoppingCart
 	do
 	{
 		cout << "\033c";
-		cout << "\x1b[1;35mPlease choose your identity with number (\x1b[0m 1: \x1b[5;33mAdministration \x1b[0m/  2: \x1b[5;33mCustomers \x1b[0m /  3: \x1b[5;33mExit \x1b[0m\x1b[1;35m):\x1b[0m ";
+		cout << "\x1b[3;1;35mPlease choose your identity with number (\x1b[0m \x1b[3m1:\x1b[0m \x1b[3;5;33mAdministration \x1b[0m\x1b[3;1;35m/\x1b[0m  \x1b[3m2:\x1b[0m \x1b[3;5;33mCustomers \x1b[0m \x1b[3;1;35m/\x1b[0m  \x1b[3m3:\x1b[0m \x1b[3;5;33mExit \x1b[0m\x1b[1;35m):\x1b[0m ";
 		cin >> number;
 
 		if (number == 1)
