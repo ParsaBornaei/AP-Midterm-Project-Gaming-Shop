@@ -33,7 +33,7 @@ public:
 	}
 	void RemainingWallet()
 	{
-		cout << "\x1b[34mYour wallet balance: \x1b[0m" << Value << "\x1b[33$\x1b[0m\n\n";
+		cout << "\x1b[34mYour wallet balance: \x1b[0m" << Value << "\x1b[33m$\x1b[0m\n\n";
 	}
 	void AddMoney(double Money)
 	{
@@ -108,6 +108,7 @@ public:
 	}
 	void Remove(string name, ItemType itemType)
 	{
+		int n=0;
 		switch (itemType)
 		{
 		case ItemType::console:
@@ -116,6 +117,8 @@ public:
 				if (consoles[i].name == name)
 				{
 					consoles.erase(consoles.begin() + (i));
+					cout << "\033[1;32m(\033[0m" << name << "\033[1;32m) Was removed\033[0m\n";
+					n++;
 					break;
 				}
 			}
@@ -126,6 +129,8 @@ public:
 				if (monitors[i].name == name)
 				{
 					monitors.erase(monitors.begin() + (i));
+					cout << "\033[1;32m(\033[0m" << name << "\033[1;32m) Was removed\033[0m\n";
+					n++;
 					break;
 				}
 			}
@@ -136,6 +141,8 @@ public:
 				if (headsets[i].name == name)
 				{
 					headsets.erase(headsets.begin() + (i));
+					cout << "\033[1;32m(\033[0m" << name << "\033[1;32m) Was removed\033[0m\n";
+					n++;
 					break;
 				}
 			}
@@ -146,12 +153,19 @@ public:
 				if (games[i].name == name)
 				{
 					games.erase(games.begin() + (i));
+					cout << "\033[1;32m(\033[0m" << name << "\033[1;32m) Was removed\033[0m\n";
+					n++;
 					break;
 				}
 			}
 			break;
 		default:
 			break;
+		}
+
+		if(n == 0)
+		{
+			cout <<"\033[1;5;31mNo Item Found!\n\033[0m";
 		}
 	}
 
@@ -198,7 +212,7 @@ public:
 						AWallet.CostWallet(Result);
 						consoles[i].inventory += increase;
 						cout << "\x1b[36mThe number of the desired product was successfully increased.\x1b[0m" << "\n\n";
-						cout << "\x1b[36mPress enter to go back \x1b[0m \n";
+						cout << "\x1b[1;5;31mPress enter to go back \x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -208,7 +222,7 @@ public:
 						cin >> NewPrice;
 						consoles[i].price = NewPrice;
 						cout << "\x1b[35mNew product price: \x1b[0m" << consoles[i].price << "\n\n";
-						cout << "\x1b[32mPress enter to go back\x1b[0m \n";
+						cout << "\x1b[1;5;31mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -262,7 +276,7 @@ public:
 						AWallet.CostWallet(Result);
 						monitors[i].inventory += increase;
 						cout << "\x1b[36mThe number of the desired product was successfully increased.\x1b[0m" << "\n\n";
-						cout << "\x1b[36mPress enter to go back \x1b[0m \n";
+						cout << "\x1b[1;5;31mPress enter to go back \x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -272,7 +286,7 @@ public:
 						cin >> NewPrice;
 						monitors[i].price = NewPrice;
 						cout << "\x1b[35mNew product price: \x1b[0m" << monitors[i].price << "\n\n";
-						cout << "\x1b[32mPress enter to go back\x1b[0m \n";
+						cout << "\x1b[1;5;31mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -326,7 +340,7 @@ public:
 						AWallet.CostWallet(Result);
 						headsets[i].inventory += increase;
 						cout << "\x1b[36mThe number of the desired product was successfully increased.\x1b[0m" << "\n\n";
-						cout << "\x1b[36mPress enter to go back \x1b[0m \n";
+						cout << "\x1b[1;5;31mPress enter to go back \x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -336,7 +350,7 @@ public:
 						cin >> NewPrice;
 						headsets[i].price = NewPrice;
 						cout << "\x1b[35mNew product price: \x1b[0m" << headsets[i].price << "\n\n";
-						cout << "\x1b[32mPress enter to go back\x1b[0m \n";
+						cout << "\x1b[1;5;31mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -389,7 +403,7 @@ public:
 						AWallet.CostWallet(Result);
 						games[i].inventory += increase;
 						cout << "\x1b[36mThe number of the desired product was successfully increased.\x1b[0m" << "\n\n";
-						cout << "\x1b[36mPress enter to go back \x1b[0m \n";
+						cout << "\x1b[1;5;31mPress enter to go back \x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -399,7 +413,7 @@ public:
 						cin >> NewPrice;
 						games[i].price = NewPrice;
 						cout << "\x1b[35mNew product price: \x1b[0m" << games[i].price << "\n\n";
-						cout << "\x1b[32mPress enter to go back\x1b[0m \n";
+						cout << "\x1b[1;5;31mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
 						return;
@@ -1087,7 +1101,7 @@ public:
 							thereis = true;
 							while(true)
 							{
-								cout << "\x1b[34mYou have \x1b[0m" << C.inventory << "\x1b[34m of this product in your Cart\x1b[0m\n";
+								cout << "\x1b[32mYou have \x1b[0m" << C.inventory << "\x1b[32m of this product in your Cart\x1b[0m\n";
 								cout << "\x1b[34mHow many do you want to add? \x1b[0m(You can buy \x1b[34m" << limit << "\x1b[0m more)\n";
 								cin >> amount ;
 								if (amount > 0)
@@ -1107,9 +1121,13 @@ public:
 										else break;
 									}
 								}
-								else
+								else if(amount == 0)
 								{
 									break;
+								}
+								else
+								{
+									cout << "\033[1;31m:/\033[0m\n";
 								}
 							}
 						}
@@ -1143,7 +1161,14 @@ public:
 									else break;
 								}
 							}
-							else break;
+							else if(amount == 0)
+							{
+								break;
+							}
+							else
+							{
+								cout << "\033[1;31m:/\033[0m\n";
+							}
 						}
 					}	
 				}
@@ -1162,7 +1187,7 @@ public:
 							thereis = true;
 							while(true)
 							{
-								cout << "\x1b[34mYou have \x1b[0m" << C.inventory << "\x1b[34m of this product in your Cart\x1b[0m\n";
+								cout << "\x1b[32mYou have \x1b[0m" << C.inventory << "\x1b[32m of this product in your Cart\x1b[0m\n";
 								cout << "\x1b[34mHow many do you want to add? \x1b[0m(You can buy \x1b[34m" << limit << "\x1b[0m more)\n";
 								cin >> amount ;
 								if (amount > 0)
@@ -1182,9 +1207,13 @@ public:
 										else break;
 									}
 								}
-								else
+								else if(amount == 0)
 								{
 									break;
+								}
+								else
+								{
+									cout << "\033[1;31m:/\033[0m\n";
 								}
 							}
 						}
@@ -1217,7 +1246,15 @@ public:
 									if (ch == 'y') continue;
 									else break;
 								}
-							}else break;
+							}
+							else if(amount == 0)
+							{
+								break;
+							}
+							else
+							{
+								cout << "\033[1;31m:/\033[0m\n";
+							}
 						}
 					}	
 				}
@@ -1236,7 +1273,7 @@ public:
 							thereis = true;
 							while(true)
 							{
-								cout << "\x1b[34mYou have \x1b[0m" << C.inventory << "\x1b[34m of this product in your Cart\x1b[0m\n";
+								cout << "\x1b[32mYou have \x1b[0m" << C.inventory << "\x1b[32m of this product in your Cart\x1b[0m\n";
 								cout << "\x1b[34mHow many do you want to add? \x1b[0m(You can buy \x1b[34m" << limit << "\x1b[0m more)\n";
 								cin >> amount ;
 								if (amount > 0)
@@ -1256,9 +1293,13 @@ public:
 										else break;
 									}
 								}
-								else
+								else if(amount == 0)
 								{
 									break;
+								}
+								else
+								{
+									cout << "\033[1;31m:/\033[0m\n";
 								}
 							}
 						}
@@ -1291,7 +1332,15 @@ public:
 									if (ch == 'y') continue;
 									else break;
 								}
-							}else break;
+							}
+							else if(amount == 0)
+							{
+								break;
+							}
+							else
+							{
+								cout << "\033[1;31m:/\033[0m\n";
+							}
 						}
 					}
 				}
@@ -1310,7 +1359,7 @@ public:
 							thereis = true;
 							while(true)
 							{
-								cout << "\x1b[34mYou have \x1b[0m" << C.inventory << "\x1b[34m of this product in your Cart\x1b[0m\n";
+								cout << "\x1b[32mYou have \x1b[0m" << C.inventory << "\x1b[32m of this product in your Cart\x1b[0m\n";
 								cout << "\x1b[34mHow many do you want to add? \x1b[0m(You can buy \x1b[34m" << limit << "\x1b[0m more)\n";
 								cin >> amount ;
 								if (amount > 0)
@@ -1330,9 +1379,13 @@ public:
 										else break;
 									}
 								}
-								else
+								else if(amount == 0)
 								{
 									break;
+								}
+								else
+								{
+									cout << "\033[1;31m:/\033[0m\n";
 								}
 							}
 						}
@@ -1365,7 +1418,15 @@ public:
 									if (ch == 'y') continue;
 									else break;
 								}
-							}else break;
+							}
+							else if(amount == 0)
+							{
+								break;
+							}
+							else
+							{
+								cout << "\033[1;31m:/\033[0m\n";
+							}
 						}
 					}	
 				}
@@ -1550,7 +1611,7 @@ public:
 	}
 	void Totalprice()
 	{
-		int TotalPrice = 0;
+		double TotalPrice = 0;
 		for (const Console& C : console)
 		{
 			TotalPrice += C.price * C.inventory;
@@ -1819,7 +1880,7 @@ public:
 	void ShowCart()
 	{
 		int unavailable = 0;
-		int TotalPrice = 0;
+		double TotalPrice = 0;
 
 		if(!console.empty())
 		{
@@ -1880,49 +1941,73 @@ public:
 
 	bool isSync()
 	{
-		IsSync = false;
+		bool thereis;
 		for(const Console& C : console)
 		{
+			thereis = false;
 			for(const Console& I : shop.consoles)
 			{
 				if(C.name == I.name)
 				{
-					if(I.inventory >= C.inventory) IsSync = true;
+					thereis = true;
+					if(I.inventory < C.inventory)  return false;
 				}
+			}
+			if(thereis == false)
+			{
+				return false;
 			}
 		}
 		for(const Monitor& C : monitor)
 		{
+			thereis = false;
 			for(const Monitor& I : shop.monitors)
 			{
 				if(C.name == I.name)
 				{
-					if(I.inventory >= C.inventory) IsSync = true;
+					thereis = true;
+					if(I.inventory < C.inventory)  return false;
 				}
+			}
+			if(thereis == false)
+			{
+				return false;
 			}
 		}
 		for(const Headset& C : headset)
 		{
+			thereis = false;
 			for(const Headset& I : shop.headsets)
 			{
 				if(C.name == I.name)
 				{
-					if(I.inventory >= C.inventory) IsSync = true;
+					thereis = true;
+					if(I.inventory < C.inventory)  return false;
 				}
+			}
+			if(thereis == false)
+			{
+				return false;
 			}
 		}
 		for(const Game& C : game)
 		{
+			thereis = false;
 			for(const Game& I : shop.games)
 			{
 				if(C.name == I.name)
 				{
-					if(I.inventory >= C.inventory) IsSync = true;
+					thereis = true;
+					if(I.inventory < C.inventory)  return false;
 				}
+			}
+			if(thereis == false)
+			{
+				return false;
 			}
 		}
 
-		return IsSync;
+		return true;
 	}
 };
 
@@ -2018,27 +2103,33 @@ void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWal
 		switch (choice)
 		{
 		case 1:
-			cout << "\x1b[33mPlease choose type of product (\x1b[0m\x1b[4mchoice number\x1b[0m\x1b[33m):\x1b[0m\n\x1b[32m1:\x1b[0m Console\n\x1b[32m2:\x1b[0m Monitor\n\x1b[32m3:\x1b[0m Headset\n\x1b[32m4:\x1b[0m Game\n";
-			cin >> Item_Type;
-			num = static_cast<ItemType>(Item_Type);
-			cout << "\x1b[1;34mPlease write the name: \x1b[0m";
-			cin >> Name;
-			if (Shop.CheckName(Name, num)==true)
+			while(true)
 			{
-				Shop.Change(Name, num, AdminWallet);
-			}
-			else
-			{
-				cout << "\x1b[1;34mHow many do you want to Add: \x1b[0m";
-				cin >> Inventory;
-				cout << "\x1b[1;34mPlease write the price: \x1b[0m";
-				cin >> Price;
-				double cost = Inventory * (0.7) * Price;
-				AdminWallet.CostWallet(cost);
-				Shop.Add(Name, Inventory, Price, num);
-				cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
-				cin.ignore();
-				cin.get();
+				cout << "\x1b[33mPlease choose type of product (\x1b[0m\x1b[4mchooce number\x1b[0m\x1b[33m):\x1b[0m\n\x1b[32m1:\x1b[0m Console\n\x1b[32m2:\x1b[0m Monitor\n\x1b[32m3:\x1b[0m Headset\n\x1b[32m4:\x1b[0m Game\n";
+				cin >> Item_Type;
+				num = static_cast<ItemType>(Item_Type);
+				cout << "\x1b[1;34mPlease write the name: \x1b[0m";
+				cin >> Name;
+				if (Shop.CheckName(Name, num)==true)
+				{
+					Shop.Change(Name, num, AdminWallet);
+					break;
+				}
+				else
+				{
+					cout << "\x1b[1;34mHow many do you want to Add: \x1b[0m";
+					cin >> Inventory;
+					cout << "\x1b[1;34mPlease write the price: \x1b[0m";
+					cin >> Price;
+					double cost = Inventory * (0.7) * Price;
+					AdminWallet.CostWallet(cost);
+					Shop.Add(Name, Inventory, Price, num);
+					cout << "\x1b[33mDo you want to add more?\x1b[0m\x1b[36m(\x1b[0m\x1b[32my\x1b[0m\x1b[36m/\x1b[0m\x1b[31mn\x1b[0m\x1b[36m):\x1b[0m";
+					string yorn;
+					cin >> yorn;
+					if(yorn == "y") continue;
+					else break;
+				}
 			}
 			break;
 		case 2:
@@ -2048,6 +2139,9 @@ void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWal
 			cout << "\x1b[1;34mPlease write the name: \x1b[0m";
 			cin >> Name;
 			Shop.Remove(Name, num);
+			cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+			cin.ignore();
+			cin.get();
 			break;
 		case 3:
 			Shop.ShowDisplay();
@@ -2090,9 +2184,6 @@ void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWal
 			break;
 		case 6:
 			Pass = ChangePassword();
-			cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
-			cin.ignore();
-			cin.get();
 			break;
 		case 7:
 			return;
@@ -2125,7 +2216,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 			{
 				cout << "\033c";
 				cout << "\x1b[2;33m---\x1b[0m\x1b[3;4;5;32mAddToCart\x1b[0m\x1b[2;33m---\x1b[0m\n";
-				cout << "\x1b[1;35m1)\x1b[0m \x1b[1;33mEnter the product's name to Add\x1b[0m\n\x1b[1;35m2)\x1b[0m \x1b[1;35mShow a Categorized List(if you don't remember your desired item)\n3) Quit\n";
+				cout << "\x1b[1;35m1)\x1b[0m \x1b[1;33mEnter the product's name to Add\x1b[0m\n\x1b[1;35m2)\x1b[0m \x1b[1;33mShow a Categorized List(if you don't remember your desired item)\n\x1b[1;35m3)\x1b[0m \x1b[1;33mQuit\x1b[0m\n";
 				int choice;
 				cin >> choice;
 				if (choice == 1)
@@ -2195,7 +2286,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 				cout << "\033c";
 				cout << "\x1b[2;33m---\x1b[0m\x1b[3;4;32mCategorizedList\x1b[0m\x1b[2;33m---\x1b[0m\n";
 				Cart.GetData();
-				cout << "\x1b[1;35m1)\x1b[0m Search for a specific Product\n\x1b[1;35m2)\x1b[0m Quit\n";
+				cout << "\x1b[1;35m1)\x1b[0m Search for a specific Product Type\n\x1b[1;35m2)\x1b[0m Quit\n";
 				int choice;
 				cin >> choice;
 				if (choice == 1)
