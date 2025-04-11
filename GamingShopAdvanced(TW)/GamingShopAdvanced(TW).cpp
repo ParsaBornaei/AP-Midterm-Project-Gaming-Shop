@@ -24,7 +24,7 @@ public:
 		cout << "\x1b[36mPlease enter the desired recharge amount: \x1b[0m";
 		cin >> Charge;
 		Value += Charge;
-		cout << "\x1b[36mYour wallet has been recharged with \x1b[0m" << Charge << "\x1b[33m$\x1b[0m" << ".\n\n";
+		cout << "\x1b[1;32mYour wallet has been recharged with \x1b[0m" << Charge << "\x1b[33m$\x1b[0m" << ".\n\n";
 	}
 	void CostWallet(double& Changes)
 	{
@@ -2062,12 +2062,12 @@ void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWal
 			cin.get();
 			break;
 		case 5:
-			cout << "Welcome to your shop wallet account.\n";
+			cout << "\x1b[3;33mWelcome to your shop wallet account.\x1b[0m\n";
 			while (true)
 			{
-				cout << "--------------------------------------------" << endl;
+				cout << "\x1b[1;31m--------------------------------------------\x1b[0m" << endl;
 				AdminWallet.RemainingWallet();
-				cout << "Do you want to top up your shop wallet?(y/n): ";
+				cout << "\x1b[33mDo you want to top up your wallet?\x1b[0m\x1b[36m(\x1b[0m\x1b[32my\x1b[0m\x1b[36m/\x1b[0m\x1b[31mn\x1b[0m\x1b[36m):\x1b[0m ";
 				cin >> select;
 				if (select == "y")
 				{
@@ -2080,10 +2080,10 @@ void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWal
 				}
 				else
 				{
-					cout << "Your selection is not defined. Please try again! " << endl;
+					cout << "\x1b[5;31mYour selection is not defined. Please try again! \x1b[0m" << endl;
 				}
 			}
-			cout << "--------------------------------------------" << endl;
+			cout << "\x1b[1;31m--------------------------------------------\x1b[0m" << endl;
 			cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
 			cin.ignore();
 			cin.get();
@@ -2125,7 +2125,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 			{
 				cout << "\033c";
 				cout << "\x1b[2;33m---\x1b[0m\x1b[3;4;5;32mAddToCart\x1b[0m\x1b[2;33m---\x1b[0m\n";
-				cout << "1) Enter the product's name to Add\n2) Show a Categorized List(if you don't remember your desired item)\n3) Quit\n";
+				cout << "\x1b[1;35m1)\x1b[0m \x1b[1;33mEnter the product's name to Add\x1b[0m\n\x1b[1;35m2)\x1b[0m \x1b[1;35mShow a Categorized List(if you don't remember your desired item)\n3) Quit\n";
 				int choice;
 				cin >> choice;
 				if (choice == 1)
