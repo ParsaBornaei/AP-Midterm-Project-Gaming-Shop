@@ -33,7 +33,7 @@ public:
 	}
 	void RemainingWallet()
 	{
-		cout << "\x1b[34mYour wallet balance: \x1b[0m" << Value << "$\n\n";
+		cout << "\x1b[34mYour wallet balance: \x1b[0m" << Value << "\x1b[33$\x1b[0m\n\n";
 	}
 	void AddMoney(double Money)
 	{
@@ -1826,7 +1826,7 @@ public:
 			cout << "\n\x1b[35m---Consoles---\x1b[0m\n";
 			for (Console &C : console)
 			{
-				cout << " " << C.name << " (x" << C.inventory << ") - $";
+				cout << " " << C.name << " (x" << C.inventory << ") - \x1b[33m$\x1b[0m";
 				SyncPrice(C.name,1,C.price);
 				cout << endl;
 				Sync(C.name,1,C.inventory);
@@ -1839,7 +1839,7 @@ public:
 			cout << "\n\x1b[35m---Monitors---\x1b[0m\n";
 			for (Monitor &C : monitor)
 			{
-				cout << " " << C.name << " (x" << C.inventory << ") - $";
+				cout << " " << C.name << " (x" << C.inventory << ") - \x1b[33m$\x1b[0m";
 				SyncPrice(C.name,2,C.price);
 				cout << endl;
 				Sync(C.name,2,C.inventory);
@@ -1852,7 +1852,7 @@ public:
 			cout << "\n\x1b[35m---Headsets---\x1b[0m\n";
 			for (Headset &C : headset)
 			{
-				cout << " " << C.name << " (x" << C.inventory << ") - $";
+				cout << " " << C.name << " (x" << C.inventory << ") - \x1b[33m$\x1b[0m";
 				SyncPrice(C.name,3,C.price);
 				cout << endl;
 				Sync(C.name,3,C.inventory);
@@ -1865,7 +1865,7 @@ public:
 			cout << "\n\x1b[35m---Game---\x1b[0m\n";
 			for (Game &C : game)
 			{
-				cout << " " << C.name << " (x" << C.inventory << ") - $";
+				cout << " " << C.name << " (x" << C.inventory << ") - \x1b[33m$\x1b[0m";
 				SyncPrice(C.name,4,C.price);
 				cout << endl;
 				Sync(C.name,4,C.inventory);
@@ -2042,10 +2042,10 @@ void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWal
 			}
 			break;
 		case 2:
-			cout << "Please choose type of product or game (choice number):\n1: Console\n2: Monitor\n3: Headset\n4: Game\n";
+			cout << "\x1b[33mPlease choose type of product (\x1b[0m\x1b[4mchoice number\x1b[0m\x1b[33m):\x1b[0m\n\x1b[32m1:\x1b[0m Console\n\x1b[32m2:\x1b[0m Monitor\n\x1b[32m3:\x1b[0m Headset\n\x1b[32m4:\x1b[0m Game\n";
 			cin >> Item_Type;
 			num = static_cast<ItemType>(Item_Type);
-			cout << "Please write the name: ";
+			cout << "\x1b[1;34mPlease write the name: \x1b[0m";
 			cin >> Name;
 			Shop.Remove(Name, num);
 			break;
@@ -2131,17 +2131,17 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 				if (choice == 1)
 				{
 					string Name;
-					cout << "\x1b[1;34mEnter the name: \x1b[0m";
+					cout << "\x1b[1;36mEnter the name: \x1b[0m";
 					cin >> Name;
 					choice = Cart.SearchByName(Name);
 					if (choice == 0)
 					{
-						cout << "We couldn't find any";
+						cout << "\x1b[1;31mWe couldn't find any\x1b[0m";
 						break;
 					}
 					else if(choice == 5) break;
 					Cart.AddToCart(Name, choice);
-					cout << "Do you want to add more?(y/n):";
+					cout << "\x1b[33mDo you want to add more?\x1b[0m\x1b[36m(\x1b[0m\x1b[32my\x1b[0m\x1b[36m/\x1b[0m\x1b[31mn\x1b[0m\x1b[36m):\x1b[0m";
 					char Ch;
 					cin >> Ch;
 					if(Ch == 'y') continue;
@@ -2152,26 +2152,26 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 					while (true)
 					{
 						Cart.GetData();
-						cout << "1) Search for a specific Product\n2) Quit\n";
+						cout << "\x1b[1;35m1)\x1b[0m Search for a specific Product\n\x1b[1;35m2)\x1b[0m Quit\n";
 						int Choice;
 						int Cat;
 						cin >> Choice;
 						if (Choice == 1)
 						{
-							cout << "Enter the number of product type you want to see: ";
+							cout << "\x1b[1;36mEnter the number of product type you want to see: \x1b[0m";
 							cin.ignore();
 							cin >> Cat;
 							Cart.ShowData(Cat);
-							cout << "1) Enter the product name to add it to Cart\n2) Back\n";
+							cout << "\x1b[1;35m1)\x1b[0m Enter the product name to add it to Cart\n\x1b[1;35m2)\x1b[0m Back\n";
 							cin >> Choice;
 							if (Choice == 1)
 							{
 								string name;
 								cin.ignore();
-								cout << "Enter the name: ";
+								cout << "\x1b[1;36mEnter the name: \x1b[0m";
 								cin >> name;
 								Cart.AddToCart(name, Cat);
-								cout << "Do you want to add more?(y/n):";
+								cout << "\x1b[33mDo you want to add more?\x1b[0m\x1b[36m(\x1b[0m\x1b[32my\x1b[0m\x1b[36m/\x1b[0m\x1b[31mn\x1b[0m\x1b[36m):\x1b[0m";
 								char Ch;
 								cin >> Ch;
 								if (Ch == 'y') continue;
@@ -2193,17 +2193,17 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 			while (true)
 			{
 				cout << "\033c";
-				cout << "\x1b[2;33m---\x1b[0m\x1b[3;4;5;32mCategorizedList\x1b[0m\x1b[2;33m---\x1b[0m\n";
+				cout << "\x1b[2;33m---\x1b[0m\x1b[3;4;32mCategorizedList\x1b[0m\x1b[2;33m---\x1b[0m\n";
 				Cart.GetData();
-				cout << "1) Search for a specific Product\n2) Quit\n";
+				cout << "\x1b[1;35m1)\x1b[0m Search for a specific Product\n\x1b[1;35m2)\x1b[0m Quit\n";
 				int choice;
 				cin >> choice;
 				if (choice == 1)
 				{
-					cout << "Enter the number of product type you want to see: ";
+					cout << "\x1b[1;36mEnter the number of product type you want to see: \x1b[0m";
 					cin >> choice;
 					Cart.ShowData(choice);
-					cout << "\x1b[5;31mPress enter to go back . . .\x1b[0m\n";
+					cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
 					cin.ignore();
 					cin.get();
 				}
