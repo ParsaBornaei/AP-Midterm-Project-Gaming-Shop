@@ -221,7 +221,7 @@ public:
 						cout << "\x1b[36mEnter the new price: \x1b[0m";
 						cin >> NewPrice;
 						consoles[i].price = NewPrice;
-						cout << "\x1b[35mNew product price: \x1b[0m" << consoles[i].price << "\n\n";
+						cout << "\x1b[35mNew product price: \x1b[0m" << consoles[i].price <<"\x1b[33m$\x1b[0m"<< "\n\n";
 						cout << "\x1b[1;5;31mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
@@ -285,7 +285,7 @@ public:
 						cout << "\x1b[36mEnter the new price: \x1b[0m";
 						cin >> NewPrice;
 						monitors[i].price = NewPrice;
-						cout << "\x1b[35mNew product price: \x1b[0m" << monitors[i].price << "\n\n";
+						cout << "\x1b[35mNew product price: \x1b[0m" << monitors[i].price << "\x1b[33m$\x1b[0m" << "\n\n";
 						cout << "\x1b[1;5;31mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
@@ -349,7 +349,7 @@ public:
 						cout << "\x1b[36mEnter the new price: \x1b[0m";
 						cin >> NewPrice;
 						headsets[i].price = NewPrice;
-						cout << "\x1b[35mNew product price: \x1b[0m" << headsets[i].price << "\n\n";
+						cout << "\x1b[35mNew product price: \x1b[0m" << headsets[i].price << "\x1b[33m$\x1b[0m" << "\n\n";
 						cout << "\x1b[1;5;31mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
@@ -412,7 +412,7 @@ public:
 						cout << "\x1b[36mEnter the new price: \x1b[0m";
 						cin >> NewPrice;
 						games[i].price = NewPrice;
-						cout << "\x1b[35mNew product price: \x1b[0m" << games[i].price << "\n\n";
+						cout << "\x1b[35mNew product price: \x1b[0m" << games[i].price << "\x1b[33m$\x1b[0m" << "\n\n";
 						cout << "\x1b[1;5;31mPress enter to go back\x1b[0m \n";
 						cin.ignore();
 						cin.get();
@@ -591,7 +591,7 @@ public:
 		switch (n)
 		{
 		case 1:
-			cout << "\x1b[34mConsoles-------\x1b[0m\n";
+			cout << "\x1b[35mConsoles-------\x1b[0m\n";
 			for (Console ConS : shop.consoles)
 			{
 				cout << "\x1b[36mName: \x1b[0m" << ConS.name << endl
@@ -601,7 +601,7 @@ public:
 			cout << "\x1b[33m-------------------------------------------------------\x1b[0m\n";
 			break;
 		case 2:
-			cout << "\x1b[34mMonitors-------\x1b[0m\n";
+			cout << "\x1b[35mMonitors-------\x1b[0m\n";
 			for (Monitor MonT : shop.monitors)
 			{
 				cout << "\x1b[36mName: \x1b[0m" << MonT.name << endl
@@ -611,7 +611,7 @@ public:
 			cout << "\x1b[33m-------------------------------------------------------\x1b[0m\n";
 			break;
 		case 3:
-			cout << "\x1b[34mHeadsets-------\x1b[0m\n";
+			cout << "\x1b[35mHeadsets-------\x1b[0m\n";
 			for (Headset HeaD : shop.headsets)
 			{
 				cout << "\x1b[36mName: \x1b[0m" << HeaD.name << endl
@@ -621,7 +621,7 @@ public:
 			cout << "\x1b[33m-------------------------------------------------------\x1b[0m\n\n";
 			break;
 		case 4:
-			cout << "\x1b[34mGames----------\x1b[0m\n";
+			cout << "\x1b[35mGames----------\x1b[0m\n";
 			for (Game GamE : shop.games)
 			{
 				cout << "\x1b[36mName: \x1b[0m" << GamE.name << endl
@@ -2011,22 +2011,24 @@ public:
 	}
 };
 
-string ChangePassword()
+string ChangePassword(string& Pass)
 {
 	string pass;
 	bool check = false;
 	while (check == false)
 	{
 		char choice;
-		cout << "Do you want to change your password?(y/n): ";
+		cout << "\x1b[1;33mDo you want to change your password?\x1b[0m\x1b[36m(\x1b[0m\x1b[32my\x1b[0m\x1b[36m/\x1b[0m\x1b[31mn\x1b[0m\x1b[36m):\x1b[0m ";
 		cin >> choice;
 		if (choice == 'y')
 		{
-			cout << "Enter the password you want: (It should ONLY contain one of the . @ ! & * ^ Symbols)\n";
-			cout << "Password: ";
+			cout << "\x1b[36mEnter the password you want: (\x1b[0mIt should ONLY contain one of the . \x1b[33m@ ! & * ^\x1b[0m Symbols\x1b[36m)\x1b[0m\n";
+			cout << "\x1b[1;3;35mPassword: \x1b[0m";
 			pass = "";
 			bool ok = false;
+			cout << "\x1b[3;31;47m";
 			cin >> pass;
+			cout << "\x1b[0m\n";
 			for (char ch : pass)
 			{
 				if (ch == '.' || ch == '&' || ch == '*' || ch == '!' || ch == '@' || ch == '^' || (ch >= 97 && ch <= 122) || (ch >= 65 && ch <= 90))
@@ -2041,12 +2043,13 @@ string ChangePassword()
 			}
 			if (ok)
 			{
-				cout << "Password is set\n";
+				cout << "\x1b[3;32mPassword is set\x1b[0m\n";
 				check = true;
 			}
 			else
 			{
-				cout << "Password was not correct,Try again!\n";
+				cout << "\x1b[1;3;5;31mPassword was not correct,Try again!\x1b[0m\n";
+				pass = Pass;
 			}
 		}
 		else break;
@@ -2139,19 +2142,19 @@ void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWal
 			cout << "\x1b[1;34mPlease write the name: \x1b[0m";
 			cin >> Name;
 			Shop.Remove(Name, num);
-			cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+			cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
 			cin.ignore();
 			cin.get();
 			break;
 		case 3:
 			Shop.ShowDisplay();
-			cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+			cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
 			cin.ignore();
 			cin.get();
 			break;
 		case 4:
 			Shop.Financial_Value_Of_The_Store();
-			cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+			cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
 			cin.ignore();
 			cin.get();
 			break;
@@ -2178,12 +2181,15 @@ void AdminMenu(string& Password,string& Pass, GamingShop& Shop, Wallet& AdminWal
 				}
 			}
 			cout << "\x1b[1;31m--------------------------------------------\x1b[0m" << endl;
-			cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+			cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
 			cin.ignore();
 			cin.get();
 			break;
 		case 6:
-			Pass = ChangePassword();
+			Pass = ChangePassword(Pass);
+			cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
+			cin.ignore();
+			cin.get();
 			break;
 		case 7:
 			return;
@@ -2203,7 +2209,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 		cout << "\x1b[32m1)\x1b[0m \x1b[3;36mAdd to cart\x1b[0m" << endl;
 		cout << "\x1b[32m2)\x1b[0m \x1b[3;36mCategorized List of Products\x1b[0m" << endl;
 		cout << "\x1b[32m3)\x1b[0m \x1b[3;36mList of all products\x1b[0m" << endl;
-		cout << "\x1b[32m4)\x1b[0m \x1b[3;36mCustomers_Money_Management\x1b[0m" << endl;
+		cout << "\x1b[32m4)\x1b[0m \x1b[3;36mCustomers Money Management\x1b[0m" << endl;
 		cout << "\x1b[32m5)\x1b[0m \x1b[3;36mShopping Cart\x1b[0m" << endl;
 		cout << "\x1b[32m6)\x1b[0m \x1b[3;36mLogOut\x1b[0m" << endl;
 		cin >> cho;
@@ -2294,7 +2300,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 					cout << "\x1b[1;36mEnter the number of product type you want to see: \x1b[0m";
 					cin >> choice;
 					Cart.ShowData(choice);
-					cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+					cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
 					cin.ignore();
 					cin.get();
 				}
@@ -2305,7 +2311,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 			cout << "\033c";
 			cout << "\x1b[2;33m---\x1b[0m\x1b[3;4;5;32mListofAllProducts\x1b[0m\x1b[2;33m---\x1b[0m\n";
 			Shop.ShowDisplay();
-			cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+			cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
 			cin.ignore();
 			cin.get();
 			break;
@@ -2357,7 +2363,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 						{
 							Cart.Finalize(AdminWallet);
 							loop = false;
-							cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+							cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
 							cin.ignore();
 							cin.get();
 						}
@@ -2366,7 +2372,7 @@ void CustomerMenu(ShoppingCart& Cart, GamingShop& Shop , Wallet& CustomerWallet,
 					{
 						cout << "\x1b[1;35mThis Action can't be done , some items are unavailable.\n";
 						cout << "Remove them or Wait for the shop to restock\x1b[0m\n";
-						cout << "\x1b[5;31mPress enter to go back \x1b[0m\n";
+						cout << "\x1b[1;5;31mPress enter to go back \x1b[0m\n";
 						cin.ignore();
 						cin.get();
 					}
